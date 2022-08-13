@@ -9,15 +9,21 @@ const Login = () => {
   const [password, setPassword] = useState('')
 
   const loginHandler = () => {
-    loginUser(email, password)
+    loginUser(email, password);
+    // uncomment when homepage is made
+    // navigation.reset({
+    //   index: 0,
+    //   routes: [{ name: 'Homepage' }],
+    // });
+    alert('logged in');
   }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <KeyboardAvoidingView style={styles.container}>
         <View style={styles.inputContainer}>
-          <TextInput placeholder='email' placeholderTextColor='#000' value={email} style={styles.input} onChangeText={text => setEmail(text)}/>
-          <TextInput placeholder='password' placeholderTextColor='#000' value={password} style={styles.input} secureTextEntry onChangeText={text => setPassword(text)}/>
+          <TextInput placeholder='email' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={email} style={styles.input} onChangeText={text => setEmail(text)}/>
+          <TextInput placeholder='password' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={password} style={styles.input} secureTextEntry onChangeText={text => setPassword(text)}/>
         </View>
         <View style={styles.buttonWrapper}>
           <TouchableOpacity style={styles.buttonGrp} onPress={loginHandler}>
@@ -35,7 +41,7 @@ const Login = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#dfd',
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
