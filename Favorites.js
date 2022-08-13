@@ -5,7 +5,7 @@ export default function Favorites() {
 
   return (
     <View style={styles.container}>
-      <Text>Favorits</Text>
+      <Text>Favorites</Text>
     </View>
   );
 }
