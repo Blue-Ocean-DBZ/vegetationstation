@@ -1,15 +1,50 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Modal, Pressable } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Modal, Pressable, Image } from 'react-native';
 import { Button, Card, Title, Paragraph } from 'react-native-paper';
+import * as ImagePicker from 'expo-image-picker';
 
 import AddPlantModal from './AddPlantModal.js'
 
 const MyListingHome = () => {
 
   const [displayModal, setDisplayModal] = useState(false);
+  const [imagePath, setImagePath] = useState();
 
-  const handleAddPlnnt = () => {
+
+  const handleAddPlant = () => {
     setDisplayModal(true);
+  }
+
+  const selectPicture = async () => {
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (permission.granted != true) {
+      alert('We need permissions to acess your photo library')
+      return;
+    }
+    const result = await ImagePicker.launchImageLibraryAsync();
+    if(!result.cancelled) {
+      setImagePath(result.uri)
+    }
+  }
+
+  const takePicture = async () => {
+    const permission = await ImagePicker.requestCameraPermissionsAsync();
+    if (permission.granted != true) {
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync();
+    setImagePath(result.uri)
+  }
+
+  const closeModal = () => {
+    setDisplayModal(!displayModal);
+    setImagePath();
+  }
+
+  const uploadPhoto = () => {
+    setDisplayModal(!displayModal);
+    setImagePath();
   }
 
   return (
@@ -21,13 +56,15 @@ const MyListingHome = () => {
           presentationStyle= 'fullscreen'
           onRequestClose= {()=> {setDisplayModal(!displayModal);}}>
             <View style= {styles.addPlantModalContainer}>
-              <Text>Hello World</Text>
-              <Text>Add Features</Text>
-              <Pressable
-                style= {[styles.button, styles.buttonClose]}
-                onPress= {() => [setDisplayModal(!displayModal)]}>
-                <Text>Close Modal</Text>
-              </Pressable>
+              <Image source= {{uri: imagePath}} style= {styles.image} />
+              <View style= {styles.buttonLayoutPhotos}>
+                <Button onPress= {selectPicture}> Choose from Gallery</Button>
+                <Button onPress= {takePicture}>Take Picture</Button>
+              </View>
+              <View style= {styles.buttonLayoutPhotos}>
+                <Button onPress= {closeModal}>Upload</Button>
+                <Button onPress= {closeModal}>Close</Button>
+              </View>
             </View>
           </Modal>
       </View>
@@ -36,7 +73,7 @@ const MyListingHome = () => {
         <View style= {styles.header}>
           <Title style= {styles.headerTitle}>My Listings</Title>
           <TouchableOpacity
-            onPress= {handleAddPlnnt}>
+            onPress= {handleAddPlant}>
             <Text>Pick a Plant</Text>
           </TouchableOpacity>
         </View>
@@ -85,14 +122,15 @@ const styles= StyleSheet.create({
     alignItems: 'center'
   },
 
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation:2,
+  image: {
+    width: 300,
+    height: 300,
+    backgroundColor: 'grey',
   },
 
-  buttonClose: {
-    backgroundColor: "#2196F3",
+  buttonLayoutPhotos: {
+    display: 'flex',
+    flexDirection: 'row',
   },
 
   header: {
