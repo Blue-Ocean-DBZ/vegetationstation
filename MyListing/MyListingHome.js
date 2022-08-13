@@ -10,7 +10,6 @@ const MyListingHome = () => {
   const [displayModal, setDisplayModal] = useState(false);
   const [imagePath, setImagePath] = useState();
 
-
   const handleAddPlant = () => {
     setDisplayModal(true);
   }
@@ -32,7 +31,6 @@ const MyListingHome = () => {
     if (permission.granted != true) {
       return;
     }
-
     const result = await ImagePicker.launchCameraAsync();
     setImagePath(result.uri)
   }
