@@ -1,14 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+
 import MyListingHome from './MyListing/MyListingHome.js';
+import MyFavoritesHome from './MyFavorites/MyFavoritesHome.js';
 
 export default function App() {
   return (
 
       <View style={styles.container}>
-          {true ? <MyListingHome /> : <MyFavorites />}
+          {false ? <MyListingHome /> : <MyFavoritesHome />}
       </View>
 
   );
@@ -18,6 +18,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
 
   },
 });

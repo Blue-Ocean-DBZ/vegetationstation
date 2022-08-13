@@ -3,8 +3,6 @@ import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Modal, Pressable,
 import { Button, Card, Title, Paragraph } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 
-import AddPlantModal from './AddPlantModal.js'
-
 const MyListingHome = () => {
 
   const [displayModal, setDisplayModal] = useState(false);
