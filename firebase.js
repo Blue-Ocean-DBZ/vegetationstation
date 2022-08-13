@@ -28,14 +28,14 @@ export const createUser = (email, password, displayName) => {
         displayName
       })
     })
-    .catch(err => alert(err.message))
+    .catch(err => {alert("Your email has already been registered.")})
 }
 
 
 export const loginUser = (email, password) => {
   return signInWithEmailAndPassword(auth, email, password)
     .then(({user}) => console.log(user.uid))
-    .catch(err => alert(err.message))
+    .catch(err => alert("Login info does not match!"))
 }
 
 export const signOutUser = async () => {

@@ -1,21 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/core'
 import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView,TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native';
-import { loginUser } from '../../firebase.js';
+import { loginUser, auth } from '../../firebase.js';
+import { updateProfile, onAuthStateChanged } from "firebase/auth";
 
 const Login = () => {
   const navigation = useNavigation()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if(user) {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'EditProfile' }],
+        });
+        //change this to Homepage when homepage component is made.
+      }
+    })
+    return unsubscribe
+  }, [])
+
   const loginHandler = () => {
-    loginUser(email, password);
-    // uncomment when homepage is made
-    // navigation.reset({
-    //   index: 0,
-    //   routes: [{ name: 'Homepage' }],
-    // });
-    alert('logged in');
+    loginUser(email, password).then(()=>{
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'EditProfile' }],
+        //change this to Homepage when homepage component is made.
+      });
+    })
   }
 
   return (

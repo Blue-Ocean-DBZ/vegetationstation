@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/core'
 import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView,TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
-import { storage, auth } from '../../firebase.js'
+import { storage, auth, signOutUser } from '../../firebase.js'
 
 const EditProfile = () => {
-  const [username, setUsername] = useState(auth.currentUser.displayName)
+  const [username, setUsername] = useState(auth.currentUser?.displayName)
   const [zipcode, setZipcode] = useState('')
   const [status, setStatus] = useState('')
-  const [image, setImage] = useState({uri: auth.currentUser.photoURL})
+  const [image, setImage] = useState({uri: auth.currentUser?.photoURL})
   const navigation = useNavigation()
 
   const saveHandler = () => {
@@ -25,7 +25,17 @@ const EditProfile = () => {
       // });
   }
 
-  let openImagePickerAsync = async () => {
+  const logoutHandler = () => {
+    signOutUser()
+      .then(() => {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Login' }],
+        });
+      })
+  }
+
+  const openImagePickerAsync = async () => {
     let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted === false) {
       alert("Permission to access camera roll is required!");
@@ -42,7 +52,7 @@ const EditProfile = () => {
     uploadBytes(imageRef, blob)
       .then(snapshot => {
         const uri = `https://firebasestorage.googleapis.com/v0/b/vegetationstation1.appspot.com/o/${filename}?alt=media`
-        setImage({uri: uri});
+        setImage({uri: pickerResult.uri});
         updateProfile(auth.currentUser, {
           photoURL: uri
         })
@@ -68,6 +78,9 @@ const EditProfile = () => {
         <View style={styles.buttonWrapper}>
           <TouchableOpacity style={styles.buttonGrp} onPress={saveHandler}>
             <Text style={styles.button}>Save</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonGrp} onPress={logoutHandler}>
+            <Text style={styles.button}>Logout</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
