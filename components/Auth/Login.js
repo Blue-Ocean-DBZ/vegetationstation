@@ -1,23 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/core'
 import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView,TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native';
-import { loginUser } from '../../firebase.js';
+import { loginUser, auth } from '../../firebase.js';
+import { updateProfile, onAuthStateChanged } from "firebase/auth";
 
 const Login = () => {
   const navigation = useNavigation()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if(user) {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'EditProfile' }],
+        });
+        //change this to Homepage when homepage component is made.
+      }
+    })
+    return unsubscribe
+  }, [])
+
   const loginHandler = () => {
-    loginUser(email, password)
+    loginUser(email, password).then(()=>{
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'EditProfile' }],
+        //change this to Homepage when homepage component is made.
+      });
+    })
   }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <KeyboardAvoidingView style={styles.container}>
         <View style={styles.inputContainer}>
-          <TextInput placeholder='email' placeholderTextColor='#000' value={email} style={styles.input} onChangeText={text => setEmail(text)}/>
-          <TextInput placeholder='password' placeholderTextColor='#000' value={password} style={styles.input} secureTextEntry onChangeText={text => setPassword(text)}/>
+          <TextInput placeholder='email' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={email} style={styles.input} onChangeText={text => setEmail(text)}/>
+          <TextInput placeholder='password' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={password} style={styles.input} secureTextEntry onChangeText={text => setPassword(text)}/>
         </View>
         <View style={styles.buttonWrapper}>
           <TouchableOpacity style={styles.buttonGrp} onPress={loginHandler}>
@@ -35,7 +55,7 @@ const Login = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#dfd',
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },

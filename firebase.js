@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
+import { getStorage, ref } from "firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -17,7 +18,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-const auth = getAuth(app)
+export const auth = getAuth(app)
+export const storage = getStorage(app)
 
 export const createUser = (email, password, displayName) => {
   return createUserWithEmailAndPassword(auth, email, password)
@@ -26,14 +28,14 @@ export const createUser = (email, password, displayName) => {
         displayName
       })
     })
-    .catch(err => alert(err.message))
+    .catch(err => {alert("Your email has already been registered.")})
 }
 
 
 export const loginUser = (email, password) => {
   return signInWithEmailAndPassword(auth, email, password)
     .then(({user}) => console.log(user.uid))
-    .catch(err => alert(err.message))
+    .catch(err => alert("Login info does not match!"))
 }
 
 export const signOutUser = async () => {
