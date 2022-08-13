@@ -5,6 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './components/Auth/Login.js'
 import Register from './components/Auth/Register.js'
+import Home from './Home.js'
+import TabNavigator from './TabNavigator.js'
 
 export default function App() {
 
@@ -12,7 +14,8 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Home" component={TabNavigator} />
         <Stack.Screen options={{ headerShown: false}} name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
       </Stack.Navigator>
