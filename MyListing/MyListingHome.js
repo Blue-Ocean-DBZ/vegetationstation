@@ -71,6 +71,7 @@ const DATA = [
 const MyListingHome = () => {
 
   const addPicImage = 'https://cdn.pixabay.com/photo/2018/11/13/21/44/instagram-3814061_1280.png';
+  const addPlantImage = 'https://cdn2.iconfinder.com/data/icons/plant-care-1/256/fertilize-512.png';
 
   const [displayModal, setDisplayModal] = useState(false);
   const [imagePath, setImagePath] = useState(addPicImage);
@@ -153,15 +154,11 @@ const MyListingHome = () => {
       </View>
 
       <View style= {styles.header}>
-        <View>
-          <Title style= {styles.headerTitle}>My Listings</Title>
-        </View>
-        <View>
-          <TouchableOpacity
-            onPress= {handleAddPlant}>
-            <Image style= {styles.headerAddPlant} source= {{url: 'https://cdn2.iconfinder.com/data/icons/plant-care-1/256/fertilize-512.png'}}/>
-          </TouchableOpacity>
-        </View>
+        <Title style= {styles.headerTitle}>My Listings</Title>
+        <TouchableOpacity
+          onPress= {handleAddPlant}>
+          <Image style= {styles.headerAddPlant} source= {{url: addPlantImage}}/>
+        </TouchableOpacity>
       </View>
 
       <View>
