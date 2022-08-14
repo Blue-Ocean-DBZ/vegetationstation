@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, StatusBar, TouchableOpacity, Modal, Pressable, Image, FlatList } from 'react-native';
-import { Button, Card, Title, Paragraph } from 'react-native-paper';
+import { Button, Title } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 
 const DATA = [

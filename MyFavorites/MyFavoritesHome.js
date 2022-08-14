@@ -1,6 +1,6 @@
 import React from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, Image } from 'react-native';
-import { Title, Paragraph } from 'react-native-paper';
+import { Title } from 'react-native-paper';
 
 const DATA = [
   {
