@@ -17,7 +17,7 @@ export default function App() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen options={{ headerShown: false}} name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="Navigator" component={TabNavigator} />
+        <Stack.Screen name="TabNavigator" component={TabNavigator} />
         <Stack.Screen name="EditProfile" component={EditProfile} options={{title: 'Edit Profile'}}/>
       </Stack.Navigator>
     </NavigationContainer>
