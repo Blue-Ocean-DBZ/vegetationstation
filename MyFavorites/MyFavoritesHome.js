@@ -17,7 +17,6 @@ const DATA = [
     distance: '312 mi away',
     url: 'https://cdn.shopify.com/s/files/1/0150/6262/products/the-sill_money-tree_small_bryant_black.jpg?v=1653591376',
   },
-
 ];
 
 const App = () => {

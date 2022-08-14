@@ -1,7 +1,24 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Modal, Pressable, Image } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Modal, Pressable, Image, FlatList } from 'react-native';
 import { Button, Card, Title, Paragraph } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
+
+const DATA = [
+  {
+    name: 'PlantOne',
+    owner: 'Brandon',
+    location: 'LA',
+    distance: '12 mi away',
+    url: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/indoor-plants-1634736990.jpg?crop=1.00xw:1.00xh;0,0&resize=1200:*',
+  },
+  {
+    name: 'PlantTwo',
+    owner: 'Andrew',
+    location: 'SF',
+    distance: '312 mi away',
+    url: 'https://cdn.shopify.com/s/files/1/0150/6262/products/the-sill_money-tree_small_bryant_black.jpg?v=1653591376',
+  },
+];
 
 const MyListingHome = () => {
 
@@ -43,6 +60,23 @@ const MyListingHome = () => {
     setImagePath();
   }
 
+  const renderPlants = ({ item }) => (
+    <View style= {styles.plantInformationContainer}>
+      <View >
+        <Image source= {{url: item.url}} style= {styles.plantImage}/>
+      </View>
+      <View style={styles.item}>
+        <View style={styles.plantName}>
+          <Text style= {styles.title}>{item.name}</Text>
+        </View>
+        <View>
+          <Text style= {styles.otherPlantInfo}>{item.location} {item.distance}</Text>
+          <Text style= {styles.otherPlantInfo}>{item.owner}</Text>
+        </View>
+      </View>
+    </View>
+  );
+
   return (
     <View>
       <View style= {styles.addPlantModalContainer}>
@@ -73,29 +107,12 @@ const MyListingHome = () => {
             <Text>Pick a Plant</Text>
           </TouchableOpacity>
         </View>
-        <ScrollView>
-          <Card>
-            <View style= {styles.plantCardContainer}>
-              <Card.Cover style= {styles.plantImage} source= {{url: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/indoor-plants-1634736990.jpg?crop=1.00xw:1.00xh;0,0&resize=1200:*'}} />
-              <View style= {styles.plantCardInformation}>
-                <Title style= {styles.plantName}>Plant Name</Title>
-                <Paragraph>Location (XXXX mi away)</Paragraph>
-                <Paragraph>Username</Paragraph>
-              </View>
-            </View>
-          </Card>
-
-          <Card>
-            <View style= {styles.plantCardContainer}>
-              <Card.Cover style= {styles.plantImage} source= {{url: 'https://cdn.shopify.com/s/files/1/0150/6262/products/the-sill_money-tree_small_bryant_black.jpg?v=1653591376'}} />
-              <View style= {styles.plantCardInformation}>
-                <Title style= {styles.plantName}>Plant Name</Title>
-                <Paragraph>Location (XXXX mi away)</Paragraph>
-                <Paragraph>Username</Paragraph>
-              </View>
-            </View>
-          </Card>
-        </ScrollView>
+      </View>
+      <View>
+        <FlatList
+          data={DATA}
+          renderItem={renderPlants}
+        />
       </View>
     </View>
   )
@@ -108,7 +125,6 @@ const styles= StyleSheet.create({
     marginTop: 40,
     marginRight: 10,
     marginLeft: 10,
-    height: 500,
     width: 'auto',
   },
 
@@ -141,25 +157,56 @@ const styles= StyleSheet.create({
     fontSize: 25,
   },
 
-  plantCardContainer: {
+  plantInformationContainer: {
+    flex: 1,
     display: 'flex',
     flexDirection: 'row',
     marginBottom: 10,
+    marginLeft: 40,
+    width: '80%',
+  },
+
+  headerTitle: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginLeft: 15,
+    marginBottom: 15,
+  },
+
+  item: {
+    backgroundColor: '#CED89E',
+    paddingLeft: 10,
+    paddingTop: 15,
+    paddingBottom: 10,
+    borderRadius: 20,
+    marginTop: 5,
+    marginBottom: 5,
+    flex: 1,
   },
 
   plantImage: {
     width: 100,
     height: 100,
+    padding: 0,
+    borderTopLeftRadius: 20,
+    borderBottomLeftRadius:20,
   },
 
-  plantCardInformation: {
-    marginLeft: 15,
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+
+  otherPlantInfo: {
+    marginTop: 5.
+  },
+
+  plantInformation: {
+    display: 'flex',
   },
 
   plantName: {
-    marginTop: 20,
-    marginBottom: 0,
-    fontSize: 20,
-    fontWeight: 'bold',
-  }
+    display: 'flex',
+    justifyContent: 'right',
+  },
 })

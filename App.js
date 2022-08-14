@@ -8,7 +8,7 @@ export default function App() {
   return (
 
       <View style={styles.container}>
-          {false ? <MyListingHome /> : <MyFavoritesHome />}
+          {true ? <MyListingHome /> : <MyFavoritesHome />}
       </View>
 
   );
