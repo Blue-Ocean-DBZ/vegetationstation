@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, StatusBar, TouchableOpacity, Modal, Pressable, Image, FlatList } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, StatusBar, TouchableOpacity, Modal, Pressable, Image, FlatList, TextInput, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { Button, Title } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const DATA = [
   {
@@ -75,6 +76,7 @@ const MyListingHome = () => {
 
   const [displayModal, setDisplayModal] = useState(false);
   const [imagePath, setImagePath] = useState(addPicImage);
+  const [addPlantName, setAddPlantName] = useState('');
 
   const handleAddPlant = () => {
     setDisplayModal(true);
@@ -104,11 +106,14 @@ const MyListingHome = () => {
   const closeModal = () => {
     setDisplayModal(!displayModal);
     setImagePath(addPicImage);
+    setAddPlantName('')
   }
 
   const uploadPhoto = () => {
     setDisplayModal(!displayModal);
     setImagePath(addPicImage);
+    setAddPlantName('')
+    console.log ('fjsilz;fkl;aeujgvpihrjnwfa');
   }
 
   const renderPlants = ({ item }) => (
@@ -136,8 +141,10 @@ const MyListingHome = () => {
           visible= {displayModal}
           presentationStyle= 'fullscreen'
           onRequestClose= {()=> {setDisplayModal(!displayModal);}}>
-
+          <KeyboardAwareScrollView contentContainerStyle= {styles.addPlantModalContainer}>
             <View style= {styles.addPlantModalContainer}>
+
+
               <View style= {{marginLeft:257}}>
                 <Button onPress= {closeModal}>Close</Button>
               </View>
@@ -147,10 +154,27 @@ const MyListingHome = () => {
                 <Button onPress= {takePicture}>Take Picture</Button>
               </View>
               <View style= {styles.buttonLayoutPhotos}>
-                {(imagePath != addPicImage) && imagePath ? <Button onPress= {closeModal}>Upload</Button> : null}
+                {(imagePath != addPicImage) && imagePath ?
+                  <View>
+                        <TextInput
+                          placeholder= 'Add Plant Common Name'
+                          placeholderTextColor= 'grey'
+                          value= {addPlantName}
+                          onChangeText= {setAddPlantName}
+                          style= {styles.textInput}
+                          autoCapitalize= 'characters'
+                          clearButtonMode= 'always'
+                        />
+
+                    <Button onPress= {closeModal}>Upload</Button>
+                  </View>
+                  : null}
               </View>
-            </View>
-          </Modal>
+
+
+              </View>
+              </KeyboardAwareScrollView>
+        </Modal>
       </View>
 
       <View style= {styles.header}>
@@ -189,6 +213,13 @@ const styles= StyleSheet.create({
   image: {
     width: 300,
     height: 300,
+  },
+
+  textInput: {
+    borderWidth: 1,
+    padding: 8,
+    borderRadius: 5,
+    width: 300,
   },
 
   buttonLayoutPhotos: {
