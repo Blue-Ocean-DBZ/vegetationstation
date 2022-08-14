@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Modal, Pressable, Image, FlatList } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, StatusBar, TouchableOpacity, Modal, Pressable, Image, FlatList } from 'react-native';
 import { Button, Card, Title, Paragraph } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -78,7 +78,7 @@ const MyListingHome = () => {
   );
 
   return (
-    <View>
+    <SafeAreaView>
       <View style= {styles.addPlantModalContainer}>
         <Modal
           animationType= 'slide'
@@ -104,7 +104,7 @@ const MyListingHome = () => {
           <Title style= {styles.headerTitle}>My Listings</Title>
           <TouchableOpacity
             onPress= {handleAddPlant}>
-            <Text>Pick a Plant</Text>
+            <Text style= {styles.headerAddPlant}>Pick a Plant</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -114,19 +114,13 @@ const MyListingHome = () => {
           renderItem={renderPlants}
         />
       </View>
-    </View>
+    </SafeAreaView>
   )
 }
 
 export default MyListingHome;
 
 const styles= StyleSheet.create({
-  overallContainer: {
-    marginTop: 40,
-    marginRight: 10,
-    marginLeft: 10,
-    width: 'auto',
-  },
 
   addPlantModalContainer:{
     flex: 1,
@@ -173,8 +167,12 @@ const styles= StyleSheet.create({
     marginBottom: 15,
   },
 
+  headerAddPlant: {
+    marginRight: 15,
+    marginBottom: 15,
+  },
+
   item: {
-    backgroundColor: '#CED89E',
     paddingLeft: 10,
     paddingTop: 15,
     paddingBottom: 10,
