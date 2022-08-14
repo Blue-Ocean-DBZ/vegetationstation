@@ -12,9 +12,57 @@ const DATA = [
   },
   {
     name: 'PlantTwo',
-    owner: 'Andrew',
+    owner: 'Shannon',
     location: 'SF',
     distance: '312 mi away',
+    url: 'https://cdn.shopify.com/s/files/1/0150/6262/products/the-sill_money-tree_small_bryant_black.jpg?v=1653591376',
+  },
+  {
+    name: 'PlantThree',
+    owner: 'Carson',
+    location: 'OC',
+    distance: '24 mi away',
+    url: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/indoor-plants-1634736990.jpg?crop=1.00xw:1.00xh;0,0&resize=1200:*',
+  },
+  {
+    name: 'PlantFour',
+    owner: 'Gian',
+    location: 'Stockton',
+    distance: '246 mi away',
+    url: 'https://cdn.shopify.com/s/files/1/0150/6262/products/the-sill_money-tree_small_bryant_black.jpg?v=1653591376',
+  },
+  {
+    name: 'PlantFive',
+    owner: 'Jonathan',
+    location: 'LA',
+    distance: '12 mi away',
+    url: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/indoor-plants-1634736990.jpg?crop=1.00xw:1.00xh;0,0&resize=1200:*',
+  },
+  {
+    name: 'PlantSix',
+    owner: 'David',
+    location: 'Sacramento',
+    distance: '442 mi away',
+    url: 'https://cdn.shopify.com/s/files/1/0150/6262/products/the-sill_money-tree_small_bryant_black.jpg?v=1653591376',
+  },{
+    name: 'PlantSeven',
+    owner: 'Kevin',
+    location: 'Cupertino',
+    distance: '246 mi away',
+    url: 'https://cdn.shopify.com/s/files/1/0150/6262/products/the-sill_money-tree_small_bryant_black.jpg?v=1653591376',
+  },
+  {
+    name: 'PlantEight',
+    owner: 'Theresa',
+    location: 'OC',
+    distance: '12 mi away',
+    url: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/indoor-plants-1634736990.jpg?crop=1.00xw:1.00xh;0,0&resize=1200:*',
+  },
+  {
+    name: 'PlantNine',
+    owner: 'Clayton',
+    location: 'Sacramento',
+    distance: '442 mi away',
     url: 'https://cdn.shopify.com/s/files/1/0150/6262/products/the-sill_money-tree_small_bryant_black.jpg?v=1653591376',
   },
 ];
@@ -52,8 +100,7 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     marginTop: StatusBar.currentHeight || 0,
-    height: 500,
-
+    height: 750,
   },
 
   plantInformationContainer: {
@@ -69,18 +116,18 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold',
     marginLeft: 15,
-    marginBottom: 15,
+    marginBottom: 25,
   },
 
   item: {
     backgroundColor: '#CED89E',
     paddingLeft: 10,
-    paddingTop: 15,
+    paddingTop: 25,
     paddingBottom: 10,
-    borderRadius: 20,
-    marginTop: 5,
-    marginBottom: 5,
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
     flex: 1,
+    justifyContent: 'space-around',
   },
 
   plantImage: {

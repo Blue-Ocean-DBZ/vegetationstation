@@ -13,17 +13,67 @@ const DATA = [
   },
   {
     name: 'PlantTwo',
-    owner: 'Andrew',
+    owner: 'Shannon',
     location: 'SF',
     distance: '312 mi away',
+    url: 'https://cdn.shopify.com/s/files/1/0150/6262/products/the-sill_money-tree_small_bryant_black.jpg?v=1653591376',
+  },
+  {
+    name: 'PlantThree',
+    owner: 'Carson',
+    location: 'OC',
+    distance: '24 mi away',
+    url: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/indoor-plants-1634736990.jpg?crop=1.00xw:1.00xh;0,0&resize=1200:*',
+  },
+  {
+    name: 'PlantFour',
+    owner: 'Gian',
+    location: 'Stockton',
+    distance: '246 mi away',
+    url: 'https://cdn.shopify.com/s/files/1/0150/6262/products/the-sill_money-tree_small_bryant_black.jpg?v=1653591376',
+  },
+  {
+    name: 'PlantFive',
+    owner: 'Jonathan',
+    location: 'LA',
+    distance: '12 mi away',
+    url: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/indoor-plants-1634736990.jpg?crop=1.00xw:1.00xh;0,0&resize=1200:*',
+  },
+  {
+    name: 'PlantSix',
+    owner: 'David',
+    location: 'Sacramento',
+    distance: '442 mi away',
+    url: 'https://cdn.shopify.com/s/files/1/0150/6262/products/the-sill_money-tree_small_bryant_black.jpg?v=1653591376',
+  },{
+    name: 'PlantSeven',
+    owner: 'Kevin',
+    location: 'Cupertino',
+    distance: '246 mi away',
+    url: 'https://cdn.shopify.com/s/files/1/0150/6262/products/the-sill_money-tree_small_bryant_black.jpg?v=1653591376',
+  },
+  {
+    name: 'PlantEight',
+    owner: 'Theresa',
+    location: 'OC',
+    distance: '12 mi away',
+    url: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/indoor-plants-1634736990.jpg?crop=1.00xw:1.00xh;0,0&resize=1200:*',
+  },
+  {
+    name: 'PlantNine',
+    owner: 'Clayton',
+    location: 'Sacramento',
+    distance: '442 mi away',
     url: 'https://cdn.shopify.com/s/files/1/0150/6262/products/the-sill_money-tree_small_bryant_black.jpg?v=1653591376',
   },
 ];
 
 const MyListingHome = () => {
 
+  const addPicImage = 'https://cdn.pixabay.com/photo/2018/11/13/21/44/instagram-3814061_1280.png';
+
   const [displayModal, setDisplayModal] = useState(false);
-  const [imagePath, setImagePath] = useState();
+  const [imagePath, setImagePath] = useState(addPicImage);
 
   const handleAddPlant = () => {
     setDisplayModal(true);
@@ -52,12 +102,12 @@ const MyListingHome = () => {
 
   const closeModal = () => {
     setDisplayModal(!displayModal);
-    setImagePath();
+    setImagePath(addPicImage);
   }
 
   const uploadPhoto = () => {
     setDisplayModal(!displayModal);
-    setImagePath();
+    setImagePath(addPicImage);
   }
 
   const renderPlants = ({ item }) => (
@@ -78,36 +128,42 @@ const MyListingHome = () => {
   );
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style= {styles.container}>
       <View style= {styles.addPlantModalContainer}>
         <Modal
           animationType= 'slide'
           visible= {displayModal}
           presentationStyle= 'fullscreen'
           onRequestClose= {()=> {setDisplayModal(!displayModal);}}>
+
             <View style= {styles.addPlantModalContainer}>
+              <View style= {{marginLeft:257}}>
+                <Button onPress= {closeModal}>Close</Button>
+              </View>
               <Image source= {{uri: imagePath}} style= {styles.image} />
               <View style= {styles.buttonLayoutPhotos}>
                 <Button onPress= {selectPicture}> Choose from Gallery</Button>
                 <Button onPress= {takePicture}>Take Picture</Button>
               </View>
               <View style= {styles.buttonLayoutPhotos}>
-                <Button onPress= {closeModal}>Upload</Button>
-                <Button onPress= {closeModal}>Close</Button>
+                {(imagePath != addPicImage) && imagePath ? <Button onPress= {closeModal}>Upload</Button> : null}
               </View>
             </View>
           </Modal>
       </View>
 
-      <View style= {styles.overallContainer}>
-        <View style= {styles.header}>
+      <View style= {styles.header}>
+        <View>
           <Title style= {styles.headerTitle}>My Listings</Title>
+        </View>
+        <View>
           <TouchableOpacity
             onPress= {handleAddPlant}>
-            <Text style= {styles.headerAddPlant}>Pick a Plant</Text>
+            <Image style= {styles.headerAddPlant} source= {{url: 'https://cdn2.iconfinder.com/data/icons/plant-care-1/256/fertilize-512.png'}}/>
           </TouchableOpacity>
         </View>
       </View>
+
       <View>
         <FlatList
           data={DATA}
@@ -122,6 +178,11 @@ export default MyListingHome;
 
 const styles= StyleSheet.create({
 
+  container: {
+    marginTop: StatusBar.currentHeight || 0,
+    height: 700,
+  },
+
   addPlantModalContainer:{
     flex: 1,
     justifyContent: 'center',
@@ -131,7 +192,6 @@ const styles= StyleSheet.create({
   image: {
     width: 300,
     height: 300,
-    backgroundColor: 'grey',
   },
 
   buttonLayoutPhotos: {
@@ -140,11 +200,13 @@ const styles= StyleSheet.create({
   },
 
   header: {
-    display: 'fles',
+    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 10,
+    marginLeft: 10,
+    marginRight: 20,
   },
 
   headerTitle: {
@@ -168,18 +230,19 @@ const styles= StyleSheet.create({
   },
 
   headerAddPlant: {
-    marginRight: 15,
-    marginBottom: 15,
+    width: 30,
+    height: 30,
   },
 
   item: {
+    backgroundColor: '#CED89E',
     paddingLeft: 10,
-    paddingTop: 15,
+    paddingTop: 25,
     paddingBottom: 10,
-    borderRadius: 20,
-    marginTop: 5,
-    marginBottom: 5,
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
     flex: 1,
+    justifyContent: 'space-around',
   },
 
   plantImage: {
