@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, StatusBar, TouchableOpacity, Modal, Pressable, Image, FlatList, TextInput, KeyboardAvoidingView, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, StatusBar, TouchableOpacity, Modal, Pressable, Image, FlatList, TextInput, KeyboardAvoidingView, ScrollView, TouchableWithoutFeedback, Alert } from 'react-native';
 import { Button, Title } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -78,6 +78,7 @@ const MyListingHome = () => {
   const [imagePath, setImagePath] = useState(addPicImage);
   const [addPlantName, setAddPlantName] = useState('');
   const [favoritesList, setFavoritesList] = useState(DATA);
+  const [showConfirmation, setShowConfirmation] = useState(true);
 
   const handleAddPlant = () => {
     setDisplayModal(true);
@@ -143,16 +144,32 @@ const MyListingHome = () => {
 
   const deleteFavorite = (url) => {
     let tempArray = favoritesList.slice();
-    for (let i = 0; i < tempArray.length; i++){
-      if (tempArray[i].url === url) {
-        tempArray.splice(i, 1);
-        setFavoritesList(tempArray)
-      }
-    }
+    return Alert.alert (
+      'Delete This Plant Listing',
+      'Are you sure you want to delete this plant listing?',
+      [
+        {
+          text: 'Yes',
+          onPress: () =>
+            {setShowConfirmation(false);
+            for (let i = 0; i < tempArray.length; i++){
+              if (tempArray[i].url === url) {
+                tempArray.splice(i, 1);
+                setFavoritesList(tempArray)
+              }
+            }
+          },
+        },
+        {
+          text: 'No'
+        }
+      ]
+    );
+
   };
 
   return (
-    <SafeAreaView >
+    <SafeAreaView>
       <View style= {styles.addPlantModalContainer}>
         <Modal
           animationType= 'slide'
