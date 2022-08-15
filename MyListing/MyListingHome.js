@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, SafeAreaView, StatusBar, TouchableOpacity, Moda
 import { Button, Title } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { ref, uploadBytes } from "firebase/storage";
+import { storage, auth, signOutUser } from '../../firebase.js'
 
 let DATA = [
   {
@@ -120,8 +122,18 @@ const MyListingHome = () => {
     setAddPlantName('')
   };
 
-  const uploadPhoto = () => {
+  const uploadPhoto = async () => {
     setDisplayModal(!displayModal);
+    const res = await fetch(imagePath)
+    const blob = await res.blob()
+    const filename =  imagePath.substring(imagePath.lastIndexOf('/') + 1)
+    const imageRef = ref(storage, filename)
+    uploadBytes(imageRef, blob)
+      .then(snapshot => {
+        const uri = `https://firebasestorage.googleapis.com/v0/b/vegetationstation1.appspot.com/o/${filename}?alt=media` // url we get back from firebase
+        console.log(uri);
+      })
+      .catch(err => console.log(err))
     setImagePath(addPicImage);
     setAddPlantName('');
   };
@@ -178,7 +190,7 @@ const MyListingHome = () => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style= {styles.container}>
       <View style= {styles.addPlantModalContainer}>
         <Modal
           animationType= 'slide'
@@ -239,7 +251,7 @@ export default MyListingHome;
 const styles= StyleSheet.create({
 
   container: {
-    height: 750,
+    height: 700,
   },
 
   addPlantModalContainer: {
