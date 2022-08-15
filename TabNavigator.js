@@ -45,7 +45,7 @@ function MyPlantStackScreen() {
 function TradeStackScreen() {
   return (
     <TradeStack.Navigator>
-      <TradeStack.Screen name="Trades" component={Trades} />
+      <TradeStack.Screen name="Trade" component={Trades} />
     </TradeStack.Navigator>
   );
 }
@@ -53,47 +53,58 @@ function TradeStackScreen() {
 function FavoritesStackScreen() {
   return (
     <FavoritesStack.Navigator>
-      <FavoritesStack.Screen name="Favorites" component={Favorites} />
+      <FavoritesStack.Screen name="Favorite" component={Favorites} />
     </FavoritesStack.Navigator>
   );
 }
+
+// #b3cb9b
+// #bc6c25
+// #283618
+// #606c38
+// #fefae0
+// #dda15e
+// #b3cb9b
+// #2c3d36
+// #b2b2b2
 
 export default function TabNavigator() {
 
   return (
       <Tab.Navigator screenOptions={{
-        // tabBarLabelStyle: {color: "black"},
-        tabBarActiveTintColor: "black",
-        // tabBarInactiveTintColor: "grey",
+        tabBarStyle: {backgroundColor: "#606c38"},
+        tabBarActiveTintColor: "#fefae0",
+        tabBarInactiveTintColor: "black",
+        // tabBarShowLabel: false,
         headerShown: false,
       }}>
         <Tab.Screen
           name="HomePage" component={HomeStackScreen}
           options={{
             tabBarIcon: ({color, size}) => (
-              <Ionicons name="home-outline" size={size}/>
+              <Ionicons name="home-outline" color={color} size={size}/>
             )
           }}/>
         <Tab.Screen
           name="MyPlants" component={MyPlantStackScreen}
           options={{
             tabBarIcon: ({color, size}) => (
-              <Ionicons name="leaf-outline" size={size}/>
+              <Ionicons name="leaf-outline" color={color} size={size}/>
             )
           }}/>
         <Tab.Screen
-          name="Trad3" component={TradeStackScreen}
+          name="Trades" component={TradeStackScreen}
           options={{
             tabBarBadge: 3,
             tabBarIcon: ({color, size}) => (
-              <Ionicons name="chatbox-ellipses-outline" size={size}/>
+              <Ionicons name="chatbox-ellipses-outline" color={color} size={size}/>
             )
           }}/>
         <Tab.Screen
-          name="Favorite$" component={FavoritesStackScreen}
+          name="Favorites" component={FavoritesStackScreen}
           options={{
             tabBarIcon: ({color, size}) => (
-              <Ionicons name="heart-outline" size={size}/>
+              <Ionicons name="heart-outline" color={color} size={size}/>
             )
           }}/>
       </Tab.Navigator>
