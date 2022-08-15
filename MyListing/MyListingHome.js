@@ -161,7 +161,7 @@ const MyListingHome = () => {
           onRequestClose= {()=> {setDisplayModal(!displayModal);}}>
           <KeyboardAwareScrollView contentContainerStyle= {styles.addPlantModalContainer}>
             <View style= {styles.addPlantModalContainer}>
-              <View style= {{marginLeft:257}}>
+              <View style= {styles.close}>
                 <Button onPress= {closeModal}>Close</Button>
               </View>
               <Image source= {{uri: imagePath}} style= {styles.image} />
@@ -225,6 +225,7 @@ const styles= StyleSheet.create({
   image: {
     width: 300,
     height: 300,
+    borderRadius: 20,
   },
 
   textInput: {
@@ -232,6 +233,10 @@ const styles= StyleSheet.create({
     padding: 8,
     borderRadius: 5,
     width: 300,
+  },
+
+  close: {
+    marginLeft: 257,
   },
 
   buttonLayoutPhotos: {
