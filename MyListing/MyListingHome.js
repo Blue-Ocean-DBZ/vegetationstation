@@ -143,8 +143,6 @@ const MyListingHome = () => {
           onRequestClose= {()=> {setDisplayModal(!displayModal);}}>
           <KeyboardAwareScrollView contentContainerStyle= {styles.addPlantModalContainer}>
             <View style= {styles.addPlantModalContainer}>
-
-
               <View style= {{marginLeft:257}}>
                 <Button onPress= {closeModal}>Close</Button>
               </View>
@@ -170,10 +168,8 @@ const MyListingHome = () => {
                   </View>
                   : null}
               </View>
-
-
-              </View>
-              </KeyboardAwareScrollView>
+            </View>
+          </KeyboardAwareScrollView>
         </Modal>
       </View>
 
