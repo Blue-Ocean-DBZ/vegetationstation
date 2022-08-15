@@ -1,8 +1,36 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TouchableWithoutFeedback } from 'react-native';
 import { signOutUser } from '../firebase.js';
 import { useNavigation } from '@react-navigation/core'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
+
+const HomePageStack = createStackNavigator();
+const MyPlantsStack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+const TabsBar = () => (
+<Tab.Navigator>
+  <Tab.Screen name="Home Page" component={HomePageStackScreen} />
+  <Tab.Screen name="My Plants" component={MyPlantsStackScreen} />
+  {/* <Tab.Screen name="Trades" component={TradesStackScreen} />
+  <Tab.Screen name="Favorites" component={FavoritesStackScreen} /> */}
+</Tab.Navigator>
+);
+
+const HomePageStackScreen = () => (
+  <View>
+    <Text>Home Page</Text>
+  </View>
+);
+
+const MyPlantsStackScreen = () => (
+  <View>
+    <Text>My Plants</Text>
+  </View>
+);
 
 export default function App() {
 
@@ -18,21 +46,30 @@ export default function App() {
       })
   }
   return (
+    <>
     <View style={styles.container}>
       <Image style={styles.topImage} source={{uri:'https://img.freepik.com/free-vector/tropical-mural-wallpaper-design_23-2148679938.jpg?w=2000'}}/>
       <View style={styles.photoContainer}>
         <Image style={styles.profilePhoto} source={{uri: 'https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg'}}/>
+        <View style={styles.userInfoContainer}>
+          <Text style={styles.name}>Tom</Text>
+          <Text style={styles.city}>From Myspace</Text>
+        </View>
       </View>
-      <View style={styles.userInfoContainer}>
-        <Text style={styles.name}>Tom</Text>
-        <Text style={styles.city}>From Myspace</Text>
+      <View style={styles.buttonWrapper}>
+        <TouchableOpacity style={styles.buttonGrp} onPress={logoutHandler}>
+          <Text style={styles.button}>Log Out</Text>
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.editProfileContainer} onPress={logoutHandler}>
-          <Text style={styles.editProfile}>Logout</Text>
-      </TouchableOpacity>
     </View>
+    {/* <Tab.Navigator>
+      <Tab.Screen name="Home Page" component={HomePageStackScreen} />
+      <Tab.Screen name="My Plants" component={MyPlantsStackScreen} />
+      {/* <Tab.Screen name="Trades" component={TradesStackScreen} />
+      <Tab.Screen name="Favorites" component={FavoritesStackScreen} />
+    </Tab.Navigator> */}
+    </>
   );
-
 }
 
 // styles need to be camel case (NO justify-content)
@@ -43,13 +80,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   topImage: {
-    flex: .3,
+    flex: .25,
     alignSelf: 'stretch',
   },
   photoContainer: {
     position: 'absolute',
     flex: .3,
-    marginTop: 150,
+    marginTop: 83,
   },
   profilePhoto: {
     height: 200,
@@ -59,9 +96,8 @@ const styles = StyleSheet.create({
     borderColor: 'white',
   },
   userInfoContainer: {
-    flex: .18,
-    justifyContent: 'flex-end',
     alignItems: 'center',
+    marginTop: 25,
   },
   name: {
     fontWeight: 'bold',
@@ -70,22 +106,27 @@ const styles = StyleSheet.create({
   city: {
     fontSize: 15
   },
-  editProfileContainer: {
-    flex: .5,
-    justifyContent: 'center',
-    alignSelf: 'stretch',
-    padding: 3
-  },
-  editProfile: {
-    paddingTop: 15,
-    paddingBottom: 15,
-    fontSize: 25,
-    borderWidth: 3,
-    borderColor: '#D3D3D3',
-    alignSelf: 'stretch',
-    borderRadius: 10,
+  button: {
+    width: '100%',
     textAlign: 'center',
-    backgroundColor: '#E0E0E0'
-  }
+    backgroundColor: '#1B2722',
+    padding: 20,
+    borderRadius: 10,
+    fontSize: 20,
+    fontWeight: '700',
+    color: 'whitesmoke',
+    overflow: 'hidden'
+  },
+  buttonGrp: {
+    width: '100%',
+    borderRadius: 10,
+    marginBottom: 10
+  },
+  buttonWrapper: {
+    width: '80%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 40,
+  },
 });
 
