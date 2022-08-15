@@ -27,7 +27,7 @@ const Login = () => {
     .then(()=>{
       navigation.reset({
         index: 0,
-        routes: [{ name: 'EditProfile' }],
+        routes: [{ name: 'Profile' }],
         //change this to Homepage when homepage component is made.
       });
     }).catch(err=> {
