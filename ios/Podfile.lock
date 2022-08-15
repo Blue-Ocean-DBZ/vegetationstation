@@ -9,9 +9,16 @@ PODS:
     - ExpoModulesCore
   - EXFont (10.2.0):
     - ExpoModulesCore
+  - EXImageLoader (3.2.0):
+    - ExpoModulesCore
+    - React-Core
   - Expo (46.0.3):
     - ExpoModulesCore
+  - ExpoImagePicker (13.3.1):
+    - ExpoModulesCore
   - ExpoKeepAwake (10.2.0):
+    - ExpoModulesCore
+  - ExpoMailComposer (11.3.0):
     - ExpoModulesCore
   - ExpoModulesCore (0.11.3):
     - React-Core
@@ -322,8 +329,11 @@ DEPENDENCIES:
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
+  - EXImageLoader (from `../node_modules/expo-image-loader/ios`)
   - Expo (from `../node_modules/expo`)
+  - ExpoImagePicker (from `../node_modules/expo-image-picker/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
+  - ExpoMailComposer (from `../node_modules/expo-mail-composer/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core/ios`)
   - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
@@ -377,10 +387,16 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-file-system/ios"
   EXFont:
     :path: "../node_modules/expo-font/ios"
+  EXImageLoader:
+    :path: "../node_modules/expo-image-loader/ios"
   Expo:
     :path: "../node_modules/expo"
+  ExpoImagePicker:
+    :path: "../node_modules/expo-image-picker/ios"
   ExpoKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
+  ExpoMailComposer:
+    :path: "../node_modules/expo-mail-composer/ios"
   ExpoModulesCore:
     :path: "../node_modules/expo-modules-core/ios"
   EXSplashScreen:
@@ -457,8 +473,11 @@ SPEC CHECKSUMS:
   EXConstants: 75c40827af38bd6bfcf69f880a5b45037eeff9c9
   EXFileSystem: 927e0a8885aa9c49e50fc38eaba2c2389f2f1019
   EXFont: a5d80bd9b3452b2d5abbce2487da89b0150e6487
+  EXImageLoader: b88e053d760f85a82405b1db2de4abf11978fc9f
   Expo: 1b491127df68d0ac717cdde699abfc6f3c5c533c
+  ExpoImagePicker: ca4207f2952a78e6dac2d7852d7e170dd2eaf1d0
   ExpoKeepAwake: 0e8f18142e71bbf2c7f6aa66ebed249ba1420320
+  ExpoMailComposer: 49d37f2c7b0da7e7e4a0d1371c55b3c8302178cd
   ExpoModulesCore: 8303cc952788be09fc6eab62815d257016ae6dec
   EXSplashScreen: 31ab6df6d23e97e074d1330224741979943f1d82
   FBLazyVector: c71b8c429a8af2aff1013934a7152e9d9d0c937d
