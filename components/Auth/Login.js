@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/core'
-import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView,TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView,TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image } from 'react-native';
 import { loginUser, auth } from '../../firebase.js';
 import { updateProfile, onAuthStateChanged } from "firebase/auth";
 
@@ -19,25 +19,33 @@ const Login = () => {
         //change this to Homepage when homepage component is made.
       }
     })
-    return unsubscribe
+    return unsubscribe;
   }, [])
 
   const loginHandler = () => {
-    loginUser(email, password).then(()=>{
+    loginUser(email, password)
+    .then(()=>{
       navigation.reset({
         index: 0,
         routes: [{ name: 'TabNavigator' }],
         //change this to Homepage when homepage component is made.
       });
+    }).catch(err=> {
+      alert('Your login credentials do not match.');
     })
   }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <KeyboardAvoidingView style={styles.container}>
+        <View style={styles.imageWrapper}>
+          <Image style={styles.image} source={require('./placeholder/logo.png')}/>
+        </View>
         <View style={styles.inputContainer}>
-          <TextInput placeholder='email' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={email} style={styles.input} onChangeText={text => setEmail(text)}/>
-          <TextInput placeholder='password' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={password} style={styles.input} secureTextEntry onChangeText={text => setPassword(text)}/>
+          <Text style={styles.label}>Email</Text>
+          <TextInput placeholder='Email' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={email} style={styles.input} onChangeText={text => setEmail(text)}  keyboardType="email-address"/>
+          <Text style={styles.label}>Password</Text>
+          <TextInput placeholder='Password' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={password} style={styles.input} secureTextEntry onChangeText={text => setPassword(text)}/>
         </View>
         <View style={styles.buttonWrapper}>
           <TouchableOpacity style={styles.buttonGrp} onPress={loginHandler}>
@@ -55,22 +63,23 @@ const Login = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#2C3D36',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   inputContainer: {
-    width: '100%',
+    width: '95%',
     padding: 14
   },
   input: {
-    backgroundColor: 'white',
+    backgroundColor: 'whitesmoke',
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 10,
     height: 50,
     borderWidth: 1,
+    fontSize: 16
   },
   buttonWrapper: {
     width: '80%',
@@ -87,12 +96,23 @@ const styles = StyleSheet.create({
   button: {
     width: '100%',
     textAlign: 'center',
-    backgroundColor: 'transparent',
+    backgroundColor: '#1B2722',
     padding: 20,
     borderRadius: 10,
     fontSize: 20,
     fontWeight: '700',
-    borderWidth: 1,
+    color: 'whitesmoke',
+    overflow: 'hidden'
+  },
+  image: {
+    width: 125,
+    height: 125
+  },
+  label: {
+    color: 'whitesmoke',
+    paddingHorizontal: 7,
+    fontSize: 16,
+    marginTop: 10
   }
 });
 

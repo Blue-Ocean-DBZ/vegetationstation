@@ -33,9 +33,7 @@ export const createUser = (email, password, displayName) => {
 
 
 export const loginUser = (email, password) => {
-  return signInWithEmailAndPassword(auth, email, password)
-    .then(({user}) => console.log(user.uid))
-    .catch(err => alert("Login info does not match!"))
+  return signInWithEmailAndPassword(auth, email, password);
 }
 
 export const signOutUser = async () => {

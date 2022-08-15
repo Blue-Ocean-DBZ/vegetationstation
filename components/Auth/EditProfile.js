@@ -72,8 +72,10 @@ const EditProfile = () => {
           <Text style={styles.username}>{username}</Text>
         </View>
         <View style={styles.inputContainer}>
-          <TextInput placeholder='zipcode' placeholderTextColor='#D3D3D3'  autoCapitalize='none' value={zipcode} style={styles.input} onChangeText={text => setZipcode(text)}/>
-          <TextInput placeholder='status' placeholderTextColor='#D3D3D3'  autoCapitalize='none' value={status} style={styles.input} onChangeText={text => setStatus(text)}/>
+        <Text style={styles.label}>Zip Code</Text>
+          <TextInput placeholder='Zip Code' placeholderTextColor='#D3D3D3'  autoCapitalize='none' value={zipcode} style={styles.input} onChangeText={text => setZipcode(text)} maxLength={5} minLength={5}/>
+          <Text style={styles.label}>Status</Text>
+          <TextInput placeholder='Status' placeholderTextColor='#D3D3D3'  autoCapitalize='none' value={status} style={styles.input} onChangeText={text => setStatus(text)}/>
         </View>
         <View style={styles.buttonWrapper}>
           <TouchableOpacity style={styles.buttonGrp} onPress={saveHandler}>
@@ -91,23 +93,24 @@ const EditProfile = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#2C3D36',
     alignItems: 'center',
-    justifyContent: 'flex-start',
-    paddingVertical: 40
+    justifyContent: 'center',
+    position: 'relative'
   },
   inputContainer: {
-    width: '100%',
+    width: '95%',
     padding: 14
   },
   input: {
-    backgroundColor: 'white',
+    backgroundColor: 'whitesmoke',
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 10,
     height: 50,
     borderWidth: 1,
+    fontSize: 16
   },
   buttonWrapper: {
     width: '80%',
@@ -118,21 +121,29 @@ const styles = StyleSheet.create({
   buttonGrp: {
     width: '100%',
     borderRadius: 10,
-    marginBottom: 10,
+    marginBottom: 10
   },
   button: {
     width: '100%',
     textAlign: 'center',
-    backgroundColor: 'transparent',
+    backgroundColor: '#1B2722',
     padding: 20,
     borderRadius: 10,
     fontSize: 20,
     fontWeight: '700',
-    borderWidth: 1,
+    color: 'whitesmoke',
+    overflow: 'hidden'
+  },
+  label: {
+    color: 'whitesmoke',
+    paddingHorizontal: 7,
+    fontSize: 16,
+    marginTop: 10
   },
   profileImgContainer: {
     height: 200,
-    width: 200,
+    width: '100%',
+    alignItems:'center',
     borderRadius: 100,
     position: 'relative',
     marginBottom: 45
@@ -163,7 +174,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     textTransform: 'uppercase',
-    marginTop: 10
+    marginTop: 10,
+
+    fontWeight: '700',
+    paddingHorizontal: 30,
+    color: 'whitesmoke'
   }
 });
 
