@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, Image , TouchableWithoutFeedback} from 'react-native';
 import { Title } from 'react-native-paper';
-import { Fontisto } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 let DATA = [
   {
@@ -90,7 +90,7 @@ const MyFavoritesHome = () => {
             </View>
           </View>
           <TouchableWithoutFeedback onPress= {() => {deleteFavorite(item.url)}}>
-            <Fontisto name="heart" size={20} color="red" style= {styles.heart}/>
+            <Ionicons name="heart" style= {styles.heart} size= {25}/>
           </TouchableWithoutFeedback>
         </View>
       </View>
@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
 
   heart: {
     marginRight: 10,
+    color: 'red',
   },
 
   plantImage: {
