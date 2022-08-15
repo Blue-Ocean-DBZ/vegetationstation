@@ -81,7 +81,7 @@ const MyListingHome = () => {
 
   const handleAddPlant = () => {
     setDisplayModal(true);
-  }
+  };
 
   const selectPicture = async () => {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -93,7 +93,7 @@ const MyListingHome = () => {
     if(!result.cancelled) {
       setImagePath(result.uri)
     }
-  }
+  };
 
   const takePicture = async () => {
     const permission = await ImagePicker.requestCameraPermissionsAsync();
@@ -102,46 +102,43 @@ const MyListingHome = () => {
     }
     const result = await ImagePicker.launchCameraAsync();
     setImagePath(result.uri)
-  }
+  };
 
   const closeModal = () => {
     setDisplayModal(!displayModal);
     setImagePath(addPicImage);
     setAddPlantName('')
-  }
+  };
 
   const uploadPhoto = () => {
     setDisplayModal(!displayModal);
     setImagePath(addPicImage);
     setAddPlantName('');
-  }
+  };
 
   const renderPlants = ({ item }) => (
-
-      <View style= {styles.plantInformationContainer}>
-        <View >
-          <Image source= {{url: item.url}} style= {styles.plantImage}/>
-        </View>
-        <View style= {styles.item}>
-          <View style= {styles.plantInfoWithRemoveButton}>
-            <View>
-              <View style={styles.plantName}>
-                <Text style= {styles.title}>{item.name}</Text>
-              </View>
-              <View>
-                <Text style= {styles.otherPlantInfo}>{item.location}</Text>
-                <Text style= {styles.otherPlantInfo}>{item.distance}</Text>
-                <Text style= {styles.otherPlantInfo}>{item.owner}</Text>
-              </View>
-            </View>
-            <TouchableWithoutFeedback onPress= {() => {deleteFavorite(item.url)}}>
-              <Text style= {styles.remove}>Remove</Text>
-            </TouchableWithoutFeedback>
-          </View>
+    <View style= {styles.plantInformationContainer}>
+      <View >
+        <Image source= {{url: item.url}} style= {styles.plantImage}/>
+      </View>
+      <View style= {styles.item}>
+        <View style= {styles.plantInfoWithRemoveButton}>
           <View>
+            <View style={styles.plantName}>
+              <Text style= {styles.title}>{item.name}</Text>
+            </View>
+            <View>
+              <Text style= {styles.otherPlantInfo}>{item.location}</Text>
+              <Text style= {styles.otherPlantInfo}>{item.distance}</Text>
+              <Text style= {styles.otherPlantInfo}>{item.owner}</Text>
+            </View>
           </View>
+          <TouchableWithoutFeedback onPress= {() => {deleteFavorite(item.url)}}>
+            <Text style= {styles.remove}>Remove</Text>
+          </TouchableWithoutFeedback>
         </View>
       </View>
+    </View>
   );
 
   const deleteFavorite = (url) => {
@@ -152,7 +149,7 @@ const MyListingHome = () => {
         setFavoritesList(tempArray)
       }
     }
-  }
+  };
 
   return (
     <SafeAreaView >
@@ -219,7 +216,7 @@ const styles= StyleSheet.create({
     height: 750,
   },
 
-  addPlantModalContainer:{
+  addPlantModalContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
@@ -280,13 +277,14 @@ const styles= StyleSheet.create({
     backgroundColor: '#CED89E',
     paddingLeft: 10,
     paddingTop: 15,
+    paddingBottom: 5,
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
     flex: 1,
     justifyContent: 'space-around',
   },
 
-  plantInfoWithRemoveButton : {
+  plantInfoWithRemoveButton: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between'

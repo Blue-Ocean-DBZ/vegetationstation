@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, Image , TouchableWithoutFeedback} from 'react-native';
 import { Title } from 'react-native-paper';
+import { Fontisto } from '@expo/vector-icons';
 
 let DATA = [
   {
@@ -72,22 +73,28 @@ const MyFavoritesHome = () => {
   const [favoritesList, setFavoritesList] = useState(DATA);
 
   const renderPlants = ({ item }) => (
-    <TouchableWithoutFeedback onPress= {() => {deleteFavorite(item.url)}}>
-      <View style= {styles.plantInformationContainer} >
-        <View >
-          <Image source= {{url: item.url}} style= {styles.plantImage} />
-        </View>
-        <View style={styles.item}>
-          <View style={styles.plantName}>
-            <Text style= {styles.title}>{item.name}</Text>
-          </View>
+    <View style= {styles.plantInformationContainer}>
+      <View>
+        <Image source= {{url: item.url}} style= {styles.plantImage}/>
+      </View>
+      <View style= {styles.item}>
+        <View style= {styles.plantInfoWithHeartButton}>
           <View>
-            <Text style= {styles.otherPlantInfo}>{item.location} {item.distance}</Text>
-            <Text style= {styles.otherPlantInfo}>{item.owner}</Text>
+            <View style={styles.plantName}>
+              <Text style= {styles.title}>{item.name}</Text>
+            </View>
+            <View>
+              <Text style= {styles.otherPlantInfo}>{item.location}</Text>
+              <Text style= {styles.otherPlantInfo}>{item.distance}</Text>
+              <Text style= {styles.otherPlantInfo}>{item.owner}</Text>
+            </View>
           </View>
+          <TouchableWithoutFeedback onPress= {() => {deleteFavorite(item.url)}}>
+            <Fontisto name="heart" size={20} color="red" style= {styles.heart}/>
+          </TouchableWithoutFeedback>
         </View>
       </View>
-    </TouchableWithoutFeedback>
+    </View>
   );
 
   const deleteFavorite = (url) => {
@@ -99,7 +106,7 @@ const MyFavoritesHome = () => {
         setFavoritesList(tempArray)
       }
     }
-  }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -136,12 +143,22 @@ const styles = StyleSheet.create({
   item: {
     backgroundColor: '#CED89E',
     paddingLeft: 10,
-    paddingTop: 25,
-    paddingBottom: 10,
+    paddingTop: 15,
+    paddingBottom: 5,
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
     flex: 1,
     justifyContent: 'space-around',
+  },
+
+  plantInfoWithHeartButton: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+
+  heart: {
+    marginRight: 10,
   },
 
   plantImage: {
