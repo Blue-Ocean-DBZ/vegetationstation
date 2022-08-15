@@ -15,14 +15,15 @@ const EditProfile = () => {
 
   const saveHandler = () => {
     if(zipcode.length !== 5) alert('Please enter a valid zipcode')
+
     // send uid to backend
     // send all user info to other views to access (username, email, uid, )
     // take you back to homepage
       // uncomment when homepage is made
-      // navigation.reset({
-      //   index: 0,
-      //   routes: [{ name: 'Homepage' }],
-      // });
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Home' }],
+      });
   }
 
   const logoutHandler = () => {
