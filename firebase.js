@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import { getStorage, ref } from "firebase/storage";
+import { LogBox } from 'react-native';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -20,6 +21,8 @@ const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app)
 export const storage = getStorage(app)
+
+LogBox.ignoreLogs(['AsyncStorage has been extracted from react-native core and will be removed in a future release']);
 
 export const createUser = (email, password, displayName) => {
   return createUserWithEmailAndPassword(auth, email, password)
