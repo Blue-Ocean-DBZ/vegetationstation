@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Modal, Pressable, Image, FlatList, SafeAreaView} from 'react-native';
 import { Button, Card, Title, Paragraph, Searchbar } from 'react-native-paper';
+import {FontAwesome} from 'react-native-vector-icons'
 import * as ImagePicker from 'expo-image-picker';
 
 const Home = (props) => {
@@ -12,11 +13,9 @@ const Home = (props) => {
   const onChangeSearch = query => {
     setSearchTerm(query);
     let filteredListing = [];
-    console.log('query', query);
     if (query) {
       const regex = new RegExp(`^${query}`, 'i');
       filteredListing = DATA.filter(v => regex.test(v.name))
-      console.log('DATA FILTER',filteredList)
       setFilteredList(filteredListing);
     } else {
       setFilteredList([]);
@@ -28,7 +27,7 @@ const Home = (props) => {
     if(data.length === 0) {
       return null
     } else {
-      //            data={suggestions}
+      // FOR LATER data={suggestions}
         return (
           <FlatList>
             data={fakeData}
@@ -54,10 +53,11 @@ const renderCard = ({item}) => (
   </Card>
 )
   return (
-    <View>
-      <Searchbar placeholder="Search plants" onChangeText={onChangeSearch} value={searchTerm}/>
-      <View style= {styles.overallContainer}>
-        <View style= {styles.header}>
+    <View styles={{backgroundColor: 'white'}}>
+      <Searchbar placeholder="search plants" inputStyle={styles.searchBar} containerStyle={styles.searchBarContainer} onChangeText={onChangeSearch} value={searchTerm} searchIcon={FontAwesome.search} placeholderTextColor={'#g5g5g5'}  inputContainerStyle={{backgroundColor: 'white'}}
+      />
+      <View style={styles.overallContainer}>
+        <View style={styles.header}>
           <Title style= {styles.headerTitle}>Listings</Title>
         </View>
         <SafeAreaView>
@@ -108,32 +108,26 @@ const DATA = [
 
 const styles= StyleSheet.create({
   overallContainer: {
-    marginTop: 40,
+    paddingVertical: 50,
     marginRight: 10,
     marginLeft: 10,
     height: 500,
     width: 'auto',
+    backgroundColor: 'white'
   },
 
-  addPlantModalContainer:{
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+  searchBar: {
+    backgroundColor: 'white'
   },
 
-  image: {
-    width: 300,
-    height: 300,
-    backgroundColor: 'grey',
-  },
-
-  buttonLayoutPhotos: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
+  searchBarContainer: {
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderRadius: 5
+   },
 
   header: {
-    display: 'fles',
+    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -147,10 +141,18 @@ const styles= StyleSheet.create({
   plantCardContainer: {
     display: 'flex',
     flexDirection: 'row',
+    paddingTop: 10,
+    paddingBottom: 10,
+    marginTop: 10,
     marginBottom: 10,
+    backgroundColor: '#B2B2B2',
+    borderRadius: 10
   },
 
   plantImage: {
+    position: 'relative',
+    paddingLeft: 10,
+    backgroundColor: '#B2B2B2',
     width: 100,
     height: 100,
   },
