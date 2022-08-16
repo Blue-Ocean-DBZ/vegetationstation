@@ -76,7 +76,7 @@ const EditProfile = () => {
         <View style={styles.profileImgContainer}>
           <Image source={{uri: image}} style={styles.thumbnail}/>
           <TouchableOpacity style={styles.imageEdit} onPress={openImagePickerAsync}>
-            <Text style={styles.imageEditButton}>Change Profile Image</Text>
+            <Text style={styles.imageEditButton}>{!image.uri ?  'Add a Profile Image' : 'Change Profile Image'}</Text>
           </TouchableOpacity>
         </View>
           <Text style={styles.username}>{username}</Text>
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
     color: '#888',
     marginVertical: 7,
     paddingHorizontal: 7
-  }
+  },
 });
 
 export default EditProfile
