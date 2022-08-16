@@ -3,22 +3,19 @@ import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, TouchableWithoutFeedback } from 'react-native';
 import { signOutUser } from '../firebase.js';
 import { useNavigation } from '@react-navigation/core'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
 
-const HomePageStack = createStackNavigator();
-const MyPlantsStack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+// const HomePageStack = createStackNavigator();
+// const MyPlantsStack = createStackNavigator();
+// const Tab = createBottomTabNavigator();
 
-const TabsBar = () => (
-<Tab.Navigator>
-  <Tab.Screen name="Home Page" component={HomePageStackScreen} />
-  <Tab.Screen name="My Plants" component={MyPlantsStackScreen} />
-  {/* <Tab.Screen name="Trades" component={TradesStackScreen} />
-  <Tab.Screen name="Favorites" component={FavoritesStackScreen} /> */}
-</Tab.Navigator>
-);
+// const TabsBar = () => (
+// <Tab.Navigator>
+//   <Tab.Screen name="Home Page" component={HomePageStackScreen} />
+//   <Tab.Screen name="My Plants" component={MyPlantsStackScreen} />
+//   {/* <Tab.Screen name="Trades" component={TradesStackScreen} />
+//   <Tab.Screen name="Favorites" component={FavoritesStackScreen} /> */}
+// </Tab.Navigator>
+// );
 
 const HomePageStackScreen = () => (
   <View>
@@ -46,7 +43,6 @@ export default function App() {
       })
   }
   return (
-    <>
     <View style={styles.container}>
       <Image style={styles.topImage} source={{uri:'https://img.freepik.com/free-vector/tropical-mural-wallpaper-design_23-2148679938.jpg?w=2000'}}/>
       <View style={styles.photoContainer}>
@@ -58,17 +54,11 @@ export default function App() {
       </View>
       <View style={styles.buttonWrapper}>
         <TouchableOpacity style={styles.buttonGrp} onPress={logoutHandler}>
+          <Text style={styles.button}>Edit Profile</Text>
           <Text style={styles.button}>Log Out</Text>
         </TouchableOpacity>
       </View>
     </View>
-    {/* <Tab.Navigator>
-      <Tab.Screen name="Home Page" component={HomePageStackScreen} />
-      <Tab.Screen name="My Plants" component={MyPlantsStackScreen} />
-      {/* <Tab.Screen name="Trades" component={TradesStackScreen} />
-      <Tab.Screen name="Favorites" component={FavoritesStackScreen} />
-    </Tab.Navigator> */}
-    </>
   );
 }
 
@@ -80,13 +70,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   topImage: {
-    flex: .25,
+    height: '28%',
     alignSelf: 'stretch',
   },
   photoContainer: {
     position: 'absolute',
-    flex: .3,
-    marginTop: 83,
+    height: '56%',
   },
   profilePhoto: {
     height: 200,
@@ -94,6 +83,8 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     borderWidth: 3,
     borderColor: 'white',
+    alignSelf: 'center',
+    marginTop: '50%'
   },
   userInfoContainer: {
     alignItems: 'center',
@@ -115,12 +106,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     color: 'whitesmoke',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    marginTop: 30,
   },
   buttonGrp: {
     width: '100%',
     borderRadius: 10,
-    marginBottom: 10
+    marginBottom: 10,
+    marginTop: '50%',
   },
   buttonWrapper: {
     width: '80%',
