@@ -209,9 +209,12 @@ const MyListingHome = () => {
           onRequestClose= {()=> {setDisplayModal(!displayModal);}}>
           <KeyboardAwareScrollView contentContainerStyle= {styles.addPlantModalContainer}>
             <View style= {styles.addPlantModalContainer}>
-              <View style= {styles.close}>
-                <Button onPress= {closeModal}>Close</Button>
+
+
+                <View style= {styles.close}>
+                  <Button onPress= {closeModal}>Close</Button>
               </View>
+              <Text style= {styles.modalTitle}>I'm Sexy and I Grow It</Text>
               <Image source= {{uri: imagePath}} style= {styles.image} />
               <View style= {styles.buttonLayoutPhotos}>
                 <Button onPress= {selectPicture}> Choose from Gallery</Button>
@@ -229,7 +232,7 @@ const MyListingHome = () => {
                           autoCapitalize= 'characters'
                           clearButtonMode= 'always'
                         />
-                    <Button onPress= {uploadPhoto}>Upload</Button>
+                        {addPlantName.length > 0 ? <Button style= {styles.upload} onPress= {uploadPhoto}>Upload</Button> : null}
                   </View>
                   : null}
               </View>
@@ -268,13 +271,25 @@ const styles= StyleSheet.create({
   addPlantModalContainer: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 50,
+  },
+
+  headerModal: {
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+
+  modalTitle: {
+    marginBottom: 15,
+    fontSize: 25,
   },
 
   image: {
-    width: 300,
-    height: 300,
+    width: 325,
+    height: 325,
     borderRadius: 20,
+    marginBottom: 10,
   },
 
   textInput: {
@@ -282,15 +297,21 @@ const styles= StyleSheet.create({
     padding: 8,
     borderRadius: 5,
     width: 300,
+    fontSize: 20,
   },
 
   close: {
-    marginLeft: 257,
+    marginLeft: 275,
   },
 
   buttonLayoutPhotos: {
     display: 'flex',
     flexDirection: 'row',
+    marginBottom: 10.
+  },
+
+upload: {
+    marginTop: 10,
   },
 
   header: {
