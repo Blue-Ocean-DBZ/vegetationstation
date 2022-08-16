@@ -4,7 +4,7 @@ import { Button, Title } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { ref, uploadBytes } from "firebase/storage";
-import { storage, auth, signOutUser } from '../../firebase.js'
+import { storage, auth, signOutUser } from '../firebase.js'
 
 let DATA = [
   {
@@ -122,11 +122,13 @@ const MyListingHome = () => {
     setAddPlantName('')
   };
 
-  const uploadPhoto = async () => {
+  const uploadPhoto = async () => { //addPlant functionality here
+    console.log(addPlantName) // plant name
     setDisplayModal(!displayModal);
     const res = await fetch(imagePath)
     const blob = await res.blob()
     const filename =  imagePath.substring(imagePath.lastIndexOf('/') + 1)
+
     const imageRef = ref(storage, filename)
     uploadBytes(imageRef, blob)
       .then(snapshot => {
@@ -163,7 +165,7 @@ const MyListingHome = () => {
     </View>
   );
 
-  const deleteFavorite = (url) => {
+  const deleteFavorite = (url) => {//delete plant functionality here
     let tempArray = favoritesList.slice();
     return Alert.alert (
       'Delete This Plant Listing',
@@ -175,6 +177,7 @@ const MyListingHome = () => {
             {setShowConfirmation(false);
             for (let i = 0; i < tempArray.length; i++){
               if (tempArray[i].url === url) {
+                console.log (tempArray[i], 'should return info of deleted plant from mylisting') //returns deleted plant from mylistng
                 tempArray.splice(i, 1);
                 setFavoritesList(tempArray)
               }
@@ -219,7 +222,7 @@ const MyListingHome = () => {
                           autoCapitalize= 'characters'
                           clearButtonMode= 'always'
                         />
-                    <Button onPress= {closeModal}>Upload</Button>
+                    <Button onPress= {uploadPhoto}>Upload</Button>
                   </View>
                   : null}
               </View>

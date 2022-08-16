@@ -106,11 +106,11 @@ const MyFavoritesHome = () => {
     </View>
   );
 
-  const deleteFavorite = (url) => {
+  const deleteFavorite = (url) => { //delete favorites functionality here
     let tempArray = favoritesList.slice();
     for (let i = 0; i < tempArray.length; i++){
       if (tempArray[i].url === url) {
-        console.log (i, 'we in here')
+        console.log (tempArray[i], 'plant information') //should log deleted plant information
         tempArray.splice(i, 1);
         setFavoritesList(tempArray)
       }
