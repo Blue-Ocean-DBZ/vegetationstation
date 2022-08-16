@@ -15,7 +15,7 @@ const Login = () => {
       if (user && user.displayName) {
         navigation.reset({
           index: 0,
-          routes: [{ name: 'EditProfile' }],
+          routes: [{ name: 'TabNavigator' }],
         });
         //change this to Homepage when homepage component is made.
       }
@@ -26,17 +26,15 @@ const Login = () => {
   const loginHandler = () => {
     setIsLoading(true);
     loginUser(email, password)
-      .then(() => {
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'EditProfile' }],
-          //change this to Homepage when homepage component is made.
-        });
-        setIsLoading(false);
-      }).catch(err => {
-        alert('Your login credentials do not match.');
-        setIsLoading(false);
-      })
+    .then(()=>{
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'TabNavigator' }],
+        //change this to Homepage when homepage component is made.
+      });
+    }).catch(err=> {
+      alert('Your login credentials do not match.');
+    })
   }
 
   return (
