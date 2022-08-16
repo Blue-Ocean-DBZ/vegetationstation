@@ -1,28 +1,115 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TouchableWithoutFeedback, TextInput, Keyboard, ScrollView  } from 'react-native';
 import { signOutUser } from '../firebase.js';
 import { useNavigation } from '@react-navigation/core'
 
 export default function ChatMessages () {
+  const [message, setMessage] = useState(undefined);
+  const [fakeMessages, setFakeMessages] = useState([
+    {
+      user1: 'vegeta',
+      user2: 'goku',
+      message: 'ur a saiyan'
+    },
+    {
+      user1: 'goku',
+      user2: 'vegeta',
+      message: 'nuh uh'
+    },
+    {
+      user1: 'vegeta',
+      user2: 'goku',
+      message: 'yuh huh'
+    },
+    {
+      user1: 'goku',
+      user2: 'vegeta',
+      message: 'ur a saiyan'
+    },
+    {
+      user1: 'vegeta',
+      user2: 'goku',
+      message: 'no, im a saiyan prince',
+    },
+    {
+      user1: 'vegeta',
+      user2: 'goku',
+      message: 'A SAIYANS PRIDE',
+    },
+    {
+      user1: 'vegeta',
+      user2: 'goku',
+      message: 'A SAIYANS PRIDE',
+    },
+    {
+      user1: 'vegeta',
+      user2: 'goku',
+      message: 'A SAIYANS PRIDE',
+    },
+    {
+      user1: 'vegeta',
+      user2: 'goku',
+      message: 'A SAIYANS PRIDE',
+    },
+    {
+      user1: 'vegeta',
+      user2: 'goku',
+      message: 'A SAIYANS PRIDE',
+    }
+  ])
 
+  const addMessage = (e) => {
+    e.preventDefault();
+    setFakeMessages([...fakeMessages, {
+      user1: 'vegeta',
+      user2: 'goku',
+      message: message,
+    }])
+    setMessage(undefined)
+  }
   return (
-    <View style={styles.container}>
-      <Image style={styles.topImage} source={{uri:'https://img.freepik.com/free-vector/tropical-mural-wallpaper-design_23-2148679938.jpg?w=2000'}}/>
-      <View style={styles.photoContainer}>
-        <Image style={styles.profilePhoto} source={{uri: 'https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg'}}/>
-        <View style={styles.userInfoContainer}>
-          <Text style={styles.name}>Tommy</Text>
-          <Text style={styles.city}>From Myspace</Text>
+    // <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <View style={styles.container}>
+        <ScrollView>
+          <View style={styles.msgContainer}>
+        {fakeMessages?.map((msg, i) => {
+          if (msg.user1 === 'vegeta') {
+            return (
+            <View key={'messageid' + i} style={styles.chatBoxRight}>
+              <Text style={styles.textRight}>{msg.user1}</Text>
+              <Text style={styles.textRight}>{msg.message}</Text>
+            </View>
+            )
+          } else {
+            return (
+            <View key={'messageid' + i} style={styles.chatBoxLeft}>
+              <Text style={styles.textLeft}>{msg.user1}</Text>
+              <Text style={styles.textLeft}>{msg.message}</Text>
+            </View>
+            )
+          }
+        })}
+        </View>
+        </ScrollView>
+        <View style={styles.submitMessages}>
+          <TextInput
+            style={styles.input}
+            onChangeText={setMessage}
+            value={message}
+            placeholder="New message"
+            keyboardType="default"
+            multiline='true'
+            onSubmitEditing={addMessage}
+          />
+          <TouchableOpacity
+              style = {styles.submitButton}
+              onPress = {addMessage}>
+              <Text style = {styles.submitButtonText}> Submit </Text>
+          </TouchableOpacity>
         </View>
       </View>
-      <View style={styles.buttonWrapper}>
-        <TouchableOpacity style={styles.buttonGrp} >
-          <Text style={styles.button}>Edit Profile</Text>
-          <Text style={styles.button}>Log Out</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    // </TouchableWithoutFeedback>
   );
 }
 
@@ -31,59 +118,58 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    padding: 5,
+    height: '100%',
   },
-  topImage: {
-    height: '28%',
-    alignSelf: 'stretch',
+  textRight: {
+    height: 'auto',
+    width: '100%',
+    widthMin: '45%',
+    textAlign: 'right',
   },
-  photoContainer: {
-    position: 'absolute',
-    height: '56%',
+  textLeft: {
+    height: 'auto',
+    widthMax: '45%',
   },
-  profilePhoto: {
-    height: 200,
-    width: 200,
-    borderRadius: 100,
+  chatBoxLeft: {
     borderWidth: 3,
-    borderColor: 'white',
-    alignSelf: 'center',
-    marginTop: '50%'
+    borderColor: 'black',
+    width: '45%',
+    padding: 10,
   },
-  userInfoContainer: {
-    alignItems: 'center',
-    marginTop: 25,
+  chatBoxRight: {
+    borderWidth: 3,
+    borderColor: 'black',
+    width: '45%',
+    alignSelf: 'flex-end',
+    padding: 10,
   },
-  name: {
-    fontWeight: 'bold',
-    fontSize: 17,
-  },
-  city: {
-    fontSize: 15
-  },
-  button: {
+  input: {
     width: '100%',
-    textAlign: 'center',
-    backgroundColor: '#1B2722',
-    padding: 20,
-    borderRadius: 10,
-    fontSize: 20,
-    fontWeight: '700',
-    color: 'whitesmoke',
-    overflow: 'hidden',
-    marginTop: 30,
+    borderWidth: 1,
+    padding: 10,
   },
-  buttonGrp: {
+  submitButton: {
+    backgroundColor: '#7a42f4',
+    padding: 10,
+    margin: 15,
+    height: 40,
+    position: 'fixed'
+  },
+  submitButtonText:{
+      color: 'white'
+  },
+  submitMessages: {
+    position: 'absolute',
+    bottom: '0%',
     width: '100%',
-    borderRadius: 10,
-    marginBottom: 10,
-    marginTop: '50%',
+    margin: 5,
   },
-  buttonWrapper: {
-    width: '80%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 40,
-  },
+  msgContainer: {
+    width: '100%',
+    margin: 5,
+    height: '50%',
+    overflow: 'auto',
+  }
 });
 

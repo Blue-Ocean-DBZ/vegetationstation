@@ -27,7 +27,7 @@ function HomeStackScreen() {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen name="Home" component={Home} />
-      {/* <HomeStack.Screen name="Profile" component={Profile} /> */}
+      <HomeStack.Screen name="Profile" component={Profile} />
       <HomeStack.Screen name="Edit Profile" component={EditProfile} />
       <HomeStack.Screen name="Plant Card" component={PlantPage} />
       <HomeStack.Screen name="Trade Requests" component={TradeRequests} />
