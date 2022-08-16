@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, TouchableWithoutFeedback } from 'react-native';
-import { signOutUser } from '../firebase.js';
+import { signOutUser, auth } from '../firebase.js';
 import { useNavigation } from '@react-navigation/core'
 
 export default function App() {
@@ -26,9 +26,9 @@ export default function App() {
     <View style={styles.container}>
       <Image style={styles.topImage} source={{uri:'https://img.freepik.com/free-vector/tropical-mural-wallpaper-design_23-2148679938.jpg?w=2000'}}/>
       <View style={styles.photoContainer}>
-        <Image style={styles.profilePhoto} source={{uri: 'https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg'}}/>
+        <Image style={styles.profilePhoto} source={{uri: auth.currentUser.photoURL}}/>
         <View style={styles.userInfoContainer}>
-          <Text style={styles.name}>Tom</Text>
+          <Text style={styles.name}>{auth.currentUser.displayName}</Text>
           <Text style={styles.city}>From Myspace</Text>
         </View>
       </View>
