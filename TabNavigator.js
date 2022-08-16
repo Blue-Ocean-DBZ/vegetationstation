@@ -8,7 +8,7 @@ import Home from './zdc/Home.js';
 import MyPlants from './zdc/MyPlants.js';
 import Trades from './zdc/Trades.js';
 import Favorites from './zdc/Favorites.js';
-import Profile from './zdc/Profile.js';
+import Profile from './components/Profile.js';
 import EditProfile from './zdc/EditProfile.js';
 import PlantPage from './zdc/PlantPage.js';
 import TradeRequests from './zdc/TradeRequests.js';
