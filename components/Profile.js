@@ -42,6 +42,11 @@ export default function App() {
         });
       })
   }
+
+  const handleEditProfile = () => {
+    navigation.replace('EditProfile')
+    };
+
   return (
     <View style={styles.container}>
       <Image style={styles.topImage} source={{uri:'https://img.freepik.com/free-vector/tropical-mural-wallpaper-design_23-2148679938.jpg?w=2000'}}/>
@@ -53,9 +58,9 @@ export default function App() {
         </View>
       </View>
       <View style={styles.buttonWrapper}>
-        <TouchableOpacity style={styles.buttonGrp} onPress={logoutHandler}>
-          <Text style={styles.button}>Edit Profile</Text>
-          <Text style={styles.button}>Log Out</Text>
+        <TouchableOpacity style={styles.buttonGrp} >
+          <Text style={styles.button} onPress={handleEditProfile}>Edit Profile</Text>
+          <Text style={styles.button} onPress={logoutHandler}>Log Out</Text>
         </TouchableOpacity>
       </View>
     </View>
