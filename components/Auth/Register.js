@@ -53,6 +53,7 @@ const Register = () => {
             <TextInput placeholder='Username' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={username} style={styles.input} onChangeText={text => setUsername(text)} />
             <TextInput placeholder='Email' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={email} style={styles.input} onChangeText={text => setEmail(text)} keyboardType="email-address" />
             <TextInput placeholder='Password' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={password} style={styles.input} secureTextEntry onChangeText={text => setPassword(text)} />
+          <Text style={styles.notice}>By continuing, you agree to Vegetation Station's Terms of Service and acknowledge Vegetation Station's Privacy Policy.</Text>
             <TouchableOpacity style={styles.registerBtnWrapper} onPress={handleSignUp} disabled={isLoading ? true : false}>
               <Text style={styles.registerBtn}>Register</Text>
             </TouchableOpacity>
@@ -138,7 +139,11 @@ const styles = StyleSheet.create({
     color: "whitesmoke",
     alignSelf: 'center',
   },
-
+  notice: {
+    color: '#888',
+    marginBottom: 14,
+    paddingHorizontal: 7
+  }
 });
 
 export default Register
