@@ -23,7 +23,7 @@ export default function App() {
     // </NavigationContainer>
 
     <View style={styles.container}>
-      {true ? <MyListingHome /> : <MyFavoritesHome />}
+      {false ? <MyListingHome /> : <MyFavoritesHome />}
     </View>
 
 );

@@ -194,7 +194,8 @@ const MyListingHome = () => {
 
   return (
     <SafeAreaView style= {styles.container}>
-      <View style= {styles.addPlantModalContainer}>
+
+      <View>
         <Modal
           animationType= 'slide'
           visible= {displayModal}
@@ -245,6 +246,7 @@ const MyListingHome = () => {
           renderItem={renderPlants}
         />
       </View>
+
     </SafeAreaView>
   )
 }
