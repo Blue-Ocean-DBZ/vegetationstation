@@ -22,16 +22,10 @@ export default function App() {
     //   </Stack.Navigator>
     // </NavigationContainer>
 
-    <View style={styles.container}>
-      {false ? <MyListingHome /> : <MyFavoritesHome />}
+    <View >
+      {true ? <MyListingHome /> : <MyFavoritesHome />}
     </View>
 
 );
 }
 
-const styles = StyleSheet.create({
-  container: {
-  flex: 1,
-  backgroundColor: '#fff',
-  },
-  });

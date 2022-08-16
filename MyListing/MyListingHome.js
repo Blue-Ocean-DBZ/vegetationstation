@@ -8,7 +8,7 @@ import { storage, auth, signOutUser } from '../firebase.js'
 
 let DATA = [
   {
-    name: 'PlantOne',
+    name: 'American Marigold',
     owner: 'Brandon',
     location: 'LA',
     distance: '12 mi away',
@@ -167,8 +167,14 @@ const MyListingHome = () => {
 
   const deleteFavorite = (url) => {//delete plant functionality here
     let tempArray = favoritesList.slice();
+    let plantName;
+    for (let i = 0; i < tempArray.length; i++){
+      if (tempArray[i].url === url) {
+        plantName = tempArray[i].name;
+      }
+    }
     return Alert.alert (
-      'Delete This Plant Listing',
+      `Delete ${plantName}`,
       'Are you sure you want to delete this plant listing?',
       [
         {
@@ -352,7 +358,7 @@ const styles= StyleSheet.create({
   },
 
   title: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
   },
 
