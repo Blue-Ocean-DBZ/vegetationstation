@@ -5,8 +5,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './components/Auth/Login.js'
 import Register from './components/Auth/Register.js'
 import EditProfile from './components/Auth/EditProfile.js'
-import MyListingHome from './MyListing/MyListingHome.js';
-import MyFavoritesHome from './MyFavorites/MyFavoritesHome.js';
+import MyListingHome from './favorites_mylistings/MyListing/MyListingHome.js';
+import MyFavoritesHome from './favorites_mylistings/MyFavorites/MyFavoritesHome.js';
 
 
 export default function App() {
