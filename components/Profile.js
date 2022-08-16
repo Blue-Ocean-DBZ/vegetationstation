@@ -4,31 +4,6 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, TouchableWithoutFeedba
 import { signOutUser } from '../firebase.js';
 import { useNavigation } from '@react-navigation/core'
 
-// const HomePageStack = createStackNavigator();
-// const MyPlantsStack = createStackNavigator();
-// const Tab = createBottomTabNavigator();
-
-// const TabsBar = () => (
-// <Tab.Navigator>
-//   <Tab.Screen name="Home Page" component={HomePageStackScreen} />
-//   <Tab.Screen name="My Plants" component={MyPlantsStackScreen} />
-//   {/* <Tab.Screen name="Trades" component={TradesStackScreen} />
-//   <Tab.Screen name="Favorites" component={FavoritesStackScreen} /> */}
-// </Tab.Navigator>
-// );
-
-const HomePageStackScreen = () => (
-  <View>
-    <Text>Home Page</Text>
-  </View>
-);
-
-const MyPlantsStackScreen = () => (
-  <View>
-    <Text>My Plants</Text>
-  </View>
-);
-
 export default function App() {
 
   const navigation = useNavigation();
@@ -38,7 +13,7 @@ export default function App() {
       .then(() => {
         navigation.reset({
           index: 0,
-          routes: [{ name: 'Login' }],
+          routes: [{ name: 'ChatMessages' }],
         });
       })
   }

@@ -8,6 +8,7 @@ import Register from './components/Auth/Register.js'
 import TabNavigator from './TabNavigator.js'
 import EditProfile from './components/Auth/EditProfile.js'
 import Profile from './components/Profile.js';
+import ChatMessages from './components/ChatMessages.js';
 
 export default function App() {
 
@@ -16,24 +17,17 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-<<<<<<< HEAD
-        <Stack.Screen name="Profile" component={Profile} options={{title: 'Profile'}}/>
-        <Stack.Screen options={{ headerShown: false}} name="Login" component={Login} />
+        {/* <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} /> */}
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
-        <Stack.Screen name="Register" component={Register} options={{ headerShown: false}}/>
-        <Stack.Screen name="EditProfile" component={EditProfile} options={{title: 'Edit Profile'}}/>
-=======
-        <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
-        <Stack.Screen name="TabNavigator" component={TabNavigator} />
-        <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
+        {/* <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
         <Stack.Screen name="EditProfile"
           component={EditProfile}
           options={{
             headerShown: true,
             title: 'Edit Profile'
-          }} />
+          }} /> */}
         <Stack.Screen name="Profile" component={Profile} options={{ title: 'Profile' }} />
->>>>>>> 8a4d98559db98ee9e74815d2274bb3c936608403
+        <Stack.Screen name="ChatMessages" component={ChatMessages} options={{ title: 'Chat Messages' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

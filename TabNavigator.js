@@ -12,6 +12,7 @@ import Profile from './components/Profile.js';
 import EditProfile from './zdc/EditProfile.js';
 import PlantPage from './zdc/PlantPage.js';
 import TradeRequests from './zdc/TradeRequests.js';
+import ChatMessages from './components/ChatMessages.js';
 
 //multiple stack navigations inside individual tab navigations
 
@@ -26,10 +27,11 @@ function HomeStackScreen() {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen name="Home" component={Home} />
-      <HomeStack.Screen name="Profile" component={Profile} />
+      {/* <HomeStack.Screen name="Profile" component={Profile} /> */}
       <HomeStack.Screen name="Edit Profile" component={EditProfile} />
       <HomeStack.Screen name="Plant Card" component={PlantPage} />
       <HomeStack.Screen name="Trade Requests" component={TradeRequests} />
+      <HomeStack.Screen name="ChatMessages" component={ChatMessages}/>
     </HomeStack.Navigator>
   );
 }
