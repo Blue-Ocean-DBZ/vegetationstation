@@ -16,11 +16,24 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+<<<<<<< HEAD
         <Stack.Screen name="Profile" component={Profile} options={{title: 'Profile'}}/>
         <Stack.Screen options={{ headerShown: false}} name="Login" component={Login} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
         <Stack.Screen name="Register" component={Register} options={{ headerShown: false}}/>
         <Stack.Screen name="EditProfile" component={EditProfile} options={{title: 'Edit Profile'}}/>
+=======
+        <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
+        <Stack.Screen name="TabNavigator" component={TabNavigator} />
+        <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
+        <Stack.Screen name="EditProfile"
+          component={EditProfile}
+          options={{
+            headerShown: true,
+            title: 'Edit Profile'
+          }} />
+        <Stack.Screen name="Profile" component={Profile} options={{ title: 'Profile' }} />
+>>>>>>> 8a4d98559db98ee9e74815d2274bb3c936608403
       </Stack.Navigator>
     </NavigationContainer>
   );
