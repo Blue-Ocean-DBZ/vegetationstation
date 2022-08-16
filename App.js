@@ -3,10 +3,10 @@ import React, {useState} from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// import Login from './components/Auth/Login.js'
-// import Register from './components/Auth/Register.js'
-// import EditProfile from './components/Auth/EditProfile.js'
-import PlantDescription from './components/Plants/PlantDescription.js'
+// import Login from './components/Auth/Login.js';
+// import Register from './components/Auth/Register.js';
+// import EditProfile from './components/Auth/EditProfile.js';
+import PlantDescription from './components/Plants/PlantDescription.js';
 
 export default function App() {
 
@@ -34,12 +34,11 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
   },
-
-})
+});
