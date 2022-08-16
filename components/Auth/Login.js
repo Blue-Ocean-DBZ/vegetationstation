@@ -45,6 +45,7 @@ const Login = () => {
         <ImageBackground source={require('./placeholder/bg.png')} resizeMode="cover" style={styles.bg}>
           <View style={styles.imageWrapper}>
             <Image style={styles.image} source={require('./placeholder/logo.png')} />
+            <Text style={styles.header}>Vegetation Station</Text>
           </View>
           <View style={styles.inputContainer}>
             <TextInput placeholder='Email' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={email} style={styles.input} onChangeText={text => setEmail(text)} keyboardType="email-address" />
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
     height: 125
   },
   header: {
-    fontSize: 40,
+    fontSize: 21,
     fontWeight: '700',
     paddingHorizontal: 30,
     color: 'whitesmoke'
