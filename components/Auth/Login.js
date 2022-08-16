@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/core'
-import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView,TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image } from 'react-native';
+import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image, ImageBackground } from 'react-native';
 import { loginUser, auth } from '../../firebase.js';
 import { updateProfile, onAuthStateChanged } from "firebase/auth";
 
 const Login = () => {
-  const navigation = useNavigation()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const navigation = useNavigation();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if(user) {
+      if (user && user.displayName) {
         navigation.reset({
           index: 0,
           routes: [{ name: 'EditProfile' }],
@@ -23,38 +24,42 @@ const Login = () => {
   }, [])
 
   const loginHandler = () => {
+    setIsLoading(true);
     loginUser(email, password)
-    .then(()=>{
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'EditProfile' }],
-        //change this to Homepage when homepage component is made.
-      });
-    }).catch(err=> {
-      alert('Your login credentials do not match.');
-    })
+      .then(() => {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'EditProfile' }],
+          //change this to Homepage when homepage component is made.
+        });
+        setIsLoading(false);
+      }).catch(err => {
+        alert('Your login credentials do not match.');
+        setIsLoading(false);
+      })
   }
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={styles.mainContainer}>
       <KeyboardAvoidingView style={styles.container}>
-        <View style={styles.imageWrapper}>
-          <Image style={styles.image} source={require('./placeholder/logo.png')}/>
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Email</Text>
-          <TextInput placeholder='Email' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={email} style={styles.input} onChangeText={text => setEmail(text)}  keyboardType="email-address"/>
-          <Text style={styles.label}>Password</Text>
-          <TextInput placeholder='Password' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={password} style={styles.input} secureTextEntry onChangeText={text => setPassword(text)}/>
-        </View>
-        <View style={styles.buttonWrapper}>
-          <TouchableOpacity style={styles.buttonGrp} onPress={loginHandler}>
-            <Text style={styles.button}>Login</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonGrp} onPress={() => navigation.push('Register')}>
-            <Text style={styles.button}>Register</Text>
-          </TouchableOpacity>
-        </View>
+        <ImageBackground source={require('./placeholder/bg.png')} resizeMode="cover" style={styles.bg}>
+          <View style={styles.imageWrapper}>
+            <Image style={styles.image} source={require('./placeholder/logo.png')} />
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput placeholder='Email' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={email} style={styles.input} onChangeText={text => setEmail(text)} keyboardType="email-address" />
+            <TextInput placeholder='Password' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={password} style={styles.input} secureTextEntry onChangeText={text => setPassword(text)} />
+            <TouchableOpacity style={styles.loginBtnWrapper} onPress={loginHandler} disabled={isLoading ? true : false}>
+              <Text style={styles.loginBtn}>Login</Text>
+            </TouchableOpacity>
+          </View>
+          <View styles={styles.noaccount}>
+            <Text style={styles.noaccounttext}>Don't have an account?</Text>
+            <TouchableOpacity style={styles.buttonGrp} onPress={() => navigation.push('Register')}>
+              <Text style={styles.link}>Sign Up.</Text>
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   )
@@ -64,55 +69,69 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#2C3D36',
-    alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    width: "100%",
   },
   inputContainer: {
     width: '95%',
-    padding: 14
+    paddingHorizontal: 14,
+    paddingVertical: 14,
+    borderWidth: 1,
+    borderRadius: 12,
+    backgroundColor: '#F5F5F5'
   },
   input: {
-    backgroundColor: 'whitesmoke',
+    backgroundColor: '#fff',
     paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 10,
-    marginTop: 10,
+    borderRadius: 6,
     height: 50,
     borderWidth: 1,
-    fontSize: 16
+    borderColor: "#F0F0F0",
+    fontSize: 16,
+    marginBottom: 14
   },
-  buttonWrapper: {
-    width: '80%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 40,
-  },
-  buttonGrp: {
-    width: '100%',
-    borderRadius: 10,
-    // overflow: 'hidden',
-    marginBottom: 10
-  },
-  button: {
-    width: '100%',
-    textAlign: 'center',
-    backgroundColor: '#1B2722',
-    padding: 20,
-    borderRadius: 10,
-    fontSize: 20,
-    fontWeight: '700',
-    color: 'whitesmoke',
-    overflow: 'hidden'
+  imageWrapper: {
+    alignItems: "center",
+    width: "120%",
+    marginVertical: 40
   },
   image: {
     width: 125,
     height: 125
   },
-  label: {
-    color: 'whitesmoke',
-    paddingHorizontal: 7,
+  header: {
+    fontSize: 40,
+    fontWeight: '700',
+    paddingHorizontal: 30,
+    color: 'whitesmoke'
+  },
+  link: {
+    color: "whitesmoke",
+    textDecorationLine: 'underline',
+    textAlign: 'center'
+  },
+  noaccounttext: {
+    marginTop: 21,
+    color: "whitesmoke",
+    alignSelf: 'center',
+  },
+  bg: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  loginBtnWrapper: {
+    width: "100%",
+    alignItems: "center",
+    paddingVertical: 20,
+    backgroundColor: "#BC6C25",
+    borderRadius: 6,
+
+  },
+  loginBtn: {
+    color: "#FFE7D2",
     fontSize: 16,
-    marginTop: 10
+    fontWeight: "700"
   }
 });
 

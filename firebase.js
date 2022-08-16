@@ -23,12 +23,6 @@ export const storage = getStorage(app)
 
 export const createUser = (email, password, displayName) => {
   return createUserWithEmailAndPassword(auth, email, password)
-    .then(userCredentials => {
-      updateProfile(auth.currentUser, {
-        displayName
-      })
-    })
-    .catch(err => {alert("Your email has already been registered.")})
 }
 
 

@@ -1,26 +1,42 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/core'
-import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView,TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image } from 'react-native';
-import { createUser } from '../../firebase.js';
+import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView,TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image, ImageBackground } from 'react-native';
+import { updateProfile } from "firebase/auth";
+import { createUser, auth } from '../../firebase.js';
 
 const Register = () => {
   const navigation = useNavigation()
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSignUp = () => {
+    setIsLoading(true);
     createUser(email, password, username)
-    // navigation.replace('EditProfile')
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'EditProfile' }],
-    });
+      .then(userCredentials => {
+        updateProfile(auth.currentUser, {
+          displayName: username
+        })
+        setTimeout(() => {
+          navigation.reset({
+          index: 0,
+          routes: [{ name: 'EditProfile' }],
+          })
+          setIsLoading(false)
+        }, 500);
+
+      })
+      .catch(err => {
+        alert("Your email has already been registered.")
+        setIsLoading(false);
+      })
   }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <KeyboardAvoidingView style={styles.container}>
+      <ImageBackground source={require('./placeholder/bg.png')} resizeMode="cover" style={styles.bg}>
         <View style={styles.headerWrapper}>
           <Text style={styles.header}>Register</Text>
         </View>
@@ -31,12 +47,11 @@ const Register = () => {
           <TextInput placeholder='Email'  placeholderTextColor='#D3D3D3' autoCapitalize='none' value={email} style={styles.input} onChangeText={text => setEmail(text)} keyboardType="email-address"/>
           <Text style={styles.label}>Password</Text>
           <TextInput placeholder='Password' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={password} style={styles.input} secureTextEntry onChangeText={text => setPassword(text)}/>
-        </View>
-        <View style={styles.buttonWrapper}>
-          <TouchableOpacity style={styles.buttonGrp} onPress={handleSignUp}>
-            <Text style={styles.button}>Register</Text>
+          <TouchableOpacity style={styles.registerBtnWrapper} onPress={handleSignUp} disabled={isLoading ? true:false}>
+            <Text style={styles.registerBtn}>Register</Text>
           </TouchableOpacity>
         </View>
+        </ImageBackground>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   )
@@ -46,55 +61,30 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#2C3D36',
-    alignItems: 'center',
     justifyContent: 'center',
-    position: 'relative'
+    width: "100%",
   },
   inputContainer: {
     width: '95%',
-    padding: 14
+    paddingHorizontal: 14,
+    paddingVertical: 14,
+    borderWidth: 1,
+    borderRadius: 12,
+    backgroundColor: '#F5F5F5'
   },
   input: {
-    backgroundColor: 'whitesmoke',
+    backgroundColor: '#fff',
     paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 10,
-    marginTop: 10,
+    borderRadius: 6,
     height: 50,
     borderWidth: 1,
-    fontSize: 16
-  },
-  buttonWrapper: {
-    width: '80%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 40,
-  },
-  buttonGrp: {
-    width: '100%',
-    borderRadius: 10,
-    marginBottom: 10
-  },
-  button: {
-    width: '100%',
-    textAlign: 'center',
-    backgroundColor: '#1B2722',
-    padding: 20,
-    borderRadius: 10,
-    fontSize: 20,
-    fontWeight: '700',
-    color: 'whitesmoke',
-    overflow: 'hidden'
-  },
-  label: {
-    color: 'whitesmoke',
-    paddingHorizontal: 7,
+    borderColor: "#F0F0F0",
     fontSize: 16,
-    marginTop: 10
+    marginBottom: 14
   },
   headerWrapper: {
     position: 'absolute',
-    paddingVertical: '40%',
+    paddingVertical: '60%',
     borderWidth: 1,
     width: '100%',
     height: '100%'
@@ -104,7 +94,29 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     paddingHorizontal: 30,
     color: 'whitesmoke'
-  }
+  },
+  registerBtnWrapper: {
+    width: "100%",
+    alignItems: "center",
+    paddingVertical: 20,
+    backgroundColor: "#BC6C25",
+    borderRadius: 6,
+  },
+  registerBtn: {
+    color: "#FFE7D2",
+    fontSize: 16,
+    fontWeight: "700"
+  },
+  bg: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  link: {
+    color: "whitesmoke",
+    textDecorationLine: 'underline',
+    textAlign: 'center'
+  },
 });
 
 export default Register
