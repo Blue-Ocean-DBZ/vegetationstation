@@ -21,6 +21,7 @@ const Register = () => {
     setIsLoading(true);
     if(!validate(email)) {
       alert('The email provided is not in the right format.');
+      setIsLoading(false);
       return;
     }
 
@@ -52,7 +53,7 @@ const Register = () => {
             <Text style={styles.header}>Register</Text>
             <TextInput placeholder='Username' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={username} style={styles.input} onChangeText={text => setUsername(text)} />
             <TextInput placeholder='Email' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={email} style={styles.input} onChangeText={text => setEmail(text)} keyboardType="email-address" />
-            <TextInput placeholder='Password' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={password} style={styles.input} secureTextEntry onChangeText={text => setPassword(text)} />
+            <TextInput placeholder='Password' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={password} style={styles.input} secureTextEntry onChangeText={text => setPassword(text)} onSubmitEditing={handleSignUp}/>
           <Text style={styles.notice}>By continuing, you agree to Vegetation Station's Terms of Service and acknowledge Vegetation Station's Privacy Policy.</Text>
             <TouchableOpacity style={styles.registerBtnWrapper} onPress={handleSignUp} disabled={isLoading ? true : false}>
               <Text style={styles.registerBtn}>Register</Text>
