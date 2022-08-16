@@ -18,7 +18,7 @@ const InboxList = (props) => {
     })
     .then((data) => {
       props.getInboxData()
-      console.log('hello')
+      // console.log('hello')
     })
     .catch((err) => {
       console.log('Accept trade did not work', err)
