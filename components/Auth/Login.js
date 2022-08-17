@@ -3,8 +3,6 @@ import { useNavigation } from '@react-navigation/core'
 import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image, ImageBackground } from 'react-native';
 import { loginUser, auth } from '../../firebase.js';
 import { updateProfile, onAuthStateChanged } from "firebase/auth";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-
 
 const Login = () => {
   const navigation = useNavigation();
@@ -28,67 +26,60 @@ const Login = () => {
   const loginHandler = () => {
     setIsLoading(true);
     loginUser(email, password)
-      .then(() => {
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'TabNavigator' }],
-          //change this to Homepage when homepage component is made.
-        });
-        setIsLoading(false);
-      }).catch(err => {
-        alert('Your login credentials do not match.');
-        setIsLoading(false);
-      })
+    .then(() => {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'TabNavigator' }],
+        //change this to Homepage when homepage component is made.
+      });
+      setIsLoading(false);
+    }).catch(err => {
+      alert('Your login credentials do not match.');
+      setIsLoading(false);
+    })
   }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={styles.mainContainer}>
-      <KeyboardAvoidingView style={styles.container}>
+      <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <ImageBackground source={require('./placeholder/bg.png')} resizeMode="cover" style={styles.bg}>
-          <KeyboardAwareScrollView style={styles.scroll} keyboardShouldPersistTaps="handled">
-            <View style={styles.inputContainer}>
-              <View style={styles.imageWrapper}>
-                <Image style={styles.image} source={require('./placeholder/logo.png')} />
-                <Text style={styles.header}>Vegetation Station</Text>
-              </View>
-              <TextInput placeholder='Email' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={email} style={styles.input} onChangeText={text => setEmail(text)} keyboardType="email-address" />
-              <TextInput placeholder='Password' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={password} style={styles.input} secureTextEntry onChangeText={text => setPassword(text)} onSubmitEditing={loginHandler} />
-              <TouchableOpacity style={isLoading ? styles.disabledWrapper : styles.loginBtnWrapper} onPress={loginHandler} disabled={isLoading ? true : false}>
-                <Text style={isLoading ? styles.disabledBtn : styles.loginBtn}>{isLoading ? 'Logging In..' : 'Login'}</Text>
-              </TouchableOpacity>
-            </View>
-            <View styles={styles.noaccount}>
-              <Text style={styles.noaccounttext}>Don't have an account?</Text>
-              <TouchableOpacity style={styles.buttonGrp} onPress={() => navigation.push('Register')}>
-                <Text style={styles.link}>Sign Up.</Text>
-              </TouchableOpacity>
-            </View>
-          </KeyboardAwareScrollView>
+          <View style={styles.imageWrapper}>
+            <Image style={styles.image} source={require('./placeholder/logo.png')} />
+            <Text style={styles.header}>Vegetation Station</Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput placeholder='Email' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={email} style={styles.input} onChangeText={text => setEmail(text)} keyboardType="email-address" enablesReturnKeyAutomatically/>
+            <TextInput placeholder='Password' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={password} style={styles.input} secureTextEntry onChangeText={text => setPassword(text)} onSubmitEditing={loginHandler} enablesReturnKeyAutomatically/>
+            <TouchableOpacity style={isLoading ? styles.disabledWrapper: styles.loginBtnWrapper} onPress={loginHandler} disabled={isLoading ? true : false}>
+              <Text style={isLoading ? styles.disabledBtn: styles.loginBtn}>{isLoading ? 'Logging In..':'Login' }</Text>
+            </TouchableOpacity>
+          </View>
+          <View styles={styles.noaccount}>
+            <Text style={styles.noaccounttext}>Don't have an account?</Text>
+            <TouchableOpacity style={styles.buttonGrp} onPress={() => navigation.push('Register')}>
+              <Text style={styles.link}>Sign Up.</Text>
+            </TouchableOpacity>
+          </View>
         </ImageBackground>
       </KeyboardAvoidingView>
-
     </TouchableWithoutFeedback>
   )
 }
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    // height: 900
-  },
   container: {
+    flex: 1,
     backgroundColor: '#2C3D36',
     justifyContent: 'center',
-    height: "100%",
+    width: "100%",
   },
   inputContainer: {
-    marginTop: 400,
-    width: '100%',
+    width: '95%',
     paddingHorizontal: 14,
     paddingVertical: 14,
     borderWidth: 1,
     borderRadius: 12,
-    backgroundColor: '#F5F5F5',
-    position: 'relative',
+    backgroundColor: '#F5F5F5'
   },
   input: {
     backgroundColor: '#fff',
@@ -98,18 +89,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#F0F0F0",
     fontSize: 16,
-    marginBottom: 14,
-
+    marginBottom: 14
   },
   imageWrapper: {
     alignItems: "center",
-    width: "100%",
-    position: 'absolute',
-    top: -200,
+    width: "120%",
+    marginVertical: 40
   },
   image: {
     width: 125,
-    height: 125,
+    height: 125
   },
   header: {
     fontSize: 21,
@@ -155,9 +144,6 @@ const styles = StyleSheet.create({
     color: "#333",
     fontSize: 16,
     fontWeight: "700"
-  },
-  scroll: {
-    width: "95%"
   }
 });
 
