@@ -21,7 +21,7 @@ const EditProfile = () => {
     }
     axios.post('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/user', {
       username,
-      session_id: auth.currentUser.uid,
+      firebase_id: auth.currentUser.uid,
       profile_pic: auth.currentUser?.photoURL || image,
       zip: zipcode
     })
@@ -30,10 +30,17 @@ const EditProfile = () => {
           index: 0,
           routes: [{ name: 'TabNavigator' }],
         });
+
       })
-      .catch(err => alert('Please enter a valid zipcode'))
+      .catch(err => console.log(err))
       // uncomment when homepage is made
   }
+
+  if (auth.currentUser?.photoURL === null) {
+    updateProfile(auth.currentUser, {
+      photoURL: image
+    })
+  };
 
   const logoutHandler = () => {
     signOutUser()
