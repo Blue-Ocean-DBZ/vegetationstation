@@ -5,12 +5,13 @@ import * as ImagePicker from 'expo-image-picker';
 import { ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 import { storage, auth, signOutUser } from '../../firebase.js'
+import axios from 'axios'
 
 const EditProfile = () => {
   const [username, setUsername] = useState(auth.currentUser?.displayName)
   const [zipcode, setZipcode] = useState('')
   const [status, setStatus] = useState('')
-  const [image, setImage] = useState({uri: auth.currentUser?.photoURL})
+  const [image, setImage] = useState(auth.currentUser?.photoURL || 'https://th-thumbnailer.cdn-si-edu.com/bZAar59Bdm95b057iESytYmmAjI=/1400x1050/filters:focal(594x274:595x275)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/95/db/95db799b-fddf-4fde-91f3-77024442b92d/egypt_kitty_social.jpg')
   const navigation = useNavigation()
 
   const saveHandler = () => {
@@ -18,14 +19,20 @@ const EditProfile = () => {
       alert('Please enter a valid zipcode');
       return;
     }
-    // send uid to backend
-    // send all user info to other views to access (username, email, uid, )
-    // take you back to homepage
+    axios.post('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/user', {
+      username,
+      session_id: auth.currentUser.uid,
+      profile_pic: auth.currentUser?.photoURL || image,
+      zip: zipcode
+    })
+      .then(() => {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Profile' }],
+        });
+      })
+      .catch(err => alert('Please enter a valid zipcode'))
       // uncomment when homepage is made
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Profile' }],
-      });
   }
 
   const logoutHandler = () => {
@@ -55,7 +62,7 @@ const EditProfile = () => {
     uploadBytes(imageRef, blob)
       .then(snapshot => {
         const uri = `https://firebasestorage.googleapis.com/v0/b/vegetationstation1.appspot.com/o/${filename}?alt=media`
-        setImage({uri: pickerResult.uri});
+        setImage(pickerResult.uri);
         updateProfile(auth.currentUser, {
           photoURL: uri
         })
@@ -67,10 +74,9 @@ const EditProfile = () => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <KeyboardAvoidingView style={styles.container}>
         <View style={styles.profileImgContainer}>
-          {image.uri ? <Image source={image} style={styles.thumbnail}/> :
-          <Image source={require('./placeholder/gui.png')} style={styles.thumbnail}/>}
+          <Image source={{uri: image}} style={styles.thumbnail}/>
           <TouchableOpacity style={styles.imageEdit} onPress={openImagePickerAsync}>
-            <Text style={styles.imageEditButton}>{!image.uri ?  'Add a Profile Image' : 'Change Profile Image'}</Text>
+            <Text style={styles.imageEditButton}>Change Profile Image</Text>
           </TouchableOpacity>
         </View>
           <Text style={styles.username}>{username}</Text>
@@ -179,7 +185,7 @@ const styles = StyleSheet.create({
     color: '#888',
     marginVertical: 7,
     paddingHorizontal: 7
-  },
+  }
 });
 
 export default EditProfile
