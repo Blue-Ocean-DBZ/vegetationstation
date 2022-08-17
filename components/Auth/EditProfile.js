@@ -5,24 +5,34 @@ import * as ImagePicker from 'expo-image-picker';
 import { ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 import { storage, auth, signOutUser } from '../../firebase.js'
+import axios from 'axios'
 
 const EditProfile = () => {
   const [username, setUsername] = useState(auth.currentUser?.displayName)
   const [zipcode, setZipcode] = useState('')
   const [status, setStatus] = useState('')
-  const [image, setImage] = useState({uri: auth.currentUser?.photoURL})
+  const [image, setImage] = useState(auth.currentUser?.photoURL || 'https://th-thumbnailer.cdn-si-edu.com/bZAar59Bdm95b057iESytYmmAjI=/1400x1050/filters:focal(594x274:595x275)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/95/db/95db799b-fddf-4fde-91f3-77024442b92d/egypt_kitty_social.jpg')
   const navigation = useNavigation()
 
   const saveHandler = () => {
-    if(zipcode.length !== 5) alert('Please enter a valid zipcode')
-    // send uid to backend
-    // send all user info to other views to access (username, email, uid, )
-    // take you back to homepage
+    if(zipcode.length !== 5) {
+      alert('Please enter a valid zipcode');
+      return;
+    }
+    axios.post('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/user', {
+      username,
+      session_id: auth.currentUser.uid,
+      profile_pic: auth.currentUser?.photoURL || image,
+      zip: zipcode
+    })
+      .then(() => {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Profile' }],
+        });
+      })
+      .catch(err => alert('Please enter a valid zipcode'))
       // uncomment when homepage is made
-      // navigation.reset({
-      //   index: 0,
-      //   routes: [{ name: 'Homepage' }],
-      // });
   }
 
   const logoutHandler = () => {
@@ -52,7 +62,7 @@ const EditProfile = () => {
     uploadBytes(imageRef, blob)
       .then(snapshot => {
         const uri = `https://firebasestorage.googleapis.com/v0/b/vegetationstation1.appspot.com/o/${filename}?alt=media`
-        setImage({uri: pickerResult.uri});
+        setImage(pickerResult.uri);
         updateProfile(auth.currentUser, {
           photoURL: uri
         })
@@ -64,17 +74,15 @@ const EditProfile = () => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <KeyboardAvoidingView style={styles.container}>
         <View style={styles.profileImgContainer}>
-          {image.uri ? <Image source={image} style={styles.thumbnail}/> :
-          <Image source={require('./placeholder/gui.png')} style={styles.thumbnail}/>}
+          <Image source={{uri: image}} style={styles.thumbnail}/>
           <TouchableOpacity style={styles.imageEdit} onPress={openImagePickerAsync}>
-            <Text style={styles.imageEditButton}>Edit Profile Image</Text>
+            <Text style={styles.imageEditButton}>Change Profile Image</Text>
           </TouchableOpacity>
-          <Text style={styles.username}>{username}</Text>
         </View>
+          <Text style={styles.username}>{username}</Text>
         <View style={styles.inputContainer}>
-        <Text style={styles.label}>Zip Code</Text>
-          <TextInput placeholder='Zip Code' placeholderTextColor='#D3D3D3'  autoCapitalize='none' value={zipcode} style={styles.input} onChangeText={text => setZipcode(text)} maxLength={5} minLength={5}/>
-          <Text style={styles.label}>Status</Text>
+          <TextInput placeholder='Zip Code' placeholderTextColor='#D3D3D3'  autoCapitalize='none' value={zipcode} style={styles.input} onChangeText={text => setZipcode(text)} maxLength={5} minLength={5} keyboardType="number-pad"/>
+          <Text style={styles.notice}>We use your zip code to locate plant swappers near the area.</Text>
           <TextInput placeholder='Status' placeholderTextColor='#D3D3D3'  autoCapitalize='none' value={status} style={styles.input} onChangeText={text => setStatus(text)}/>
         </View>
         <View style={styles.buttonWrapper}>
@@ -82,7 +90,7 @@ const EditProfile = () => {
             <Text style={styles.button}>Save</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.buttonGrp} onPress={logoutHandler}>
-            <Text style={styles.button}>Logout</Text>
+            <Text style={styles.button}>Temporary Logout</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -93,23 +101,24 @@ const EditProfile = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2C3D36',
+    backgroundColor: '#F5F5F5',
     alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative'
+    position: 'relative',
+    paddingTop: "15%"
   },
   inputContainer: {
     width: '95%',
     padding: 14
   },
   input: {
-    backgroundColor: 'whitesmoke',
+    backgroundColor: 'white',
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 10,
     height: 50,
     borderWidth: 1,
+    borderColor: "#ddd",
     fontSize: 16
   },
   buttonWrapper: {
@@ -134,19 +143,13 @@ const styles = StyleSheet.create({
     color: 'whitesmoke',
     overflow: 'hidden'
   },
-  label: {
-    color: 'whitesmoke',
-    paddingHorizontal: 7,
-    fontSize: 16,
-    marginTop: 10
-  },
   profileImgContainer: {
     height: 200,
-    width: '100%',
+    width: '50%',
     alignItems:'center',
     borderRadius: 100,
     position: 'relative',
-    marginBottom: 45
+    marginBottom: 21
   },
   thumbnail: {
     height: 200,
@@ -158,14 +161,16 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: 10,
-    // overflow: 'hidden',
     justifyContent: 'center',
     alignItems: 'center'
   },
   imageEditButton: {
     textAlign: 'center',
     backgroundColor: 'transparent',
-    fontSize: 20,
+    fontSize: 16,
+    textShadowColor: '#2C3D36',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 1,
     fontWeight: '700',
     color:'white'
   },
@@ -174,11 +179,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     textTransform: 'uppercase',
-    marginTop: 10,
-
-    fontWeight: '700',
-    paddingHorizontal: 30,
-    color: 'whitesmoke'
+    color: '#2C3D36'
+  },
+  notice: {
+    color: '#888',
+    marginVertical: 7,
+    paddingHorizontal: 7
   }
 });
 

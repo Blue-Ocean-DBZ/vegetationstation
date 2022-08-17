@@ -3,34 +3,30 @@ import React, {useState} from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// import Login from './components/Auth/Login.js';
-// import Register from './components/Auth/Register.js';
-// import EditProfile from './components/Auth/EditProfile.js';
-import PlantDescription from './components/Plants/PlantDescription.js';
+import Login from './components/Auth/Login.js'
+import Register from './components/Auth/Register.js'
+import TabNavigator from './TabNavigator.js'
+import EditProfile from './components/Auth/EditProfile.js'
+import Home from './components/Home.js'
+import Profile from './components/Profile.js';
 
 export default function App() {
 
   const Stack = createNativeStackNavigator();
-  const [requestTrade, setRequestTrade] = useState(false);
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="PlantDescription" component={PlantDescription} options={{
-          title: 'Plant Description',
-          headerRight: () => (
-            <Button
-              onPress={() => setRequestTrade(true)}
-              title={requestTrade ? 'Trade Pending':'Trade'}
-              disabled={requestTrade ? true:false}
-              color="#000"
-              style={styles.tradeButton}
-            />
-          ),
-          }}/>
-        {/* <Stack.Screen options={{ headerShown: false}} name="Login" component={Login} />
-        <Stack.Screen name="Register" component={Register} options={{ headerShown: false}}/>
-        <Stack.Screen name="EditProfile" component={EditProfile} options={{title: 'Edit Profile'}}/> */}
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
+        <Stack.Screen name="TabNavigator" component={TabNavigator} />
+        <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
+        <Stack.Screen name="EditProfile"
+          component={EditProfile}
+          options={{
+            headerShown: true,
+            title: 'Edit Profile'
+          }} />
+        <Stack.Screen name="Profile" component={Profile} options={{ title: 'Profile' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
