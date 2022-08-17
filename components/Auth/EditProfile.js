@@ -42,6 +42,12 @@ const EditProfile = () => {
       // uncomment when homepage is made
   }
 
+  if (auth.currentUser?.photoURL === null) {
+    updateProfile(auth.currentUser, {
+      photoURL: image
+    })
+  };
+
   const logoutHandler = () => {
     signOutUser()
       .then(() => {
