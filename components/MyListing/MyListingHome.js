@@ -7,92 +7,8 @@ import { ref, uploadBytes } from "firebase/storage";
 import { storage, auth, signOutUser } from '../../firebase.js'
 import axios from 'axios';
 
-let DATA = [
-  {
-    id: 1,
-    name: 'PlantOne',
-    owner: 'Brandon',
-    location: 'LA',
-    distance: '12 mi away',
-    favorite: true,
-    url: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/indoor-plants-1634736990.jpg?crop=1.00xw:1.00xh;0,0&resize=1200:*',
-  },
-  {
-    id: 2,
-    name: 'PlantTwo',
-    owner: 'Shannon',
-    location: 'SF',
-    distance: '312 mi away',
-    favorite: true,
-    url: 'https://cdn.shopify.com/s/files/1/0150/6262/products/the-sill_money-tree_small_bryant_black.jpg?v=1653591376',
-  },
-  {
-    id: 3,
-    name: 'PlantThree',
-    owner: 'Carson',
-    location: 'OC',
-    distance: '24 mi away',
-    favorite: true,
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmF6j-VfIy1CwkaCi4L_YJH5hl1qGsufLD4A&usqp=CAU',
-  },
-  {
-    id: 4,
-    name: 'PlantFour',
-    owner: 'Gian',
-    location: 'Stockton',
-    distance: '246 mi away',
-    favorite: true,
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbIHw3oUEi2EAMDD6AHDe2j37Y2JuEozh6tg&usqp=CAU',
-  },
-  {
-    id: 5,
-    name: 'PlantFive',
-    owner: 'Jonathan',
-    location: 'LA',
-    distance: '12 mi away',
-    favorite: true,
-    url: 'https://empire-s3-production.bobvila.com/slides/30451/original/Gloxinia-flowering-houseplants.jpg?1551987245',
-  },
-  {
-    id: 6,
-    name: 'PlantSix',
-    owner: 'David',
-    location: 'Sacramento',
-    distance: '442 mi away',
-    favorite: true,
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9HZXoUNWkyvVOQhBOKI6Te9WAEjL35peDcA&usqp=CAU',
-  },
-  {
-    id: 7,
-    name: 'PlantSeven',
-    owner: 'Kevin',
-    location: 'Cupertino',
-    distance: '246 mi away',
-    favorite: true,
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoJi4K4-eM57BhLUM8dOqS5PV0FZUN-2usMw&usqp=CAU',
-  },
-  {
-    id: 8,
-    name: 'PlantEight',
-    owner: 'Theresa',
-    location: 'OC',
-    distance: '12 mi away',
-    favorite: true,
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRowhGAXIPf4gl8Tp1sQF9_zgxP8Xx36mBFTA&usqp=CAU',
-  },
-  {
-    id: 9,
-    name: 'PlantNine',
-    owner: 'Clayton',
-    location: 'Sacramento',
-    distance: '442 mi away',
-    favorite: true,
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwCTPKnYjEN3XdLC7PMgo9qViE-4-VK-JvKw&usqp=CAU',
-  },
-];
-
 const MyListingHome = () => {
-
+  //be able to get access to user ID
   const addPicImage = 'https://cdn.pixabay.com/photo/2018/11/13/21/44/instagram-3814061_1280.png';
   const addPlantImage = 'https://cdn2.iconfinder.com/data/icons/plant-care-1/256/fertilize-512.png';
 
@@ -103,10 +19,8 @@ const MyListingHome = () => {
   const [showConfirmation, setShowConfirmation] = useState(true);
 
   useEffect(() => {
-    console.log('within useeffect')
-    axios.get('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/myPlants?user_id=2', {
-      user_id: 2,
-    })
+    console.log('this is the auth', auth)
+    axios.get('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/myPlants?user_id=7')
       .then((results)=> {
         console.log(results.data, 'dfjahdkl;sjfhjsdzk;fashjk');
         setPlantList(results.data)
@@ -139,7 +53,7 @@ const MyListingHome = () => {
     setImagePath(result.uri)
   };
 
-  const closeModal = () => {
+  const closeModal = async () => {
     setDisplayModal(!displayModal);
     setImagePath(addPicImage);
     setAddPlantName('')
@@ -156,37 +70,27 @@ const MyListingHome = () => {
     const imageRef = ref(storage, filename)
     uploadBytes(imageRef, blob)
       .then(snapshot => {
-
-
           uri = `https://firebasestorage.googleapis.com/v0/b/vegetationstation1.appspot.com/o/${filename}?alt=media`;
           return uri;
-         // url we get back from firebase
-        console.log(uri, 'this is the uri');
-
       })
       .then (uri => {
         uri = uri;
-        console.log (uri, 'inside the tnen statment')
-
       })
       .then(() => {
-        newPlant = {
-          id: 100,
-          name: addPlantName,
-          owner: auth.currentUser.displayName,
-          location: 'LA',
-          distance: '12 mi away',
-          favorite: 'false',
-          url: uri,
-        };
-        let tempPlantList = plantList.slice();
-        tempPlantList.push(newPlant);
-        setPlantList(tempPlantList)
+        axios.post ('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/plant', {
+          plant_name: addPlantName,
+          photo: uri,
+          user_id: 7,
+        })
+      })
+      .then(()=> {
+        axios.get('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/myPlants?user_id=7')
+        .then((results)=> {
+          setPlantList(results.data)
+        })
       })
       .catch(err => console.log(err))
     setImagePath(addPicImage);
-
-
     setAddPlantName('');
   };
 
@@ -206,7 +110,7 @@ const MyListingHome = () => {
               <Text style= {styles.otherPlantInfo}>{auth.currentUser.displayName}</Text>
             </View>
           </View>
-          <TouchableWithoutFeedback onPress= {() => {deleteFavorite(item.id)}}>
+          <TouchableWithoutFeedback onPress= {() => {deleteFavorite(item.plant_id)}}>
             <Text style= {styles.remove}>Remove</Text>
           </TouchableWithoutFeedback>
         </View>
@@ -218,7 +122,7 @@ const MyListingHome = () => {
     let tempArray = plantList.slice();
     let plantName;
     for (let i = 0; i < tempArray.length; i++){
-      if (tempArray[i].id === id) {
+      if (tempArray[i].plant_id === id) {
         plantName = tempArray[i].plant_name;
       }
     }
@@ -231,10 +135,12 @@ const MyListingHome = () => {
           onPress: () =>
             {setShowConfirmation(false);
             for (let i = 0; i < tempArray.length; i++){
-              if (tempArray[i].id === id) {
+              if (tempArray[i].plant_id === id) {
                 console.log (tempArray[i], 'should return info of deleted plant from mylisting') //returns deleted plant from mylistng
+                let plant_id = tempArray[i].plant_id
                 tempArray.splice(i, 1);
                 setPlantList(tempArray)
+                axios.delete(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/plant?plant_id=${plant_id}`)
               }
             }
           },
@@ -244,12 +150,10 @@ const MyListingHome = () => {
         }
       ]
     );
-
   };
 
   return (
     <SafeAreaView style= {styles.container}>
-
       <View>
         <Modal
           animationType= 'slide'
@@ -258,10 +162,8 @@ const MyListingHome = () => {
           onRequestClose= {()=> {setDisplayModal(!displayModal);}}>
           <KeyboardAwareScrollView contentContainerStyle= {styles.addPlantModalContainer}>
             <View style= {styles.addPlantModalContainer}>
-
-
-                <View style= {styles.close}>
-                  <Button onPress= {closeModal}>Close</Button>
+              <View style= {styles.close}>
+                <Button onPress= {closeModal}>Close</Button>
               </View>
               <Text style= {styles.modalTitle}>I'm Sexy and I Grow It</Text>
               <Image source= {{uri: imagePath}} style= {styles.image} />
@@ -272,16 +174,16 @@ const MyListingHome = () => {
               <View style= {styles.buttonLayoutPhotos}>
                 {(imagePath != addPicImage) && imagePath ?
                   <View>
-                        <TextInput
-                          placeholder= 'Add Plant Common Name'
-                          placeholderTextColor= 'grey'
-                          value= {addPlantName}
-                          onChangeText= {setAddPlantName}
-                          style= {styles.textInput}
-                          autoCapitalize= 'characters'
-                          clearButtonMode= 'always'
-                        />
-                        {addPlantName.length > 0 ? <Button style= {styles.upload} onPress= {uploadPhoto}>Upload</Button> : null}
+                    <TextInput
+                      placeholder= 'Add Plant Common Name'
+                      placeholderTextColor= 'grey'
+                      value= {addPlantName}
+                      onChangeText= {setAddPlantName}
+                      style= {styles.textInput}
+                      autoCapitalize= 'characters'
+                      clearButtonMode= 'always'
+                    />
+                    {addPlantName.length > 0 ? <Button style= {styles.upload} onPress= {uploadPhoto}>Upload</Button> : null}
                   </View>
                   : null}
               </View>
