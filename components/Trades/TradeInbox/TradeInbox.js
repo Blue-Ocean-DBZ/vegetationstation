@@ -15,16 +15,16 @@ const TradeInbox = (props) => {
   const [acceptedData, setAcceptedData] = useState([])
   const navigation = useNavigation()
 
-  // let removeTrade = (index) => {
-  //   console.log(index)
-  //   setPendingData(pendingData.filter((item, i) => i !== index));
-  // }
+
 
   let getInboxData = () => {
     axios.get('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=1')//change to current user id
+    // axios.get('http:/localhost:3000/trades?user_id=1')//change to current user id
     .then((response) => {
-
-        setTradesData(response.data)
+      let data = response.data.filter((item, i) => {
+        return item.pending === false
+      })
+        setTradesData(data)
         return response.data
     })
     .then((response) => {
@@ -67,9 +67,9 @@ const TradeInbox = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.container}>
-      <View style={styles.InboxHeader}>
-        <AntDesign name="arrowleft" size={24} color="black" onPress={goBack}/>
-      </View>
+        <View style={styles.InboxHeader}>
+          <AntDesign name="arrowleft" size={24} color="black" onPress={goBack}/>
+        </View>
         <View style={styles.statusContainer}>
           <Button
             onPress={() => setCurrInbox('Pending')}
@@ -96,7 +96,7 @@ const TradeInbox = (props) => {
           marginRight: 5
           }}
         />
-    </View>
+      </View>
     {/* pending  */}
      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.TradeContainer}>

@@ -1,76 +1,70 @@
 import React, { useState, useEffect } from 'react';
 import { TouchableOpacity,Alert, Modal, StyleSheet, Text, Pressable, View, Image, useWindowDimensions, ScrollView } from 'react-native';
 import { Fontisto, Ionicons, AntDesign,Entypo } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native';
 import TradeListEntry from './TradeListEntry.js'
 import plantData from '../exampleData/Dummy.js'
 const axios = require('axios')
+
 //props needed
   //username
   //user plants info
     //user plant photos
-    //user_id
     //user_plant_id
     //target_user_id
     //target_plant_id
 
 const TradeModal = (props) => {
-  const [tradeData, setTradeData] = useState(
-    {
-      user_id: 1,//pass through props
-      plant_id: null, // ADD to SCHEMA Get request for users plants? pass through props
-      // created_at: 1200, //DL timestamp library
-      target_user_id: 2,//pass through props
-      target_plant_id: 21,//pass through props  ADD to SCHEMA
-      // message:'User would like to trade his user_plant_name here for your target_plant_name.'//replace USer, User_plant_name, target_plant_name
-    }
-  )
+
+  const navigation = useNavigation()
+  const [postData, setPostData] = useState({plant_offer_id: null, plant_target_id: 15})
 
   let goBack = () => {
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Modal' }],
-    });
+    props.closeModal(false)
   }
 
-  let setImage =  (plantID) => {
-    setTradeData({...tradeData, plant_id: plantID});
+  let setImage =  async (plantID) => {
+    setPostData({...postData, plant_offer_id: plantID});
+    console.log(postData)
+
   }
 
   useEffect(() => {
   },[])
 
   let submitTrade = (obj) => {
-    if(tradeData.plant_id === null) {
-
+    if(postData.plant_offer_id === null) {
       Alert.alert('Select', 'You must select a plant.', [
         { text: 'OK', onPress: () => console.log('OK Pressed') },
       ]);
-
     } else {
-
-      Alert.alert('Sent', 'Trade proposal sent.', [
-        { text: 'OK', onPress: () => console.log('OK Pressed') },
-      ]);
-        props.closeModal(false)//move after then
-        console.log(tradeData, 'DDATTTTTTTAAAAA')
-        return axios.post('http://localhost:3000/trades/post')
+      return axios.post('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades', postData)
       .then((response) => {
-        console.log('responseeeeeeeeee ', response)
+        setPostData({...postData, plant_offer_id: null});
+        Alert.alert('Sent', 'Trade proposal sent.', [
+          { text: 'OK', onPress: () => console.log('Post sent') },
+        ]);
+        props.closeModal(false)
+        console.log(postData, 'DDATTTTTTTAAAAA')
       })
       .catch((error) => {
-        console.log(`Error in Posting trade`);
+        props.closeModal(false)
+        console.log(`Error in Posting trade`, error.AxiosError);
       });
-  }
+    }
   }
 
   return (
+
     <View style={styles.centeredView}>
             <View style ={styles.TradeHeader}>
-            {/* <AntDesign name="arrowleft" size={24} color="black" onPress={goBack}/> */}
+              <View>
+                <AntDesign name="arrowleft" size={24} color="black" style={{paddingLeft: 18}} onPress={goBack}/>
+              </View>
               <TouchableOpacity style={styles.header} onPress={submitTrade} >
                 <Image
                   style={styles.logo}
-                  source={{    //Submit Icon
+                  source={{
                   uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg==',
                   }}
                 />
@@ -90,7 +84,7 @@ const TradeModal = (props) => {
                   plant={plant}
                   key={index}
                   setImage={setImage}
-                  selectedImage={tradeData.plant_id}
+                  selectedImage={postData.plant_offer_id}
                   />
                 )}
               </View>
@@ -103,12 +97,13 @@ const TradeModal = (props) => {
 
 const styles = StyleSheet.create({
   TradeHeader: {
-    alignItems: 'flex-end',
-    alignSelf: 'flex-end',
+    alignSelf: "stretch",
     // paddingTop: 5,
+    alignContent: 'space-between',
     paddingRight: 18,
     justifyContent: 'space-between',
     flexDirection: 'row',
+
 
   },
   SubmitTrade: {
@@ -117,7 +112,7 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    justifyContent: 'center',
+    // justifyContent: 'center',
     paddingBottom: 5,
     alignItems: 'center',
   },

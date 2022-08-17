@@ -23,8 +23,7 @@ const OpenModal = ({ navigation: { navigate } }) => {
       <Modal
         animationType="slide"
         transparent={true}
-        visible={modalVisible}
-      >
+        visible={modalVisible}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <TradeModal closeModal={closeModal}/>
