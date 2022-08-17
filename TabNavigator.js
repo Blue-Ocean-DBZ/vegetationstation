@@ -5,13 +5,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Home from './zdc/Home.js';
-import MyListingHome from './favorites_mylistings/MyListing/MyListingHome.js';
+import MyListingHome from './components/MyListing/MyListingHome.js';
 import Trades from './zdc/Trades.js';
-import MyFavoritesHome from './favorites_mylistings/MyFavorites/MyFavoritesHome.js';
+import MyFavoritesHome from './components/MyFavorites/MyFavoritesHome.js';
 import Profile from './components/Profile.js';
 import EditProfile from './zdc/EditProfile.js';
 import PlantPage from './zdc/PlantPage.js';
-import TradeInbox from './components/Trades/TradeInbox/TradeInbox.js';
+import TradeRequests from './zdc/TradeRequests.js';
 
 //multiple stack navigations inside individual tab navigations
 
@@ -29,7 +29,7 @@ function HomeStackScreen() {
       <HomeStack.Screen name="Profile" component={Profile} />
       <HomeStack.Screen name="Edit Profile" component={EditProfile} />
       <HomeStack.Screen name="Plant Card" component={PlantPage} />
-      <HomeStack.Screen name="Trade Requests" component={TradeInbox} />
+      <HomeStack.Screen name="Trade Requests" component={TradeRequests} />
     </HomeStack.Navigator>
   );
 }
@@ -45,7 +45,7 @@ function MyPlantStackScreen() {
 function TradeStackScreen() {
   return (
     <TradeStack.Navigator>
-      <TradeStack.Screen name="Trade" component={TradeInbox} options={{ headerShown: false}}/>
+      <TradeStack.Screen name="Trade" component={Trades} />
     </TradeStack.Navigator>
   );
 }
