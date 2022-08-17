@@ -104,7 +104,7 @@ const MyListingHome = () => {
 
   const handleAddPlant = () => {
     setDisplayModal(true);
-    console.log(auth.currentUser.displayName);
+    console.log(auth);
   };
 
   const selectPicture = async () => {
