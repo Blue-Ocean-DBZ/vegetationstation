@@ -10,6 +10,7 @@ import EditProfile from './components/Auth/EditProfile.js'
 import Home from './components/Home.js'
 import Profile from './components/Profile.js';
 
+
 export default function App() {
 
   const Stack = createNativeStackNavigator();
@@ -32,9 +33,3 @@ export default function App() {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});
