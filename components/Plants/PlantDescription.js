@@ -36,10 +36,6 @@ const PlantDescription = () => {
     setRequestTrade(true);
   }
 
-  // if (dummyData.favorite) {
-  //   setFillHeart('red');
-  // }
-
   return (
     <View style={styles.container}>
       <Image
@@ -106,6 +102,7 @@ const styles = StyleSheet.create({
 
   heart: {
     marginRight: 10,
+    borderColor: 'black'
   },
 
   title: {

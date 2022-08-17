@@ -10,20 +10,10 @@ const PlantCard = ({ item }) => {
       <View>
         <Image source={{ url: item.url }} style={styles.plantImage}/>
       </View>
-      <View style= {styles.item}>
-        <View style= {styles.plantInfoWithHeartButton}>
-          <View>
-            <View style={styles.plantName}>
-              <Text style={styles.title}>{item.name}</Text>
-            </View>
-            <View>
-              <Text style={styles.otherPlantInfo}>{item.distance}</Text>
-              {/* <Text style={styles.otherPlantInfo}>{item.owner}</Text> */}
-              <Image source={item.profile_pic} style={styles.userImage}/>
-            </View>
-          </View>
+        <View style= {styles.plantInfo}>
+          <Image source={item.profile_pic} style={styles.userImage}/>
+          <Text style={styles.otherPlantInfo}>{item.distance}</Text>
         </View>
-      </View>
     </View>
   )
 };
@@ -32,27 +22,26 @@ const styles = StyleSheet.create({
   plantInformationContainer: {
     flex: 1,
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     marginBottom: 10,
-    marginLeft: 40,
-    width: '80%',
+    marginLeft: 17,
+    marginRight: 17,
+    width: 180,
+    height: 230,
   },
 
-  item: {
+  plantInfo: {
     backgroundColor: '#F2F2F2',
     borderColor: '#C2C2C2',
+    paddingRight: 10,
     paddingLeft: 10,
-    paddingTop: 10,
+    paddingTop: 5,
     paddingBottom: 5,
-    borderTopRightRadius: 20,
+    borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
-    flex: 1,
-    justifyContent: 'space-around',
-  },
-
-  plantInfoWithHeartButton: {
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
   },
 
@@ -62,32 +51,18 @@ const styles = StyleSheet.create({
   },
 
   plantImage: {
-    width: 100,
-    height: 100,
+    width: 180,
+    height: 180,
     padding: 0,
     borderTopLeftRadius: 20,
-    borderBottomLeftRadius:20,
+    borderTopRightRadius: 20,
   },
 
   userImage: {
-    width: 30,
-    height: 30,
+    width: 33,
+    height: 33,
     borderRadius: '50%',
   },
-
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-
-  otherPlantInfo: {
-    marginTop: 5
-  },
-
-  plantName: {
-    display: 'flex',
-    justifyContent: 'right',
-  }
 });
 
 export default PlantCard;
