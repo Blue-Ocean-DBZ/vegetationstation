@@ -69,8 +69,8 @@ function FavoritesStackScreen() {
 export const PlantContext = React.createContext()
 
 export function usePlant () {
-  const {test1 , test2, test3} = useContext(PlantContext);
-  return {test1, test2, test3};
+  const {test, test1 , test2, test3} = useContext(PlantContext);
+  return {test, test1, test2, test3};
 }
 
 // Tab Navigator, individual stack navigators are nested inside
@@ -99,6 +99,7 @@ export default function TabNavigator() {
   return (
     <PlantContext.Provider
       value ={{
+        test: [user, setUser],
         test1: [messages, setMessages],
         test2: [string, setString],
         test3: [plantArray, setPlantArray]}}>

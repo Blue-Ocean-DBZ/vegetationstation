@@ -4,14 +4,15 @@ import { usePlant } from '../TabNavigator.js'
 
 export default function Home({ navigation }) {
 
-  const {test1 , test2} = usePlant();
+  const {test, test1 , test2} = usePlant();
+  const [user, setUser] = test;
   const [messages, setMessages] = test1;
   const [string, setString] = test2;
   // const [plantArray, setPlantArray] = test3;
 
   return (
       <View style={styles.container}>
-        <Text>{string}</Text>
+        <Text>{user}</Text>
         <Button
           title="Profile"
           onPress={() => navigation.navigate('Profile')}
