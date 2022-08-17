@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, FlatList, Text, View, TouchableWithoutFeedback, Image } from 'react-native';
+import { StyleSheet, FlatList, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Fontisto } from '@expo/vector-icons';
 import PlantCard from './PlantCard.js';
 import { auth } from '../../firebase.js'
@@ -8,6 +8,7 @@ import { auth } from '../../firebase.js'
 let dummyData = [
   {
     pending: true,
+    plant_id: 183916241,
     name: 'PlantSix',
     owner: 'David',
     location: 'Sacramento',
@@ -28,25 +29,32 @@ const PlantDescription = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Image
-        source={{ url: plantListing[0].url }}
-        style={styles.plantImage}>
-      </Image>
-      <View style={styles.plantInfoContainer}>
-        <View>
-          <View style={styles.plantNameWithHeart}>
-            <Text style={styles.title}>{plantListing[0].name}</Text>
-            <TouchableWithoutFeedback onPress={() => {toggleFavorite()}}>
-              <Fontisto name="heart" size={27} color={fillHeart} style={styles.heart} />
-            </TouchableWithoutFeedback>
+    <View>
+        <TouchableOpacity onPress={this._onPressButton}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>Trade</Text>
           </View>
-          <Text style={styles.detail}>{`${plantListing[0].location} (${plantListing[0].distance})`}</Text>
-          <Text style={styles.detail}>{`Owner: ${plantListing[0].owner}`}</Text>
-        </View>
-        <View>
-          <Text style={styles.title}>Status:</Text>
-          <Text style={styles.detail}>{plantListing[0].pending ? `-PENDING-` : `-AVAILABLE-`}</Text>
+        </TouchableOpacity>
+      <View style={styles.container}>
+        <Image
+          source={{ url: plantListing[0].url }}
+          style={styles.plantImage}>
+        </Image>
+        <View style={styles.plantInfoContainer}>
+          <View>
+            <View style={styles.plantNameWithHeart}>
+              <Text style={styles.title}>{plantListing[0].name}</Text>
+              <TouchableWithoutFeedback onPress={() => {toggleFavorite()}}>
+                <Fontisto name="heart" size={27} color={fillHeart} style={styles.heart} />
+              </TouchableWithoutFeedback>
+            </View>
+            <Text style={styles.detail}>{`${plantListing[0].location} (${plantListing[0].distance})`}</Text>
+            <Text style={styles.detail}>{`Owner: ${plantListing[0].owner}`}</Text>
+          </View>
+          <View>
+            <Text style={styles.title}>Status:</Text>
+            <Text style={styles.detail}>{plantListing[0].pending ? `-PENDING-` : `-AVAILABLE-`}</Text>
+          </View>
         </View>
       </View>
     </View>
@@ -59,6 +67,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+
+  button: {
+
+  }
 
   plantImage: {
     width: 430,

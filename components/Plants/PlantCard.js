@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableWithoutFeedback } from 'react-native';
 import { Fontisto } from '@expo/vector-icons';
+import PlantDescription from './PlantDescription'
 
 
 const PlantCard = ({ item, navigate }) => {
@@ -14,7 +15,7 @@ const PlantCard = ({ item, navigate }) => {
           <Image source={{ uri: item.url }} style={styles.plantImage}/>
         </View>
           <View style= {styles.plantInfo}>
-            <Image source={{ uri: item.profile_pic }} style={styles.userImage}/>
+            <Image source={ item.profile_pic } style={styles.userImage}/>
             <Text style={styles.otherPlantInfo}>{item.distance}</Text>
           </View>
       </View>

@@ -19,7 +19,8 @@ let _data = [
     location: 'Sacramento',
     distance: '442 mi away',
     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9HZXoUNWkyvVOQhBOKI6Te9WAEjL35peDcA&usqp=CAU',
-    profile_pic: auth.currentUser?.photoURL,
+    // profile_pic: auth.currentUser?.photoURL,
+    profile_pic: ProfilePic,
   },
   {
     pending: false,
