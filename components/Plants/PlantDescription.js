@@ -1,14 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, FlatList, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, FlatList, Text, View, TouchableOpacity, TouchableWithoutFeedback, Image } from 'react-native';
 import { Fontisto } from '@expo/vector-icons';
 import PlantCard from './PlantCard.js';
-import { auth } from '../../firebase.js'
+import { auth } from '../../firebase.js';
+import OpenModal from '../Trades/TradeModal/OpenModal.js'
 
 let dummyData = [
   {
     pending: true,
-    plant_id: 183916241,
+    plant_id: 183916,
     name: 'PlantSix',
     owner: 'David',
     location: 'Sacramento',
@@ -22,19 +23,28 @@ let dummyData = [
 const PlantDescription = () => {
   const [plantListing, setPlantListing] = useState(dummyData);
   const [fillHeart, setFillHeart] = useState('red');
+  const [showModal, setShowModal] = useState(false)
 
   // not changing colors
   const toggleFavorite = () => {
     fillHeart === 'red' ? setFillHeart('white') : setFillHeart('red');
   };
 
+  const _onPressButton = () => {
+    setShowModal(true);
+  }
+
   return (
     <View>
-        <TouchableOpacity onPress={this._onPressButton}>
+      <View>
+
+        <TouchableOpacity onPress={() => _onPressButton()}>
           <View style={styles.button}>
             <Text style={styles.buttonText}>Trade</Text>
           </View>
         </TouchableOpacity>
+
+      </View>
       <View style={styles.container}>
         <Image
           source={{ url: plantListing[0].url }}
@@ -57,6 +67,7 @@ const PlantDescription = () => {
           </View>
         </View>
       </View>
+      {showModal && <OpenModal />}
     </View>
   )
 };
@@ -69,8 +80,12 @@ const styles = StyleSheet.create({
   },
 
   button: {
+    height: 38,
+  },
 
-  }
+  buttonText: {
+    color: 'black'
+  },
 
   plantImage: {
     width: 430,

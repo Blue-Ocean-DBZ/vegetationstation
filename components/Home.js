@@ -9,11 +9,12 @@ import { SearchBar } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 import { auth } from '../firebase.js'
 import PlantCard from './Plants/PlantCard.js';
-
+import ProfilePic from './Auth/placeholder/gui.png'
 
 let _data = [
   {
     pending: true,
+    plant_id: 1839,
     name: 'PlantSix',
     owner: 'David',
     location: 'Sacramento',
@@ -24,12 +25,14 @@ let _data = [
   },
   {
     pending: false,
+    plant_id: 18,
     name: 'PlantSeven',
     owner: 'Kevin',
     location: 'Cupertino',
     distance: '246 mi away',
     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoJi4K4-eM57BhLUM8dOqS5PV0FZUN-2usMw&usqp=CAU',
-    profile_pic: auth.currentUser?.photoURL,
+    // profile_pic: auth.currentUser?.photoURL,
+    profile_pic: ProfilePic,
   },
 ];
 
