@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState, useRef } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, TouchableWithoutFeedback, TextInput, Keyboard, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TouchableWithoutFeedback, TextInput, Keyboard, ScrollView, KeyboardAvoidingView, Button } from 'react-native';
 import { signOutUser } from '../firebase.js';
 import { useNavigation } from '@react-navigation/core'
 
@@ -59,7 +59,7 @@ export default function ChatMessages () {
     }
   ])
 
-  const scrollView = useRef();
+  const navigation = useNavigation();
 
   const addMessage = (e) => {
     e.preventDefault();
@@ -69,10 +69,17 @@ export default function ChatMessages () {
       message: message,
     }])
     setMessage(undefined)
+  };
+
+  const goBack = (e) => {
+    e.preventDefault();
+    navigation.goBack();
   }
   return (
-    // <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <KeyboardAvoidingView style={styles.container} behavior="padding">
+        <TouchableOpacity style={styles.backContainer} onPress={goBack}>
+          <Text styles={styles.textButton}> X </Text>
+        </TouchableOpacity>
         <ScrollView>
           <View style={styles.msgContainer}>
         {fakeMessages?.map((msg, i) => {
@@ -111,7 +118,6 @@ export default function ChatMessages () {
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
-    // </TouchableWithoutFeedback>
   );
 }
 
@@ -140,6 +146,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 15,
     borderTopRightRadius: 15,
     borderTopLeftRadius: 15,
+    backgroundColor: '#ADD8E6',
   },
   chatBoxRight: {
     borderWidth: 3,
@@ -150,6 +157,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 15,
     borderTopRightRadius: 15,
     borderTopLeftRadius: 15,
+    backgroundColor: '#90EE90',
   },
   input: {
     width: '95%',
@@ -182,6 +190,20 @@ const styles = StyleSheet.create({
     padding: 5,
     height: '65%',
     overflow: 'auto',
-  }
+  },
+  backContainer: {
+    position: 'absolute',
+    height: 50,
+    width: 50,
+    backgroundColor: 'white',
+    zIndex: 1,
+    justifyContent: 'center',
+    top: 20,
+  },
+  textButton: {
+    height: 'auto',
+    width: '50%',
+    textAlign: 'center',
+  },
 });
 
