@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {FontAwesome, Ionicons} from 'react-native-vector-icons'
 import { SearchBar } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
+import {auth} from '../firebase.js'
 
 const Home = (props) => {
 
@@ -13,6 +14,7 @@ const Home = (props) => {
   const [filteredList, setFilteredList] = useState([]);
   const [dummyData, setDummyData] = useState([]);
   const [favoritesList, setFavoritesList] = useState(DATA);
+  const [image, setImage] = useState(auth.currentUser?.photoURL || 'https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg')
 
   const onChangeSearch = query => {
     setSearchTerm(query);
@@ -64,12 +66,11 @@ const Home = (props) => {
         <View style= {styles.item}>
           <View style= {styles.plantInfoWithHeartButton}>
             <View>
-              <View style={styles.plantName}>
-                <Text style= {styles.title}>{item.name}</Text>
+              <View>
+                <Text style= {styles.plantName}>{item.name}</Text>
               </View>
               <View>
-                <Text style= {styles.otherPlantInfo}>{item.location}</Text>
-                <Text style= {styles.otherPlantInfo}>Distance</Text>
+                <Text style= {styles.otherPlantInfo}>{item.location}, {item.distance}</Text>
                 <Text style= {styles.otherPlantInfo}>{item.owner}</Text>
               </View>
             </View>
@@ -83,17 +84,19 @@ const Home = (props) => {
   )
 
   return (
-    <View styles={{backgroundColor: 'white'}}>
+    <View styles={styles.searchBar}>
       <View style={styles.homeHeader}>
         <Title style={styles.headerTitle}>Vegetation Station</Title>
         <TouchableWithoutFeedback onPress={() => props.navigation.navigate("Profile")}>
-          <Image style={styles.profileImage} source={{uri: 'https://reactnative.dev/img/tiny_logo.png'}}/>
+          <Image style={styles.profileImage} source={{uri: image}}/>
         </TouchableWithoutFeedback>
       </View>
-      <SearchBar inputStyle={{backgroundColor: 'white'}}
-    containerStyle={{backgroundColor: 'white', borderWidth: 1, borderRadius: 5, paddingVertical: 2, marginTop: 20, marginLeft: 20, marginRight: 20}}
-    inputContainerStyle={{backgroundColor: 'white'}} placeholder="search plants" onChangeText={onChangeSearch} value={searchTerm}   placeholderTextColor={'#g5g5g5'}
-      />
+      <View style={styles.searchBarContainer}>
+          <SearchBar inputStyle={styles.searchBar}
+            containerStyle={styles.searchInputContainer}
+            inputContainerStyle={styles.searchBar} placeholder="search plants" onChangeText={onChangeSearch} value={searchTerm}   placeholderTextColor={'#g5g5g5'}
+          />
+      </View>
       <View style={styles.overallContainer}>
         <View style={styles.header}>
         </View>
@@ -188,8 +191,8 @@ const DATA = [
 const styles= StyleSheet.create({
   overallContainer: {
     paddingVertical: 50,
-    marginRight: 10,
-    marginLeft: 10,
+    paddingRight: 10,
+    paddingLeft: 10,
     height: 500,
     width: 'auto',
     backgroundColor: 'white'
@@ -197,21 +200,33 @@ const styles= StyleSheet.create({
 
   searchBar: {
     backgroundColor: 'white',
-
   },
 
   searchBarContainer: {
     backgroundColor: 'white',
-    borderWidth: 1,
-    borderRadius: 5
+    paddingVertical: 2
    },
+
+  searchInputContainer: {
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginTop: 30,
+    marginLeft: 20,
+    marginRight: 20
+  },
+
+  searchInput: {
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: 20
+  },
 
   header: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 10,
+    justifyContent: 'space-between'
   },
 
   headerTitle: {
@@ -233,7 +248,7 @@ const styles= StyleSheet.create({
   },
 
   item: {
-    backgroundColor: '#C2C2C2',
+    backgroundColor: '#F2f2f2',
     paddingLeft: 10,
     paddingTop: 15,
     paddingBottom: 5,
@@ -259,7 +274,8 @@ const styles= StyleSheet.create({
   },
 
   otherPlantInfo: {
-    marginTop: 5.
+    marginTop: 5,
+    fontSize: 12
   },
 
   plantInformation: {
@@ -271,23 +287,23 @@ const styles= StyleSheet.create({
   plantName: {
     display: 'flex',
     justifyContent: 'right',
-    marginTop: 20,
     marginBottom: 0,
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: 'bold'
   },
 
   profileImage: {
     width: 38,
     height: 50.83,
-    borderRadius: '25',
+    borderRadius: '50%',
     top: 14,
-    right: 10
+    right: 14
   },
 
   homeHeader: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    paddingBottom: 20
   }
 })
