@@ -1,12 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Modal, Pressable, Image, FlatList, SafeAreaView, TouchableWithoutFeedback} from 'react-native';
+import { useNavigation } from '@react-navigation/core'
 import { Button, Card, Title, Paragraph } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {FontAwesome, Ionicons} from 'react-native-vector-icons'
 import { SearchBar } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
-import {auth} from '../firebase.js'
+import { auth } from '../firebase.js'
+import PlantCard from './Plants/PlantCard.js';
+
+
+let _data = [
+  {
+    pending: true,
+    name: 'PlantSix',
+    owner: 'David',
+    location: 'Sacramento',
+    distance: '442 mi away',
+    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9HZXoUNWkyvVOQhBOKI6Te9WAEjL35peDcA&usqp=CAU',
+    profile_pic: auth.currentUser?.photoURL,
+  },
+  {
+    pending: false,
+    name: 'PlantSeven',
+    owner: 'Kevin',
+    location: 'Cupertino',
+    distance: '246 mi away',
+    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoJi4K4-eM57BhLUM8dOqS5PV0FZUN-2usMw&usqp=CAU',
+    profile_pic: auth.currentUser?.photoURL,
+  },
+];
 
 const Home = (props) => {
 
@@ -15,6 +39,8 @@ const Home = (props) => {
   const [dummyData, setDummyData] = useState([]);
   const [favoritesList, setFavoritesList] = useState(DATA);
   const [image, setImage] = useState(auth.currentUser?.photoURL || 'https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg')
+
+  const navigate = useNavigation()
 
   const onChangeSearch = query => {
     setSearchTerm(query);
@@ -97,7 +123,7 @@ const Home = (props) => {
             inputContainerStyle={styles.searchBar} placeholder="search plants" onChangeText={onChangeSearch} value={searchTerm}   placeholderTextColor={'#g5g5g5'}
           />
       </View>
-      <View style={styles.overallContainer}>
+      {/* <View style={styles.overallContainer}>
         <View style={styles.header}>
         </View>
         <SafeAreaView>
@@ -106,6 +132,12 @@ const Home = (props) => {
           : <FlatList data={DATA} renderItem={renderCard}/>}
 
         </SafeAreaView>
+      </View> */}
+      <View>
+        <FlatList
+          data={_data}
+          renderItem={(props)=> <PlantCard {...props} navigate={navigate}/>}
+        />
       </View>
     </View>
   )
@@ -248,7 +280,7 @@ const styles= StyleSheet.create({
   },
 
   item: {
-    backgroundColor: '#F2f2f2',
+    backgroundColor: 'white',
     paddingLeft: 10,
     paddingTop: 15,
     paddingBottom: 5,

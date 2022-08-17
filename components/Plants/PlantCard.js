@@ -1,20 +1,24 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableWithoutFeedback } from 'react-native';
 import { Fontisto } from '@expo/vector-icons';
 
-const PlantCard = ({ item }) => {
-  // add onPress handler that will take user to the description page
+
+const PlantCard = ({ item, navigate }) => {
+
+  // add onPress handler that will take user to the description page'
   return (
-    <View style={styles.plantInformationContainer}>
-      <View>
-        <Image source={{ url: item.url }} style={styles.plantImage}/>
-      </View>
-        <View style= {styles.plantInfo}>
-          <Image source={item.profile_pic} style={styles.userImage}/>
-          <Text style={styles.otherPlantInfo}>{item.distance}</Text>
+    <TouchableWithoutFeedback onPress={() => navigate.push('Plant Description')}>
+      <View style={styles.plantInformationContainer}>
+        <View>
+          <Image source={{ uri: item.url }} style={styles.plantImage}/>
         </View>
-    </View>
+          <View style= {styles.plantInfo}>
+            <Image source={{ uri: item.profile_pic }} style={styles.userImage}/>
+            <Text style={styles.otherPlantInfo}>{item.distance}</Text>
+          </View>
+      </View>
+    </TouchableWithoutFeedback>
   )
 };
 

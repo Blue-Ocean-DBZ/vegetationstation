@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { StyleSheet, FlatList, Text, View, TouchableWithoutFeedback, Image } from 'react-native';
 import { Fontisto } from '@expo/vector-icons';
 import PlantCard from './PlantCard.js';
-import ProfilePic from './../Auth/placeholder/gui.png';
+import { auth } from '../../firebase.js'
 
 let dummyData = [
   {
@@ -13,30 +13,19 @@ let dummyData = [
     location: 'Sacramento',
     distance: '442 mi away',
     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9HZXoUNWkyvVOQhBOKI6Te9WAEjL35peDcA&usqp=CAU',
-    profile_pic: ProfilePic,
-  },
-  {
-    pending: false,
-    name: 'PlantSeven',
-    owner: 'Kevin',
-    location: 'Cupertino',
-    distance: '246 mi away',
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoJi4K4-eM57BhLUM8dOqS5PV0FZUN-2usMw&usqp=CAU',
-    profile_pic: ProfilePic,
-  },
+    profile_pic: auth.currentUser?.photoURL,
+  }
 ];
 
-// once a plant card is click
-// potentially add description
+// need to grab props of selected plant somehow
 const PlantDescription = () => {
   const [plantListing, setPlantListing] = useState(dummyData);
-  const [requestTrade, setRequestTrade] = useState(false);
   const [fillHeart, setFillHeart] = useState('red');
 
   // not changing colors
   const toggleFavorite = () => {
     if (fillHeart === 'red') {
-      setFillHeart('white');
+      setFillHeart('white');r
     }
     setFillHeart('red');
   };
@@ -47,10 +36,7 @@ const PlantDescription = () => {
         source={{ url: plantListing[0].url }}
         style={styles.plantImage}>
       </Image>
-
-
       <View style={styles.plantInfoContainer}>
-
         <View>
           <View style={styles.plantNameWithHeart}>
             <Text style={styles.title}>{plantListing[0].name}</Text>
@@ -61,20 +47,11 @@ const PlantDescription = () => {
           <Text style={styles.detail}>{`${plantListing[0].location} (${plantListing[0].distance})`}</Text>
           <Text style={styles.detail}>{`Owner: ${plantListing[0].owner}`}</Text>
         </View>
-
         <View>
           <Text style={styles.title}>Status:</Text>
           <Text style={styles.detail}>{plantListing[0].pending ? `-PENDING-` : `-AVAILABLE-`}</Text>
         </View>
-
       </View>
-
-      <FlatList
-        data={dummyData}
-        renderItem={PlantCard}
-      />
-
-
     </View>
   )
 };

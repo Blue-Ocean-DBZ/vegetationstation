@@ -31,7 +31,7 @@ const Login = () => {
       .then(() => {
         navigation.reset({
           index: 0,
-          routes: [{ name: 'EditProfile' }],
+          routes: [{ name: 'TabNavigator' }],
           //change this to Homepage when homepage component is made.
         });
         setIsLoading(false);
