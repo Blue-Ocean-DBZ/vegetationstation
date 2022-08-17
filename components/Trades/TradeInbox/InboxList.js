@@ -3,80 +3,120 @@ import { Alert, Modal, StyleSheet, Text, Pressable, View, Image, TouchableHighli
 import { Fontisto, Ionicons, AntDesign,Entypo } from '@expo/vector-icons'
 // import * as MailComposer from 'expo-mail-composer';
 const axios = require('axios')
+import ImageModal from 'react-native-image-modal';
 
 const InboxList = (props) => {
-  console.log(props.entry.offer.owner_id)
+  console.log('shown to usdsfsfsfsfdsdfsder', props.entry.trade_id)
   let acceptTrade = () => {
     console.log('Accepted')
     let tradeId = props.entry.trade_id
-    return axios.put(`http://localhost:3000/trades?trade_id=${tradeId}&accepted=true`,
-    { "accepted": true}
-    )
+    console.log(tradeId)
+    return axios.put(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?trade_id=${tradeId}&accepted=true`)
+    // return axios.put(`http://localhost:3000/trades?trade_id=${tradeId}&accepted=true`)
     .then((response) => {
-      //Get Request for all inbox data
-      console.log('Put succesful', response)
-    })
-    .then((data) => {
       props.getInboxData()
-      // console.log('hello')
+      console.log('Put succesful', response)
     })
     .catch((err) => {
       console.log('Accept trade did not work', err)
     })
-      //change pending to false
-      //change accepted to true
-     //get data
+
   }
 
   let declineTrade = () => {
     console.log('Declined')
-    props.removeTrade(props.index)
-    //delete request
-    return axios.delete('/plants/trades/delete',//id in query url
-      {data: {id: props.tradeId}}
-    )
+    let tradeId = props.entry.trade_id
+    return axios.put(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?trade_id=${tradeId}&accepted=false`)
+    // return axios.put(`http://localhost:3000/trades?trade_id=${tradeId}&accepted=false`)
     .then((response) => {
-      console.log('trade Deleted in decline trade', response)
+      props.getInboxData()
+      console.log('trade declined Accepted switched to false', response)
     })
     .catch((err) => {
       console.log('Error in decline trade', err)
     })
-      //delete trade by trade id
-    //get data
   }
+
   let openMessage = () => {
-    console.log('open message page')
+    console.log('tradeId', props.entry.trade_id)
+    console.log('plant_target', props.entry.plant_target)
+    console.log('--------------------')
+    console.log('plant_offer', props.entry.plant_offer)
+    // let tradeId = props.entry.trade_id
+  //   return axios.put(`http://localhost:3000/trades?trade_id=${tradeId}&shown_to_user=true`)
+  //   .then((response) => {
+  //     props.getInboxData()
+  //   })
+  //   .catch((err) => {
+  //     console.log('Error in decline trade', err)
+  //   })
   }
 
   return (
+
     <TouchableOpacity activeOpacity={0.6} onPress={openMessage}>
      <View style={styles.CardContainer}>
-        <Image
-          style={styles.Image}
-          source={{uri:props.entry.offer.photo}}//userPic
-        />
-        {/* <AntDesign name="swap" size={28} color="black" style={{paddingLeft:6, paddingRight: 6}}/> */}
-        {/* <Fontisto name="arrow-swap" size={24} color="black" style={{paddingLeft:8, paddingRight: 8}}/> */}
-        <Entypo name="swap" size={24} color="black" style={{paddingLeft:6, paddingRight: 6}}/>
-        <Image
-            style={styles.Image}
-            source={{uri:props.entry.target.photo}}
-          />
+        {Boolean(props.entry.plant_offer.owner_id === userID) ?
+          <>
+            <Image
+              style={styles.Image}
+              source={{uri:props.entry.plant_offer.photo}}//is curr user === ffer user render offer photo
+            />
+            <Entypo name="swap" size={24} color="black" style={{paddingLeft:6, paddingRight: 6}}/>
+            <Image
+                style={styles.Image}
+                source={{uri:props.entry.plant_target.photo}}
+             />
+             </> :
+                 <>
+             <Image
+                style={styles.Image}
+                source={{uri:props.entry.plant_target.photo}}
+              />
+              <Entypo name="swap" size={24} color="black" style={{paddingLeft:6, paddingRight: 6}}/>
+              <Image
+                style={styles.Image}
+                source={{uri:props.entry.plant_offer.photo}}//is curr user === ffer user render offer photo
+              />
+            </>
+         }
           <View style={styles.TradeInfoContainer}>
-            <View style={styles.TradeInfo} style={{fontWeight: props.entry.shown_to_user  ?  'normal': 'bold'}}>
-              <Text >Goku</Text>{/* add username to get request */}
-              <Text style={styles.plantName} adjustsFontSizeToFit={true} >Rose</Text>{/*add target plant name to request*/}
-              {props.entry.pending === false && <Text>Pending</Text>}
-              {props.entry.accepted === true && <Text>Accepted</Text>}
-            </View>
+          {Boolean(props.entry.plant_offer.owner_id !== userID) ? <View  >
+              <Text style={{fontWeight: props.entry.shown_to_user   ?  'normal': 'bold'}}>{props.entry.plant_offer.username}</Text>
+              <Text style={{  width:110,
+                              whiteSpace: 'nowrap',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              fontWeight: props.entry.shown_to_user   ?  'normal': 'bold'
+                          }}
+                              adjustsFontSizeToFit={true}
+              >{props.entry.plant_offer.plant_name}</Text>{/*add target plant name to request*/}
+              {props.entry.pending  && <Text style={{fontWeight: props.entry.shown_to_user  ?  'normal': 'bold'}}>Pending</Text>}
+              {props.entry.accepted && <Text style={{fontWeight: props.entry.shown_to_user  ?  'normal': 'bold'}}>Accepted</Text>}
+              {props.entry.accepted  === false && <Text style={{fontWeight: props.entry.shown_to_user  ?  'normal': 'bold'}}>Declined</Text>}
+            </View> :
+            <View  >
+            <Text style={{fontWeight: props.entry.shown_to_user   ?  'normal': 'bold'}}>{props.entry.plant_target.username}</Text>
+            <Text style={{  width:110,
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            fontWeight: props.entry.shown_to_user   ?  'normal': 'bold'
+                        }}
+                            adjustsFontSizeToFit={true}
+            >{props.entry.plant_target.plant_name}</Text>{/*add target plant name to request*/}
+            {props.entry.pending  && <Text style={{fontWeight: props.entry.shown_to_user  ?  'normal': 'bold'}}>Pending</Text>}
+            {props.entry.accepted && <Text style={{fontWeight: props.entry.shown_to_user  ?  'normal': 'bold'}}>Accepted</Text>}
+            {props.entry.accepted  === false && <Text style={{fontWeight: props.entry.shown_to_user  ?  'normal': 'bold'}}>Declined</Text>}
+          </View>}
           </View>
             {/* if user id === curr userid */}
-            {props.entry.offer.owner_id === 3 &&  props.currInbox === 'Pending' && <View style={styles.TradeIconsContainer}>
+            {props.entry.plant_target.owner_id === userID &&  props.currInbox === 'Pending' && <View style={styles.TradeIconsContainer}>
               <Ionicons name="md-checkbox-sharp" size={35} color="green" style={styles.TradeIcons} onPress={acceptTrade}/>
               <AntDesign name="closesquare" size={35} color="red" style={styles.TradeIcons} onPress={declineTrade}/>
         </View>}
-        {props.entry.offer.owner_id !== 3 && <View style={styles.Spacer}>
-        </View>}
+        { props.currInbox !== 'Pending' && <View style={styles.Spacer}></View>}
+        {props.entry.plant_target.owner_id !== userID && props.entry.pending && <View style={styles.WaitingSpacer}><Text>Waiting</Text></View>}
     </View>
     </TouchableOpacity>
   );
@@ -89,6 +129,10 @@ const styles = StyleSheet.create({
   paddingLeft: 46,
   paddingRight:46
   },
+  WaitingSpacer: {
+    paddingLeft: 21,
+    paddingRight:20
+    },
 CardContainer: {
   display: 'flex',
   flexDirection: 'row',
@@ -144,9 +188,7 @@ plantName: {
   width:110,
   whiteSpace: 'nowrap',
   overflow: 'hidden',
-  textOverflow: 'ellipsis'
-
+  textOverflow: 'ellipsis',
   // overflowY:'auto'
 },
 })
-//
