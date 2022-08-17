@@ -6,7 +6,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import Home from './components/Home.js';
+// import Home from './components/Home.js';
+import Home from './zdc/Home.js'
 import MyPlants from './zdc/MyPlants.js';
 import Trades from './zdc/Trades.js';
 import MyFavoritesHome from './components/MyFavorites/MyFavoritesHome.js';
@@ -93,7 +94,7 @@ export default function TabNavigator() {
 
   const firebaseID = auth.currentUser.uid;
 
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState('1007');
   const [messages, setMessages] = useState(null);
   const [string, setString] = useState('This is working');
   const [plantArray, setPlantArray] = useState([1, 2, 3]);
