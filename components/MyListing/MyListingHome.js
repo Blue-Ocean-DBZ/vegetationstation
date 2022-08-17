@@ -83,7 +83,7 @@ let DATA = [
 const MyListingHome = () => {
 
   const addPicImage = 'https://cdn.pixabay.com/photo/2018/11/13/21/44/instagram-3814061_1280.png';
-  const addPlantImage = 'https://cdn2.iconfinder.com/data/icons/plant-care-1/256/fertilize-512.png';
+  const addPlantImage = 'https://i.imgur.com/2ytxNFo.png';
 
   const [displayModal, setDisplayModal] = useState(false);
   const [imagePath, setImagePath] = useState(addPicImage);
@@ -123,7 +123,7 @@ const MyListingHome = () => {
   };
 
   const uploadPhoto = async () => { //addPlant functionality here
-    console.log(addPlantName) // plant name
+    console.log(addPlantName); // plant name
     setDisplayModal(!displayModal);
     const res = await fetch(imagePath)
     const blob = await res.blob()
@@ -242,10 +242,11 @@ const MyListingHome = () => {
       </View>
 
       <View style= {styles.header}>
-        <Title style= {styles.headerTitle}>My Listings</Title>
+        {/* <Title style= {styles.headerTitle}>My Listings</Title> */}
         <TouchableOpacity
-          onPress= {handleAddPlant}>
+          onPress= {handleAddPlant} style={styles.headerWrapper}>
           <Image style= {styles.headerAddPlant} source= {{url: addPlantImage}}/>
+          <Text style={styles.addPlantText}>Add Plant</Text>
         </TouchableOpacity>
       </View>
 
@@ -253,6 +254,7 @@ const MyListingHome = () => {
         <FlatList
           data={favoritesList}
           renderItem={renderPlants}
+          contentContainerStyle={{ paddingBottom: 50 }}
         />
       </View>
 
@@ -265,7 +267,9 @@ export default MyListingHome;
 const styles= StyleSheet.create({
 
   container: {
-    height: 600,
+    height: "100%",
+    justifyContent: 'center',
+    width: "100%"
   },
 
   addPlantModalContainer: {
@@ -317,9 +321,10 @@ upload: {
   header: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     marginBottom: 10,
-    marginLeft: 10,
+    marginVertical: 60,
+    marginLeft: 20,
     marginRight: 20,
   },
 
@@ -332,8 +337,7 @@ upload: {
     display: 'flex',
     flexDirection: 'row',
     marginBottom: 10,
-    marginLeft: 40,
-    width: '80%',
+    marginHorizontal: 10,
   },
 
   headerTitle: {
@@ -350,9 +354,8 @@ upload: {
 
   item: {
     backgroundColor: '#CED89E',
-    paddingLeft: 10,
-    paddingTop: 15,
-    paddingBottom: 5,
+    paddingHorizontal: 15,
+    paddingVertical: 15,
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
     flex: 1,
@@ -366,16 +369,16 @@ upload: {
   },
 
   remove: {
-    marginRight: 10,
+    // marginRight: 10,
     textDecorationLine: 'underline',
   },
 
   plantImage: {
     width: 100,
-    height: 100,
+    height: 125,
     padding: 0,
     borderTopLeftRadius: 20,
-    borderBottomLeftRadius:20,
+    borderBottomLeftRadius: 20,
   },
 
   title: {
@@ -384,11 +387,19 @@ upload: {
   },
 
   otherPlantInfo: {
-    marginTop: 5.
+    marginTop: 5
   },
 
   plantName: {
     display: 'flex',
     justifyContent: 'right',
   },
+
+  headerWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  addPlantText: {
+    fontWeight: "700"
+  }
 })

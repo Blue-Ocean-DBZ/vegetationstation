@@ -18,13 +18,18 @@ const Register = () => {
   }
 
   const handleSignUp = () => {
-    setIsLoading(true);
     if (!validate(email)) {
       alert('The email provided is not in the right format.');
       setIsLoading(false);
       return;
     }
 
+    if(password.length < 5) {
+      alert('Set a password with at least 6 characters.');
+      return;
+    }
+
+    setIsLoading(true);
     createUser(email, password, username)
       .then(userCredentials => {
         updateProfile(auth.currentUser, {

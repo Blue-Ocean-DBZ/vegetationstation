@@ -1,9 +1,8 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { Button } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Home from './components/Home.js';
@@ -17,21 +16,16 @@ import PlantPage from './zdc/PlantPage.js';
 import PlantDescription from './components/Plants/PlantDescription.js';
 import TradeInbox from './components/Trades/TradeInbox/TradeInbox.js';
 
-import { auth } from './firebase.js';
-
-const axios = require('axios');
-
-//Navigators
+//multiple stack navigations inside individual tab navigations
 
 const Tab = createBottomTabNavigator();
+
 const HomeStack = createNativeStackNavigator();
 const MyPlantStack = createNativeStackNavigator();
 const TradeStack = createNativeStackNavigator();
 const FavoritesStack = createNativeStackNavigator();
 
-// Stack Navigations for each individual tabs
-
-function HomeStackScreen(props) {
+function HomeStackScreen() {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen name="Home" component={Home} />
@@ -50,7 +44,7 @@ function HomeStackScreen(props) {
           //   />
           // ),
           }}/>
-      <HomeStack.Screen name="Trade Modal" component={TradeInbox} />
+      <HomeStack.Screen name="Trade Requests" component={TradeInbox} />
     </HomeStack.Navigator>
   );
 }
@@ -66,7 +60,7 @@ function MyPlantStackScreen() {
 function TradeStackScreen() {
   return (
     <TradeStack.Navigator>
-      <TradeStack.Screen name="Trade" component={TradeInbox} />
+      <TradeStack.Screen name="Trade" component={Trades} />
     </TradeStack.Navigator>
   );
 }
@@ -74,10 +68,11 @@ function TradeStackScreen() {
 function FavoritesStackScreen() {
   return (
     <FavoritesStack.Navigator>
-      <FavoritesStack.Screen name="Favorite" component={MyFavoritesHome} />
+      <FavoritesStack.Screen name="My Favorites" component={MyFavoritesHome} />
     </FavoritesStack.Navigator>
   );
 }
+
 
 // Use Context for passing props
 export const PlantContext = React.createContext()
@@ -125,7 +120,7 @@ export default function TabNavigator() {
         test2: [string, setString],
         plantList: [plantArray, setPlantArray]}}>
       <Tab.Navigator screenOptions={{
-        tabBarStyle: {backgroundColor: "#8eb69b"},
+        tabBarStyle: {backgroundColor: "#606c38"},
         tabBarActiveTintColor: "#fefae0",
         tabBarInactiveTintColor: "black",
         // tabBarShowLabel: false,
@@ -133,15 +128,11 @@ export default function TabNavigator() {
       }}>
         <Tab.Screen
           name="HomePage" component={HomeStackScreen}
-          options={({ route }) => ({
-            tabBarStyle: {
-              display: getTabBarVisibility(route),
-              backgroundColor: "#8eb69b"
-            },
+          options={{
             tabBarIcon: ({color, size}) => (
               <Ionicons name="home-outline" color={color} size={size}/>
-            ),
-          })}/>
+            )
+          }}/>
         <Tab.Screen
           name="MyPlants" component={MyPlantStackScreen}
           options={{
@@ -152,10 +143,10 @@ export default function TabNavigator() {
         <Tab.Screen
           name="Trades" component={TradeStackScreen}
           options={{
-            tabBarBadge: messages,
+            tabBarBadge: 3,
             tabBarIcon: ({color, size}) => (
               <Ionicons name="chatbox-ellipses-outline" color={color} size={size}/>
-            ),
+            )
           }}/>
         <Tab.Screen
           name="Favorites" component={FavoritesStackScreen}
@@ -168,36 +159,3 @@ export default function TabNavigator() {
     </PlantContext.Provider>
   );
 }
-
-// Helper function for removing Tab Bar visibility
-
-const getTabBarVisibility = (route) => {
-  const routeName = getFocusedRouteNameFromRoute(route) ?? '';
-
-  if (routeName == 'Profile') {
-    return 'none';
-  }
-  if (routeName == 'Trade') {
-    return 'none';
-  }
-  return 'flex';
-}
-
-
-// #b3cb9b
-// #bc6c25
-// #283618
-// #606c38
-// #fefae0
-// #dda15e
-// #b3cb9b
-// #2c3d36
-// #b2b2b2
-
-//8eb69b
-//daf1de
-//606c38
-
-
-//907a48
-//fefae0
