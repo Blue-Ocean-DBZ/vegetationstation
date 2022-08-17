@@ -8,6 +8,7 @@ const axios = require('axios')
   //username
   //user plants info
     //user plant photos
+    //user_id
     //user_plant_id
     //target_user_id
     //target_plant_id
