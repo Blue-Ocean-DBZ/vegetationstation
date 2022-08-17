@@ -11,7 +11,7 @@ import MyFavoritesHome from './favorites_mylistings/MyFavorites/MyFavoritesHome.
 import Profile from './components/Profile.js';
 import EditProfile from './zdc/EditProfile.js';
 import PlantPage from './zdc/PlantPage.js';
-import TradeRequests from './zdc/TradeRequests.js';
+import TradeInbox from './components/Trades/TradeInbox/TradeInbox.js';
 
 //multiple stack navigations inside individual tab navigations
 
@@ -29,7 +29,7 @@ function HomeStackScreen() {
       <HomeStack.Screen name="Profile" component={Profile} />
       <HomeStack.Screen name="Edit Profile" component={EditProfile} />
       <HomeStack.Screen name="Plant Card" component={PlantPage} />
-      <HomeStack.Screen name="Trade Requests" component={TradeRequests} />
+      <HomeStack.Screen name="Trade Requests" component={TradeInbox} />
     </HomeStack.Navigator>
   );
 }
@@ -45,7 +45,7 @@ function MyPlantStackScreen() {
 function TradeStackScreen() {
   return (
     <TradeStack.Navigator>
-      <TradeStack.Screen name="Trade" component={Trades} />
+      <TradeStack.Screen name="Trade" component={TradeInbox} options={{ headerShown: false}}/>
     </TradeStack.Navigator>
   );
 }

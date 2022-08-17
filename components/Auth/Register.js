@@ -55,8 +55,8 @@ const Register = () => {
             <TextInput placeholder='Email' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={email} style={styles.input} onChangeText={text => setEmail(text)} keyboardType="email-address" />
             <TextInput placeholder='Password' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={password} style={styles.input} secureTextEntry onChangeText={text => setPassword(text)} onSubmitEditing={handleSignUp}/>
           <Text style={styles.notice}>By continuing, you agree to Vegetation Station's Terms of Service and acknowledge Vegetation Station's Privacy Policy.</Text>
-            <TouchableOpacity style={styles.registerBtnWrapper} onPress={handleSignUp} disabled={isLoading ? true : false}>
-              <Text style={styles.registerBtn}>Register</Text>
+            <TouchableOpacity style={isLoading ? styles.disabledWrapper : styles.registerBtnWrapper} onPress={handleSignUp} disabled={isLoading ? true : false}>
+              <Text style={isLoading ? styles.disabledBtn : styles.registerBtn}>{isLoading ? 'Creating User..' : 'Register'}</Text>
             </TouchableOpacity>
           </View>
           <View styles={styles.haveaccount}>
@@ -144,6 +144,18 @@ const styles = StyleSheet.create({
     color: '#888',
     marginBottom: 14,
     paddingHorizontal: 7
+  },
+  disabledWrapper: {
+    width: "100%",
+    alignItems: "center",
+    paddingVertical: 20,
+    backgroundColor: "#888",
+    borderRadius: 6,
+  },
+  disabledBtn: {
+    color: "#333",
+    fontSize: 16,
+    fontWeight: "700"
   }
 });
 
