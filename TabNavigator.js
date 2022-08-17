@@ -7,7 +7,7 @@ import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // import Home from './components/Home.js';
-import Home from './zdc/Home.js'
+import Home from './components/Home.js'
 import MyPlants from './zdc/MyPlants.js';
 import Trades from './zdc/Trades.js';
 import MyFavoritesHome from './components/MyFavorites/MyFavoritesHome.js';
@@ -80,10 +80,6 @@ function FavoritesStackScreen() {
   );
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> cfcd602bd90ee3b54808b63b413478df536beac5
 // Use Context for passing props
 export const PlantContext = React.createContext()
 
@@ -122,6 +118,7 @@ export default function TabNavigator() {
         setPlantArray(response.data);
       })
       .catch(err => console.log('error setting plant array', err))
+    })
     .then(() => {
       console.log(userId, userZip, userProfilePic)
     })
