@@ -13,9 +13,10 @@ const TradeInbox = (props) => {
   const [pendingData, setPendingData] = useState([])
   const [tradesData, setTradesData] = useState([])
   const [acceptedData, setAcceptedData] = useState([])
+  const [userID, setUserID] = useState(212)
   const navigation = useNavigation()
   console.log(auth)
-  const userID = 101
+
 
   let getInboxData = () => {
     axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userID}`)//change to current user id
@@ -109,6 +110,7 @@ const TradeInbox = (props) => {
               index={index}
               currInbox={currInbox}
               getInboxData={getInboxData}
+              userID ={userID}
               />
             )}
           </View>
@@ -121,6 +123,7 @@ const TradeInbox = (props) => {
               index={index}
               currInbox={currInbox}
               getInboxData={getInboxData}
+              userID ={userID}
               />
             )}
           </View>
@@ -133,6 +136,7 @@ const TradeInbox = (props) => {
               index={index}
               currInbox={currInbox}
               getInboxData={getInboxData}
+              userID ={userID}
               />
             )}
             </View>

@@ -6,7 +6,8 @@ const axios = require('axios')
 import ImageModal from 'react-native-image-modal';
 
 const InboxList = (props) => {
-  console.log('shown to usdsfsfsfsfdsdfsder', props.entry.trade_id)
+  // console.log('shown to usdsfsfsfsfdsdfsder', props.entry.trade_id)
+
   let acceptTrade = () => {
     console.log('Accepted')
     let tradeId = props.entry.trade_id
@@ -56,7 +57,7 @@ const InboxList = (props) => {
 
     <TouchableOpacity activeOpacity={0.6} onPress={openMessage}>
      <View style={styles.CardContainer}>
-        {Boolean(props.entry.plant_offer.owner_id === userID) ?
+        {Boolean(props.entry.plant_offer.owner_id === props.entry.userID) ?
           <>
             <Image
               style={styles.Image}
@@ -81,7 +82,7 @@ const InboxList = (props) => {
             </>
          }
           <View style={styles.TradeInfoContainer}>
-          {Boolean(props.entry.plant_offer.owner_id !== userID) ? <View  >
+          {Boolean(props.entry.plant_offer.owner_id !== props.entry.userID) ? <View  >
               <Text style={{fontWeight: props.entry.shown_to_user   ?  'normal': 'bold'}}>{props.entry.plant_offer.username}</Text>
               <Text style={{  width:110,
                               whiteSpace: 'nowrap',
@@ -110,13 +111,13 @@ const InboxList = (props) => {
             {props.entry.accepted  === false && <Text style={{fontWeight: props.entry.shown_to_user  ?  'normal': 'bold'}}>Declined</Text>}
           </View>}
           </View>
-            {/* if user id === curr userid */}
-            {props.entry.plant_target.owner_id === userID &&  props.currInbox === 'Pending' && <View style={styles.TradeIconsContainer}>
+            {/* if user id === curr props.entry.userID */}
+            {props.entry.plant_target.owner_id === props.entry.userID &&  props.currInbox === 'Pending' && <View style={styles.TradeIconsContainer}>
               <Ionicons name="md-checkbox-sharp" size={35} color="green" style={styles.TradeIcons} onPress={acceptTrade}/>
               <AntDesign name="closesquare" size={35} color="red" style={styles.TradeIcons} onPress={declineTrade}/>
         </View>}
         { props.currInbox !== 'Pending' && <View style={styles.Spacer}></View>}
-        {props.entry.plant_target.owner_id !== userID && props.entry.pending && <View style={styles.WaitingSpacer}><Text>Waiting</Text></View>}
+        {props.entry.plant_target.owner_id !== props.entry.userID && props.entry.pending && <View style={styles.WaitingSpacer}><Text>Waiting</Text></View>}
     </View>
     </TouchableOpacity>
   );
