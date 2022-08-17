@@ -4,10 +4,11 @@ import { Fontisto, Ionicons, AntDesign,Entypo } from '@expo/vector-icons'
 // import * as MailComposer from 'expo-mail-composer';
 const axios = require('axios')
 import ImageModal from 'react-native-image-modal';
+import { useNavigation } from '@react-navigation/core'
 
 const InboxList = (props) => {
   // console.log('shown to usdsfsfsfsfdsdfsder', props.entry.trade_id)
-
+  const navigation = useNavigation();
   let acceptTrade = () => {
     console.log('Accepted')
     let tradeId = props.entry.trade_id
@@ -43,6 +44,7 @@ const InboxList = (props) => {
     console.log('plant_target', props.entry.plant_target)
     console.log('--------------------')
     console.log('plant_offer', props.entry.plant_offer)
+    navigation.push('ChatMessages')
     // let tradeId = props.entry.trade_id
   //   return axios.put(`http://localhost:3000/trades?trade_id=${tradeId}&shown_to_user=true`)
   //   .then((response) => {

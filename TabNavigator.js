@@ -60,7 +60,7 @@ function MyPlantStackScreen() {
 function TradeStackScreen() {
   return (
     <TradeStack.Navigator>
-      <TradeStack.Screen name="Trade" component={Trades} />
+      <TradeStack.Screen name="Trade" component={TradeInbox} />
     </TradeStack.Navigator>
   );
 }

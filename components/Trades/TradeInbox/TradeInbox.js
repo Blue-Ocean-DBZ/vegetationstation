@@ -8,6 +8,7 @@ import DummyAccepted from '../exampleData/InboxDummyAccpted.js'
 import axios from 'axios'
 import { storage, auth, signOutUser } from '../../../firebase.js'
 
+
 const TradeInbox = (props) => {
   const [currInbox, setCurrInbox] = useState('Pending')
   const [pendingData, setPendingData] = useState([])
