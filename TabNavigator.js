@@ -13,7 +13,7 @@ import Trades from './zdc/Trades.js';
 import MyFavoritesHome from './components/MyFavorites/MyFavoritesHome.js';
 import MyListingHome from './components/MyListing/MyListingHome.js';
 import Profile from './components/Profile.js';
-import EditProfile from './zdc/EditProfile.js';
+import EditProfile from './components/Auth/EditProfile.js';
 import PlantPage from './zdc/PlantPage.js';
 import PlantDescription from './components/Plants/PlantDescription.js';
 import TradeInbox from './components/Trades/TradeInbox/TradeInbox.js';
@@ -37,7 +37,7 @@ function HomeStackScreen(props) {
     <HomeStack.Navigator>
       <HomeStack.Screen name="Home" component={Home} />
       <HomeStack.Screen name="Profile" component={Profile} />
-      <HomeStack.Screen name="Edit Profile" component={EditProfile} />
+      <HomeStack.Screen name="EditProfile" component={EditProfile} />
       <HomeStack.Screen name="Plant Card" component={PlantPage} />
       <HomeStack.Screen name="Plant Description" component={PlantDescription} options={{
           title: 'Plant Description',
@@ -84,8 +84,8 @@ function FavoritesStackScreen() {
 export const PlantContext = React.createContext()
 
 export function usePlant () {
-  const {test, test1 , test2, test3} = useContext(PlantContext);
-  return {test, test1, test2, test3};
+  const {userIdentity, userZipcode, userProfilePicture, test1 , test2, test3} = useContext(PlantContext);
+  return {userIdentity, userZipcode, userProfilePicture, test1, test2, test3};
 }
 
 // Tab Navigator, individual stack navigators are nested inside
@@ -94,17 +94,25 @@ export default function TabNavigator() {
 
   const firebaseID = auth.currentUser.uid;
 
-  const [user, setUser] = useState('1007');
+  const [userId, setUserId] = useState(1);
+  const [userZip, setUserZip] = useState(11111);
+  const [userProfilePic, setUserProfilePic] = useState('');
   const [messages, setMessages] = useState(null);
   const [string, setString] = useState('This is working');
   const [plantArray, setPlantArray] = useState([1, 2, 3]);
+
+  console.log(userId, userZip, userProfilePic)
 
   useEffect(() => {
     console.log('before axios', firebaseID)
     axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${firebaseID}`)
     .then((response) => {
-      console.log('after axios', response.data);
-      setUser(response.data);
+      setUserId(response.data.id);
+      setUserZip(response.data.zip);
+      setUserProfilePic(response.data.profile_pic);
+    })
+    .then(() => {
+      console.log(userId, userZip, userProfilePic)
     })
     .catch((err) => {
       console.log(err);
@@ -114,7 +122,9 @@ export default function TabNavigator() {
   return (
     <PlantContext.Provider
       value ={{
-        test: [user, setUser],
+        userIdentity: [userId, setUserId],
+        userZipcode: [userZip, setUserZip],
+        userProfilePicture: [userProfilePic, setUserProfilePic],
         test1: [messages, setMessages],
         test2: [string, setString],
         test3: [plantArray, setPlantArray]}}>
