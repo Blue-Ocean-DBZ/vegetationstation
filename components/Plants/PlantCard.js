@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
 
   plantImage: {
-    width: 180,
+    width: "100%",
     height: 180,
     padding: 0,
     borderTopLeftRadius: 20,
