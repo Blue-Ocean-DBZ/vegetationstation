@@ -1,36 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { Button } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import Home from './components/Home.js';
+// import Home from './components/Home.js';
+import Home from './zdc/Home.js'
 import MyPlants from './zdc/MyPlants.js';
 import Trades from './zdc/Trades.js';
 import MyFavoritesHome from './components/MyFavorites/MyFavoritesHome.js';
 import MyListingHome from './components/MyListing/MyListingHome.js';
 import Profile from './components/Profile.js';
-import EditProfile from './zdc/EditProfile.js';
+import EditProfile from './components/Auth/EditProfile.js';
 import PlantPage from './zdc/PlantPage.js';
 import PlantDescription from './components/Plants/PlantDescription.js';
 import TradeInbox from './components/Trades/TradeInbox/TradeInbox.js';
 
-//multiple stack navigations inside individual tab navigations
+import { auth } from './firebase.js';
+
+const axios = require('axios');
+
+//Navigators
 
 const Tab = createBottomTabNavigator();
-
 const HomeStack = createNativeStackNavigator();
 const MyPlantStack = createNativeStackNavigator();
 const TradeStack = createNativeStackNavigator();
 const FavoritesStack = createNativeStackNavigator();
 
-function HomeStackScreen() {
+// Stack Navigations for each individual tabs
+
+function HomeStackScreen(props) {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen name="Home" component={Home} />
       <HomeStack.Screen name="Profile" component={Profile} />
-      <HomeStack.Screen name="Edit Profile" component={EditProfile} />
+      <HomeStack.Screen name="EditProfile" component={EditProfile} />
       <HomeStack.Screen name="Plant Card" component={PlantPage} />
       <HomeStack.Screen name="Plant Description" component={PlantDescription} options={{
           title: 'Plant Description',
@@ -44,7 +51,7 @@ function HomeStackScreen() {
           //   />
           // ),
           }}/>
-      <HomeStack.Screen name="Trade Requests" component={TradeInbox} />
+      <HomeStack.Screen name="Trade Modal" component={TradeInbox} />
     </HomeStack.Navigator>
   );
 }
@@ -60,7 +67,7 @@ function MyPlantStackScreen() {
 function TradeStackScreen() {
   return (
     <TradeStack.Navigator>
-      <TradeStack.Screen name="Trade" component={Trades} />
+      <TradeStack.Screen name="Trade" component={TradeInbox} />
     </TradeStack.Navigator>
   );
 }
@@ -68,18 +75,21 @@ function TradeStackScreen() {
 function FavoritesStackScreen() {
   return (
     <FavoritesStack.Navigator>
-      <FavoritesStack.Screen name="My Favorites" component={MyFavoritesHome} />
+      <FavoritesStack.Screen name="Favorite" component={MyFavoritesHome} />
     </FavoritesStack.Navigator>
   );
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> cfcd602bd90ee3b54808b63b413478df536beac5
 // Use Context for passing props
 export const PlantContext = React.createContext()
 
 export function usePlant () {
-  const {test, test1 , test2, plantList} = useContext(PlantContext);
-  return {test, test1, test2, plantList};
+  const {userIdentity, userZipcode, userProfilePicture, plantList, test1 , test2, test3} = useContext(PlantContext);
+  return {userIdentity, userZipcode, userProfilePicture, plantList, test1, test2, test3};
 }
 
 // Tab Navigator, individual stack navigators are nested inside
@@ -88,24 +98,32 @@ export default function TabNavigator() {
 
   const firebaseID = auth.currentUser.uid;
 
-  const [user, setUser] = useState('');
+  const [userId, setUserId] = useState(1);
+  const [userZip, setUserZip] = useState(11111);
+  const [userProfilePic, setUserProfilePic] = useState('');
   const [messages, setMessages] = useState(null);
   const [string, setString] = useState('This is working');
   const [plantArray, setPlantArray] = useState([]);
+
+  console.log(userId, userZip, userProfilePic)
+
 
   useEffect(() => {
     console.log('before axios', firebaseID)
     axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${firebaseID}`)
     .then((response) => {
-      console.log('after axios', response.data);
-      setUser(response.data);
+      setUserId(response.data.id);
+      setUserZip(response.data.zip);
+      setUserProfilePic(response.data.profile_pic);
     })
     .then(() => {
-      axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/all?user_id=${user.id}`)
+      axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/all?user_id=${userId}`)
       .then((response) => {
         setPlantArray(response.data);
       })
       .catch(err => console.log('error setting plant array', err))
+    .then(() => {
+      console.log(userId, userZip, userProfilePic)
     })
     .catch((err) => {
       console.log(err);
@@ -115,12 +133,14 @@ export default function TabNavigator() {
   return (
     <PlantContext.Provider
       value ={{
-        test: [user, setUser],
+        userIdentity: [userId, setUserId],
+        userZipcode: [userZip, setUserZip],
+        userProfilePicture: [userProfilePic, setUserProfilePic],
         test1: [messages, setMessages],
         test2: [string, setString],
-        plantList: [plantArray, setPlantArray]}}>
+        test3: [plantArray, setPlantArray]}}>
       <Tab.Navigator screenOptions={{
-        tabBarStyle: {backgroundColor: "#606c38"},
+        tabBarStyle: {backgroundColor: "#8eb69b"},
         tabBarActiveTintColor: "#fefae0",
         tabBarInactiveTintColor: "black",
         // tabBarShowLabel: false,
@@ -128,11 +148,15 @@ export default function TabNavigator() {
       }}>
         <Tab.Screen
           name="HomePage" component={HomeStackScreen}
-          options={{
+          options={({ route }) => ({
+            tabBarStyle: {
+              display: getTabBarVisibility(route),
+              backgroundColor: "#8eb69b"
+            },
             tabBarIcon: ({color, size}) => (
               <Ionicons name="home-outline" color={color} size={size}/>
-            )
-          }}/>
+            ),
+          })}/>
         <Tab.Screen
           name="MyPlants" component={MyPlantStackScreen}
           options={{
@@ -143,10 +167,10 @@ export default function TabNavigator() {
         <Tab.Screen
           name="Trades" component={TradeStackScreen}
           options={{
-            tabBarBadge: 3,
+            tabBarBadge: messages,
             tabBarIcon: ({color, size}) => (
               <Ionicons name="chatbox-ellipses-outline" color={color} size={size}/>
-            )
+            ),
           }}/>
         <Tab.Screen
           name="Favorites" component={FavoritesStackScreen}
@@ -159,3 +183,36 @@ export default function TabNavigator() {
     </PlantContext.Provider>
   );
 }
+
+// Helper function for removing Tab Bar visibility
+
+const getTabBarVisibility = (route) => {
+  const routeName = getFocusedRouteNameFromRoute(route) ?? '';
+
+  if (routeName == 'Profile') {
+    return 'none';
+  }
+  if (routeName == 'Trade') {
+    return 'none';
+  }
+  return 'flex';
+}
+
+
+// #b3cb9b
+// #bc6c25
+// #283618
+// #606c38
+// #fefae0
+// #dda15e
+// #b3cb9b
+// #2c3d36
+// #b2b2b2
+
+//8eb69b
+//daf1de
+//606c38
+
+
+//907a48
+//fefae0
