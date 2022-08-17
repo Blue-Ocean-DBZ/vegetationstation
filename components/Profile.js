@@ -19,7 +19,7 @@ export default function Profile () {
   }
 
   const handleEditProfile = () => {
-    navigation.replace('EditProfile')
+    navigation.push('EditProfile')
     };
 
   return (
@@ -71,8 +71,10 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   name: {
-    fontWeight: 'bold',
-    fontSize: 17,
+    fontSize: 20,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    color: '#2C3D36'
   },
   city: {
     fontSize: 15

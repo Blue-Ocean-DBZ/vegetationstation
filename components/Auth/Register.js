@@ -24,7 +24,7 @@ const Register = () => {
       return;
     }
 
-    if(password.length <= 6) {
+    if(password.length < 5) {
       alert('Set a password with at least 6 characters.');
       return;
     }
