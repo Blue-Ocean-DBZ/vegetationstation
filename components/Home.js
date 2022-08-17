@@ -8,6 +8,7 @@ import {FontAwesome, Ionicons} from 'react-native-vector-icons'
 import { SearchBar } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 import { auth } from '../firebase.js'
+import { usePlant} from '../TabNavigator.js';
 import PlantCard from './Plants/PlantCard.js';
 
 
@@ -38,6 +39,10 @@ const Home = (props) => {
   const [filteredList, setFilteredList] = useState([]);
   const [dummyData, setDummyData] = useState([]);
   const [favoritesList, setFavoritesList] = useState(DATA);
+  const {plantList} = usePlant();
+  const {test} = usePlant();
+  const [userInfo, setUserInfo] = test;
+  const [plantArray, setPlantArray] = plantList;
   const [image, setImage] = useState(auth.currentUser?.photoURL || 'https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg')
 
   const navigate = useNavigation()
@@ -63,7 +68,7 @@ const Home = (props) => {
       // FOR LATER data={suggestions}
         return (
           <FlatList>
-            data={fakeData}
+            data={plantArray}
             renderItem={renderCard}
             keyExtractor={item => item.id}
           </FlatList>

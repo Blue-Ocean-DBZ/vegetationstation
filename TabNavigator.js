@@ -83,8 +83,8 @@ function FavoritesStackScreen() {
 export const PlantContext = React.createContext()
 
 export function usePlant () {
-  const {test, test1 , test2, test3} = useContext(PlantContext);
-  return {test, test1, test2, test3};
+  const {test, test1 , test2, plantList} = useContext(PlantContext);
+  return {test, test1, test2, plantList};
 }
 
 // Tab Navigator, individual stack navigators are nested inside
@@ -96,7 +96,7 @@ export default function TabNavigator() {
   const [user, setUser] = useState('');
   const [messages, setMessages] = useState(null);
   const [string, setString] = useState('This is working');
-  const [plantArray, setPlantArray] = useState([1, 2, 3]);
+  const [plantArray, setPlantArray] = useState([]);
 
   useEffect(() => {
     console.log('before axios', firebaseID)
@@ -104,6 +104,13 @@ export default function TabNavigator() {
     .then((response) => {
       console.log('after axios', response.data);
       setUser(response.data);
+    })
+    .then(() => {
+      axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/all?user_id=${user.id}`)
+      .then((response) => {
+        setPlantArray(response.data);
+      })
+      .catch(err => console.log('error setting plant array', err))
     })
     .catch((err) => {
       console.log(err);
@@ -116,7 +123,7 @@ export default function TabNavigator() {
         test: [user, setUser],
         test1: [messages, setMessages],
         test2: [string, setString],
-        test3: [plantArray, setPlantArray]}}>
+        plantList: [plantArray, setPlantArray]}}>
       <Tab.Navigator screenOptions={{
         tabBarStyle: {backgroundColor: "#8eb69b"},
         tabBarActiveTintColor: "#fefae0",

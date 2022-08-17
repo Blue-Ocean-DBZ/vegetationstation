@@ -21,7 +21,7 @@ const EditProfile = () => {
     }
     axios.post('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/user', {
       username,
-      session_id: auth.currentUser.uid,
+      firebase_id: auth.currentUser.uid,
       profile_pic: auth.currentUser?.photoURL || image,
       zip: zipcode
     })
@@ -31,7 +31,7 @@ const EditProfile = () => {
           routes: [{ name: 'TabNavigator' }],
         });
       })
-      .catch(err => alert('Please enter a valid zipcode'))
+      .catch(err => console.log('error in edit', auth.currentUser))
       // uncomment when homepage is made
   }
 
