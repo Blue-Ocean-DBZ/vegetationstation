@@ -22,7 +22,7 @@ export default function App() {
         <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
         <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
-        <Stack.Screen name="ChatMessages" component={ChatMessages}  />
+        <Stack.Screen name="ChatMessages" component={ChatMessages}/>
         <Stack.Screen name="EditProfile"
           component={EditProfile}
           options={{
