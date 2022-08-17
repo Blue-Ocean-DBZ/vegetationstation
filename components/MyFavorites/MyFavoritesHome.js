@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, Image , TouchableWithoutFeedback} from 'react-native';
+import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, Image, TouchableWithoutFeedback } from 'react-native';
 import { Title } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -51,7 +51,7 @@ let DATA = [
     distance: '442 mi away',
     favorite: true,
     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9HZXoUNWkyvVOQhBOKI6Te9WAEjL35peDcA&usqp=CAU',
-  },{
+  }, {
     name: 'PlantSeven',
     owner: 'Kevin',
     location: 'Cupertino',
@@ -82,24 +82,24 @@ const MyFavoritesHome = () => {
   const [favoritesList, setFavoritesList] = useState(DATA);
 
   const renderPlants = ({ item }) => (
-    <View style= {styles.plantInformationContainer}>
-      <View>
-        <Image source= {{url: item.url}} style= {styles.plantImage}/>
+    <View style={styles.plantInformationContainer}>
+      <View style={styles.leftPart}>
+        <Image source={{ url: item.url }} style={styles.plantImage} />
       </View>
-      <View style= {styles.item}>
-        <View style= {styles.plantInfoWithHeartButton}>
+      <View style={styles.item}>
+        <View style={styles.plantInfoWithHeartButton}>
           <View>
             <View style={styles.plantName}>
-              <Text style= {styles.title}>{item.name}</Text>
+              <Text style={styles.title}>{item.name}</Text>
             </View>
             <View>
-              <Text style= {styles.otherPlantInfo}>{item.location}</Text>
-              <Text style= {styles.otherPlantInfo}>{item.distance}</Text>
-              <Text style= {styles.otherPlantInfo}>{item.owner}</Text>
+              <Text style={styles.otherPlantInfo}>{item.location}</Text>
+              <Text style={styles.otherPlantInfo}>{item.distance}</Text>
+              <Text style={styles.otherPlantInfo}>{item.owner}</Text>
             </View>
           </View>
-          <TouchableWithoutFeedback onPress= {() => {deleteFavorite(item.url)}}>
-            <Ionicons name="heart" style= {styles.heart} size= {25}/>
+          <TouchableWithoutFeedback onPress={() => { deleteFavorite(item.url) }}>
+            <Ionicons name="heart" style={styles.heart} size={25} />
           </TouchableWithoutFeedback>
         </View>
       </View>
@@ -108,9 +108,9 @@ const MyFavoritesHome = () => {
 
   const deleteFavorite = (url) => { //delete favorites functionality here
     let tempArray = favoritesList.slice();
-    for (let i = 0; i < tempArray.length; i++){
+    for (let i = 0; i < tempArray.length; i++) {
       if (tempArray[i].url === url) {
-        console.log (tempArray[i], 'plant information') //should log deleted plant information
+        console.log(tempArray[i], 'plant information') //should log deleted plant information
         tempArray.splice(i, 1);
         setFavoritesList(tempArray)
       }
@@ -119,10 +119,11 @@ const MyFavoritesHome = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Title style= {styles.headerTitle}> My Favorites</Title>
+      {/* <Title style= {styles.headerTitle}> My Favorites</Title> */}
       <FlatList
         data={favoritesList}
         renderItem={renderPlants}
+        contentContainerStyle={{ paddingBottom: 10 }}
       />
     </SafeAreaView>
   );
@@ -130,53 +131,41 @@ const MyFavoritesHome = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 650,
+    height: "100%",
+    justifyContent: 'center',
+    width: "100%"
   },
 
   plantInformationContainer: {
-    flex: 1,
-    display: 'flex',
     flexDirection: 'row',
-    marginBottom: 10,
-    marginLeft: 40,
-    width: '80%',
-  },
-
-  headerTitle: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    marginLeft: 15,
-    marginBottom: 25,
+    marginTop: 10,
+    marginHorizontal: 10
   },
 
   item: {
+    flex: 1,
     backgroundColor: '#CED89E',
-    paddingLeft: 10,
-    paddingTop: 15,
-    paddingBottom: 5,
+    paddingHorizontal: 15,
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
-    flex: 1,
     justifyContent: 'space-around',
   },
 
   plantInfoWithHeartButton: {
-    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
 
   heart: {
-    marginRight: 10,
     color: 'red',
   },
 
   plantImage: {
     width: 100,
-    height: 100,
+    height: 125,
     padding: 0,
     borderTopLeftRadius: 20,
-    borderBottomLeftRadius:20,
+    borderBottomLeftRadius: 20,
   },
 
   title: {
@@ -185,7 +174,7 @@ const styles = StyleSheet.create({
   },
 
   otherPlantInfo: {
-    marginTop: 5.
+    marginTop: 5
   },
 
   plantInformation: {
