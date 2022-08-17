@@ -24,10 +24,7 @@ const PlantDescription = () => {
 
   // not changing colors
   const toggleFavorite = () => {
-    if (fillHeart === 'red') {
-      setFillHeart('white');r
-    }
-    setFillHeart('red');
+    fillHeart === 'red' ? setFillHeart('white') : setFillHeart('red');
   };
 
   return (
