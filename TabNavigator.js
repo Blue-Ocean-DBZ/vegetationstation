@@ -86,9 +86,10 @@ export default function TabNavigator() {
 
   useEffect(() => {
     console.log('before axios', firebaseID)
-    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?${firebaseID}`)
+    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${firebaseID}`)
     .then((response) => {
-      console.log('after axios', response);
+      console.log('after axios', response.data);
+      setUser(response.data);
     })
     .catch((err) => {
       console.log(err);
