@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, TouchableOpacity,Alert, Modal, StyleSheet, Text, Pressable, View, Image, useWindowDimensions, ScrollView } from 'react-native';
+
 import plantData from '../exampleData/Dummy.js'
 import TradeModal from './TradeModal.js'
 import { NavigationContainer } from '@react-navigation/native';
