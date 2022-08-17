@@ -1,33 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, TouchableWithoutFeedback } from 'react-native';
-import { signOutUser } from '../firebase.js';
-import { useNavigation } from '@react-navigation/core'
-
-// const HomePageStack = createStackNavigator();
-// const MyPlantsStack = createStackNavigator();
-// const Tab = createBottomTabNavigator();
-
-// const TabsBar = () => (
-// <Tab.Navigator>
-//   <Tab.Screen name="Home Page" component={HomePageStackScreen} />
-//   <Tab.Screen name="My Plants" component={MyPlantsStackScreen} />
-//   {/* <Tab.Screen name="Trades" component={TradesStackScreen} />
-//   <Tab.Screen name="Favorites" component={FavoritesStackScreen} /> */}
-// </Tab.Navigator>
-// );
-
-const HomePageStackScreen = () => (
-  <View>
-    <Text>Home Page</Text>
-  </View>
-);
-
-const MyPlantsStackScreen = () => (
-  <View>
-    <Text>My Plants</Text>
-  </View>
-);
+import { signOutUser, auth } from '../firebase.js';
+import { useNavigation } from '@react-navigation/core';
 
 export default function Profile () {
 
@@ -44,16 +19,16 @@ export default function Profile () {
   }
 
   const handleEditProfile = () => {
-    navigation.replace('EditProfile')
+    navigation.push('EditProfile')
     };
 
   return (
     <View style={styles.container}>
       <Image style={styles.topImage} source={{uri:'https://img.freepik.com/free-vector/tropical-mural-wallpaper-design_23-2148679938.jpg?w=2000'}}/>
       <View style={styles.photoContainer}>
-        <Image style={styles.profilePhoto} source={{uri: 'https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg'}}/>
+        <Image style={styles.profilePhoto} source={{uri: auth.currentUser?.photoURL}}/>
         <View style={styles.userInfoContainer}>
-          <Text style={styles.name}>Tom</Text>
+          <Text style={styles.name}>{auth.currentUser?.displayName}</Text>
           <Text style={styles.city}>From Myspace</Text>
         </View>
       </View>
@@ -96,8 +71,10 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   name: {
-    fontWeight: 'bold',
-    fontSize: 17,
+    fontSize: 20,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    color: '#2C3D36'
   },
   city: {
     fontSize: 15
