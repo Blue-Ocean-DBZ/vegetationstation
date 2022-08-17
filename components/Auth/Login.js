@@ -49,7 +49,7 @@ const Login = () => {
           </View>
           <View style={styles.inputContainer}>
             <TextInput placeholder='Email' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={email} style={styles.input} onChangeText={text => setEmail(text)} keyboardType="email-address" enablesReturnKeyAutomatically/>
-            <TextInput placeholder='Password' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={password} style={styles.input} secureTextEntry onChangeText={text => setPassword(text)} onSubmitEditing={loginHandler} enablesReturnKeyAutomatically/>
+            <TextInput placeholder='Password' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={password} style={styles.input} secureTextEntry onChangeText={text => setPassword(text)} onSubmitEditing={loginHandler} enablesReturnKeyAutomatically minLength={6}/>
             <TouchableOpacity style={isLoading ? styles.disabledWrapper: styles.loginBtnWrapper} onPress={loginHandler} disabled={isLoading ? true : false}>
               <Text style={isLoading ? styles.disabledBtn: styles.loginBtn}>{isLoading ? 'Logging In..':'Login' }</Text>
             </TouchableOpacity>
