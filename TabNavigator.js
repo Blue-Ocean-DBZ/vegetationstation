@@ -8,7 +8,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Home from './components/Home.js';
 import MyPlants from './zdc/MyPlants.js';
 import Trades from './zdc/Trades.js';
-import Favorites from './zdc/Favorites.js';
+import MyFavoritesHome from './components/MyFavorites/MyFavoritesHome.js';
+import MyListingHome from './components/MyListing/MyListingHome.js';
 import Profile from './components/Profile.js';
 import EditProfile from './zdc/EditProfile.js';
 import PlantPage from './zdc/PlantPage.js';
@@ -51,7 +52,7 @@ function HomeStackScreen() {
 function MyPlantStackScreen() {
   return (
     <MyPlantStack.Navigator>
-      <MyPlantStack.Screen name="My Plants" component={MyPlants} />
+      <MyPlantStack.Screen name="My Plants" component={MyListingHome} />
     </MyPlantStack.Navigator>
   );
 }
@@ -59,7 +60,7 @@ function MyPlantStackScreen() {
 function TradeStackScreen() {
   return (
     <TradeStack.Navigator>
-      <TradeStack.Screen name="Trade" component={TradeInbox} options={{ headerShown: false}}/>
+      <TradeStack.Screen name="Trade" component={Trades} />
     </TradeStack.Navigator>
   );
 }
@@ -67,7 +68,7 @@ function TradeStackScreen() {
 function FavoritesStackScreen() {
   return (
     <FavoritesStack.Navigator>
-      <FavoritesStack.Screen name="Favorite" component={Favorites} />
+      <FavoritesStack.Screen name="Favorite" component={MyFavoritesHome} />
     </FavoritesStack.Navigator>
   );
 }
