@@ -5,6 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { ref, uploadBytes } from "firebase/storage";
 import { storage, auth, signOutUser } from '../../firebase.js'
+import axios from 'axios';
 
 let DATA = [
   {

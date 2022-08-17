@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, Image , TouchableWithoutFeedback} from 'react-native';
 import { Title } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import axios from 'axios';
 
 let DATA = [
   {
