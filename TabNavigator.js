@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -15,6 +15,8 @@ import PlantPage from './zdc/PlantPage.js';
 import TradeRequests from './zdc/TradeRequests.js';
 
 import { auth } from './firebase.js';
+
+const axios = require('axios');
 
 //Navigators
 
@@ -75,11 +77,23 @@ export function usePlant () {
 
 export default function TabNavigator() {
 
-  console.log(auth.currentUser.uid);
+  const firebaseID = auth.currentUser.uid;
 
+  const [user, setUser] = useState('');
   const [messages, setMessages] = useState(null);
   const [string, setString] = useState('This is working');
   const [plantArray, setPlantArray] = useState([1, 2, 3]);
+
+  useEffect(() => {
+    console.log('before axios', firebaseID)
+    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?${firebaseID}`)
+    .then((response) => {
+      console.log('after axios', response);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }, [])
 
   return (
     <PlantContext.Provider
