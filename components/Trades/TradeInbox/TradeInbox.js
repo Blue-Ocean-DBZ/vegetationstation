@@ -6,6 +6,7 @@ import { AntDesign } from '@expo/vector-icons';
 import TradesData from '../exampleData/InboxDummy.js';
 import DummyAccepted from '../exampleData/InboxDummyAccpted.js'
 import axios from 'axios'
+import { storage, auth, signOutUser } from '../../../firebase.js'
 
 
 const TradeInbox = (props) => {
@@ -13,12 +14,13 @@ const TradeInbox = (props) => {
   const [pendingData, setPendingData] = useState([])
   const [tradesData, setTradesData] = useState([])
   const [acceptedData, setAcceptedData] = useState([])
+  const [userID, setUserID] = useState(212)
   const navigation = useNavigation()
-
+  console.log(auth)
 
 
   let getInboxData = () => {
-    axios.get('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=1')//change to current user id
+    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userID}`)//change to current user id
     // axios.get('http:/localhost:3000/trades?user_id=1')//change to current user id
     .then((response) => {
       let data = response.data.filter((item, i) => {
@@ -58,17 +60,18 @@ const TradeInbox = (props) => {
 
   let goBack = () => {
     console.log("back")
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'TabNavigator' }],
-    });
+    // navigation.reset({
+    //   index: 0,
+    //   routes: [{ name: 'TabNavigator' }],
+    // });
+    navigation.goBack();
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.container}>
         <View style={styles.InboxHeader}>
-          <AntDesign name="arrowleft" size={24} color="black" onPress={goBack}/>
+          {/* <AntDesign name="arrowleft" size={24} color="black" onPress={goBack}/> */}
         </View>
         <View style={styles.statusContainer}>
           <Button
@@ -108,6 +111,7 @@ const TradeInbox = (props) => {
               index={index}
               currInbox={currInbox}
               getInboxData={getInboxData}
+              userID ={userID}
               />
             )}
           </View>
@@ -120,6 +124,7 @@ const TradeInbox = (props) => {
               index={index}
               currInbox={currInbox}
               getInboxData={getInboxData}
+              userID ={userID}
               />
             )}
           </View>
@@ -132,6 +137,7 @@ const TradeInbox = (props) => {
               index={index}
               currInbox={currInbox}
               getInboxData={getInboxData}
+              userID ={userID}
               />
             )}
             </View>
@@ -148,7 +154,7 @@ const TradeInbox = (props) => {
 const styles = StyleSheet.create({
 
   InboxHeader: {
-    paddingTop:50  ,//60
+    paddingTop:25  ,//60
     paddingLeft: 20,
     justifyContent: 'flex-start',
   },
