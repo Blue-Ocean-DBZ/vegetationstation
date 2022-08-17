@@ -130,7 +130,7 @@ const MyFavoritesHome = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 750,
+    height: 650,
   },
 
   plantInformationContainer: {

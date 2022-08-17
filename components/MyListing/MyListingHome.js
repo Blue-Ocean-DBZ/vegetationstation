@@ -265,7 +265,7 @@ export default MyListingHome;
 const styles= StyleSheet.create({
 
   container: {
-    height: 700,
+    height: 600,
   },
 
   addPlantModalContainer: {
