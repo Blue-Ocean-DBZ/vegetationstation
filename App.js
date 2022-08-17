@@ -7,6 +7,7 @@ import Login from './components/Auth/Login.js'
 import Register from './components/Auth/Register.js'
 import TabNavigator from './TabNavigator.js'
 import EditProfile from './components/Auth/EditProfile.js'
+import Home from './components/Home.js'
 import Profile from './components/Profile.js';
 
 export default function App() {

@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import Home from './zdc/Home.js';
+import Home from './components/Home.js';
 import MyPlants from './zdc/MyPlants.js';
 import Trades from './zdc/Trades.js';
 import Favorites from './zdc/Favorites.js';
