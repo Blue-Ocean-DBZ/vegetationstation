@@ -9,7 +9,8 @@ import axios from 'axios';
 
 let DATA = [
   {
-    name: 'American Marigold',
+    id: 1,
+    name: 'PlantOne',
     owner: 'Brandon',
     location: 'LA',
     distance: '12 mi away',
@@ -17,6 +18,7 @@ let DATA = [
     url: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/indoor-plants-1634736990.jpg?crop=1.00xw:1.00xh;0,0&resize=1200:*',
   },
   {
+    id: 2,
     name: 'PlantTwo',
     owner: 'Shannon',
     location: 'SF',
@@ -25,6 +27,7 @@ let DATA = [
     url: 'https://cdn.shopify.com/s/files/1/0150/6262/products/the-sill_money-tree_small_bryant_black.jpg?v=1653591376',
   },
   {
+    id: 3,
     name: 'PlantThree',
     owner: 'Carson',
     location: 'OC',
@@ -33,6 +36,7 @@ let DATA = [
     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmF6j-VfIy1CwkaCi4L_YJH5hl1qGsufLD4A&usqp=CAU',
   },
   {
+    id: 4,
     name: 'PlantFour',
     owner: 'Gian',
     location: 'Stockton',
@@ -41,6 +45,7 @@ let DATA = [
     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbIHw3oUEi2EAMDD6AHDe2j37Y2JuEozh6tg&usqp=CAU',
   },
   {
+    id: 5,
     name: 'PlantFive',
     owner: 'Jonathan',
     location: 'LA',
@@ -49,13 +54,16 @@ let DATA = [
     url: 'https://empire-s3-production.bobvila.com/slides/30451/original/Gloxinia-flowering-houseplants.jpg?1551987245',
   },
   {
+    id: 6,
     name: 'PlantSix',
     owner: 'David',
     location: 'Sacramento',
     distance: '442 mi away',
     favorite: true,
     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9HZXoUNWkyvVOQhBOKI6Te9WAEjL35peDcA&usqp=CAU',
-  },{
+  },
+  {
+    id: 7,
     name: 'PlantSeven',
     owner: 'Kevin',
     location: 'Cupertino',
@@ -64,6 +72,7 @@ let DATA = [
     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoJi4K4-eM57BhLUM8dOqS5PV0FZUN-2usMw&usqp=CAU',
   },
   {
+    id: 8,
     name: 'PlantEight',
     owner: 'Theresa',
     location: 'OC',
@@ -72,6 +81,7 @@ let DATA = [
     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRowhGAXIPf4gl8Tp1sQF9_zgxP8Xx36mBFTA&usqp=CAU',
   },
   {
+    id: 9,
     name: 'PlantNine',
     owner: 'Clayton',
     location: 'Sacramento',
@@ -94,6 +104,7 @@ const MyListingHome = () => {
 
   const handleAddPlant = () => {
     setDisplayModal(true);
+    console.log(auth.currentUser.displayName);
   };
 
   const selectPicture = async () => {
@@ -155,10 +166,10 @@ const MyListingHome = () => {
             <View>
               <Text style= {styles.otherPlantInfo}>{item.location}</Text>
               <Text style= {styles.otherPlantInfo}>{item.distance}</Text>
-              <Text style= {styles.otherPlantInfo}>{item.owner}</Text>
+              <Text style= {styles.otherPlantInfo}>{auth.currentUser.displayName}</Text>
             </View>
           </View>
-          <TouchableWithoutFeedback onPress= {() => {deleteFavorite(item.url)}}>
+          <TouchableWithoutFeedback onPress= {() => {deleteFavorite(item.id)}}>
             <Text style= {styles.remove}>Remove</Text>
           </TouchableWithoutFeedback>
         </View>
@@ -166,11 +177,11 @@ const MyListingHome = () => {
     </View>
   );
 
-  const deleteFavorite = (url) => {//delete plant functionality here
+  const deleteFavorite = (id) => {//delete plant functionality here
     let tempArray = favoritesList.slice();
     let plantName;
     for (let i = 0; i < tempArray.length; i++){
-      if (tempArray[i].url === url) {
+      if (tempArray[i].id === id) {
         plantName = tempArray[i].name;
       }
     }
@@ -183,7 +194,7 @@ const MyListingHome = () => {
           onPress: () =>
             {setShowConfirmation(false);
             for (let i = 0; i < tempArray.length; i++){
-              if (tempArray[i].url === url) {
+              if (tempArray[i].id === id) {
                 console.log (tempArray[i], 'should return info of deleted plant from mylisting') //returns deleted plant from mylistng
                 tempArray.splice(i, 1);
                 setFavoritesList(tempArray)

@@ -6,6 +6,7 @@ import axios from 'axios';
 
 let DATA = [
   {
+    id: 1,
     name: 'PlantOne',
     owner: 'Brandon',
     location: 'LA',
@@ -14,6 +15,7 @@ let DATA = [
     url: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/indoor-plants-1634736990.jpg?crop=1.00xw:1.00xh;0,0&resize=1200:*',
   },
   {
+    id: 2,
     name: 'PlantTwo',
     owner: 'Shannon',
     location: 'SF',
@@ -22,6 +24,7 @@ let DATA = [
     url: 'https://cdn.shopify.com/s/files/1/0150/6262/products/the-sill_money-tree_small_bryant_black.jpg?v=1653591376',
   },
   {
+    id: 3,
     name: 'PlantThree',
     owner: 'Carson',
     location: 'OC',
@@ -30,6 +33,7 @@ let DATA = [
     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmF6j-VfIy1CwkaCi4L_YJH5hl1qGsufLD4A&usqp=CAU',
   },
   {
+    id: 4,
     name: 'PlantFour',
     owner: 'Gian',
     location: 'Stockton',
@@ -38,6 +42,7 @@ let DATA = [
     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbIHw3oUEi2EAMDD6AHDe2j37Y2JuEozh6tg&usqp=CAU',
   },
   {
+    id: 5,
     name: 'PlantFive',
     owner: 'Jonathan',
     location: 'LA',
@@ -46,13 +51,16 @@ let DATA = [
     url: 'https://empire-s3-production.bobvila.com/slides/30451/original/Gloxinia-flowering-houseplants.jpg?1551987245',
   },
   {
+    id: 6,
     name: 'PlantSix',
     owner: 'David',
     location: 'Sacramento',
     distance: '442 mi away',
     favorite: true,
     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9HZXoUNWkyvVOQhBOKI6Te9WAEjL35peDcA&usqp=CAU',
-  },{
+  },
+  {
+    id: 7,
     name: 'PlantSeven',
     owner: 'Kevin',
     location: 'Cupertino',
@@ -61,6 +69,7 @@ let DATA = [
     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoJi4K4-eM57BhLUM8dOqS5PV0FZUN-2usMw&usqp=CAU',
   },
   {
+    id: 8,
     name: 'PlantEight',
     owner: 'Theresa',
     location: 'OC',
@@ -69,6 +78,7 @@ let DATA = [
     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRowhGAXIPf4gl8Tp1sQF9_zgxP8Xx36mBFTA&usqp=CAU',
   },
   {
+    id: 9,
     name: 'PlantNine',
     owner: 'Clayton',
     location: 'Sacramento',
@@ -99,7 +109,7 @@ const MyFavoritesHome = () => {
               <Text style= {styles.otherPlantInfo}>{item.owner}</Text>
             </View>
           </View>
-          <TouchableWithoutFeedback onPress= {() => {deleteFavorite(item.url)}}>
+          <TouchableWithoutFeedback onPress= {() => {deleteFavorite(item.id)}}>
             <Ionicons name="heart" style= {styles.heart} size= {25}/>
           </TouchableWithoutFeedback>
         </View>
@@ -107,10 +117,10 @@ const MyFavoritesHome = () => {
     </View>
   );
 
-  const deleteFavorite = (url) => { //delete favorites functionality here
+  const deleteFavorite = (id) => { //delete favorites functionality here
     let tempArray = favoritesList.slice();
     for (let i = 0; i < tempArray.length; i++){
-      if (tempArray[i].url === url) {
+      if (tempArray[i].id === id) {
         console.log (tempArray[i], 'plant information') //should log deleted plant information
         tempArray.splice(i, 1);
         setFavoritesList(tempArray)
