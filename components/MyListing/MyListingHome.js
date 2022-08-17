@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, StatusBar, TouchableOpacity, Modal, Pressable, Image, FlatList, TextInput, KeyboardAvoidingView, ScrollView, TouchableWithoutFeedback, Alert } from 'react-native';
 import { Button, Title } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
@@ -99,12 +99,23 @@ const MyListingHome = () => {
   const [displayModal, setDisplayModal] = useState(false);
   const [imagePath, setImagePath] = useState(addPicImage);
   const [addPlantName, setAddPlantName] = useState('');
-  const [favoritesList, setFavoritesList] = useState(DATA);
+  const [plantList, setPlantList] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(true);
+
+  useEffect(() => {
+    console.log('within useeffect')
+    axios.get('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/myPlants?user_id=2', {
+      user_id: 2,
+    })
+      .then((results)=> {
+        console.log(results.data, 'dfjahdkl;sjfhjsdzk;fashjk');
+        setPlantList(results.data)
+      })
+  }, []);
 
   const handleAddPlant = () => {
     setDisplayModal(true);
-    console.log(auth);
+    console.log(auth.currentUser.uid)
   };
 
   const selectPicture = async () => {
@@ -140,32 +151,58 @@ const MyListingHome = () => {
     const res = await fetch(imagePath)
     const blob = await res.blob()
     const filename =  imagePath.substring(imagePath.lastIndexOf('/') + 1)
-
+    let uri;
+    let newPlant;
     const imageRef = ref(storage, filename)
     uploadBytes(imageRef, blob)
       .then(snapshot => {
-        const uri = `https://firebasestorage.googleapis.com/v0/b/vegetationstation1.appspot.com/o/${filename}?alt=media` // url we get back from firebase
-        console.log(uri);
+
+
+          uri = `https://firebasestorage.googleapis.com/v0/b/vegetationstation1.appspot.com/o/${filename}?alt=media`;
+          return uri;
+         // url we get back from firebase
+        console.log(uri, 'this is the uri');
+
+      })
+      .then (uri => {
+        uri = uri;
+        console.log (uri, 'inside the tnen statment')
+
+      })
+      .then(() => {
+        newPlant = {
+          id: 100,
+          name: addPlantName,
+          owner: auth.currentUser.displayName,
+          location: 'LA',
+          distance: '12 mi away',
+          favorite: 'false',
+          url: uri,
+        };
+        let tempPlantList = plantList.slice();
+        tempPlantList.push(newPlant);
+        setPlantList(tempPlantList)
       })
       .catch(err => console.log(err))
     setImagePath(addPicImage);
+
+
     setAddPlantName('');
   };
 
   const renderPlants = ({ item }) => (
     <View style= {styles.plantInformationContainer}>
       <View >
-        <Image source= {{url: item.url}} style= {styles.plantImage}/>
+        <Image source= {{url: item.photo}} style= {styles.plantImage}/>
       </View>
       <View style= {styles.item}>
         <View style= {styles.plantInfoWithRemoveButton}>
           <View>
             <View style={styles.plantName}>
-              <Text style= {styles.title}>{item.name}</Text>
+              <Text style= {styles.title}>{item.plant_name}</Text>
             </View>
             <View>
-              <Text style= {styles.otherPlantInfo}>{item.location}</Text>
-              <Text style= {styles.otherPlantInfo}>{item.distance}</Text>
+              <Text style= {styles.otherPlantInfo}>{item.zip}</Text>
               <Text style= {styles.otherPlantInfo}>{auth.currentUser.displayName}</Text>
             </View>
           </View>
@@ -178,11 +215,11 @@ const MyListingHome = () => {
   );
 
   const deleteFavorite = (id) => {//delete plant functionality here
-    let tempArray = favoritesList.slice();
+    let tempArray = plantList.slice();
     let plantName;
     for (let i = 0; i < tempArray.length; i++){
       if (tempArray[i].id === id) {
-        plantName = tempArray[i].name;
+        plantName = tempArray[i].plant_name;
       }
     }
     return Alert.alert (
@@ -197,7 +234,7 @@ const MyListingHome = () => {
               if (tempArray[i].id === id) {
                 console.log (tempArray[i], 'should return info of deleted plant from mylisting') //returns deleted plant from mylistng
                 tempArray.splice(i, 1);
-                setFavoritesList(tempArray)
+                setPlantList(tempArray)
               }
             }
           },
@@ -263,7 +300,7 @@ const MyListingHome = () => {
 
       <View>
         <FlatList
-          data={favoritesList}
+          data={plantList}
           renderItem={renderPlants}
         />
       </View>
