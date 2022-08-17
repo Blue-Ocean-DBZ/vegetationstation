@@ -17,7 +17,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="PlantDescription" component={PlantDescription} options={{
-          title: 'Plant Desc',
+          title: 'Plant Description',
           headerRight: () => (
             <Button
               onPress={() => setRequestTrade(true)}

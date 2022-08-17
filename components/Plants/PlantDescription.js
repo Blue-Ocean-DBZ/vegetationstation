@@ -1,12 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, FlatList, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, FlatList, Text, View, TouchableWithoutFeedback, Image } from 'react-native';
 import { Fontisto } from '@expo/vector-icons';
 import PlantCard from './PlantCard.js';
 import ProfilePic from './../Auth/placeholder/gui.png';
 
 let dummyData = [
   {
+    pending: true,
     name: 'PlantSix',
     owner: 'David',
     location: 'Sacramento',
@@ -15,6 +16,7 @@ let dummyData = [
     profile_pic: ProfilePic,
   },
   {
+    pending: false,
     name: 'PlantSeven',
     owner: 'Kevin',
     location: 'Cupertino',
@@ -31,30 +33,40 @@ const PlantDescription = () => {
   const [requestTrade, setRequestTrade] = useState(false);
   const [fillHeart, setFillHeart] = useState('red');
 
-  // set back to false?????
-  const _onTradeButton = () => {
-    setRequestTrade(true);
-  }
+  // not changing colors
+  const toggleFavorite = () => {
+    if (fillHeart === 'red') {
+      setFillHeart('white');
+    }
+    setFillHeart('red');
+  };
 
   return (
     <View style={styles.container}>
       <Image
-        source={{ url: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/indoor-plants-1634736990.jpg?crop=1.00xw:1.00xh;0,0&resize=1200:*' }}
+        source={{ url: plantListing[0].url }}
         style={styles.plantImage}>
       </Image>
+
+
       <View style={styles.plantInfoContainer}>
+
         <View>
           <View style={styles.plantNameWithHeart}>
-            <Text style={styles.title}>Plant One</Text>
-            <Fontisto name="heart" size={20} color={fillHeart} style={styles.heart} />
+            <Text style={styles.title}>{plantListing[0].name}</Text>
+            <TouchableWithoutFeedback onPress={() => {toggleFavorite()}}>
+              <Fontisto name="heart" size={27} color={fillHeart} style={styles.heart} />
+            </TouchableWithoutFeedback>
           </View>
-          <Text>Brandon</Text>
-          <Text>{`LA (12 mi away)`}</Text>
+          <Text style={styles.detail}>{`${plantListing[0].location} (${plantListing[0].distance})`}</Text>
+          <Text style={styles.detail}>{`Owner: ${plantListing[0].owner}`}</Text>
         </View>
-        {/* <View>
-          <Text style={styles.title}>Description:</Text>
-          <Text>{`I'm a Barbie girl, in the Barbie world\nLife in plastic, it's fantastic\nYou can brush my hair, undress me everywhere\nImagination, life is your creation\nI should see this but I'm not`}</Text>
-        </View> */}
+
+        <View>
+          <Text style={styles.title}>Status:</Text>
+          <Text style={styles.detail}>{plantListing[0].pending ? `-PENDING-` : `-AVAILABLE-`}</Text>
+        </View>
+
       </View>
 
       <FlatList
@@ -62,18 +74,12 @@ const PlantDescription = () => {
         renderItem={PlantCard}
       />
 
+
     </View>
   )
 };
 
 const styles = StyleSheet.create({
-  // pendingButton: {
-  //   backgroundColor: '#D9D9D9',
-  // },
-
-  // pendingText: {
-  //   color: '#B5B5B5',
-  // },
   container: {
     height: 650,
     flex: 1,
@@ -87,11 +93,11 @@ const styles = StyleSheet.create({
 
   // justify contents not working
   plantInfoContainer: {
-    marginTop: 16,
-    padding: 17,
+    padding: 20,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    fontSize: 21,
   },
 
   plantNameWithHeart: {
@@ -101,14 +107,22 @@ const styles = StyleSheet.create({
   },
 
   heart: {
+    marginTop: 13,
     marginRight: 10,
     borderColor: 'black'
   },
 
   title: {
-    fontSize: 21,
+    marginTop: 10,
+    fontSize: 30,
     fontWeight: 'bold',
+  },
+
+  detail: {
+    marginTop: 8,
+    fontSize: 20,
   }
+
 });
 
 export default PlantDescription;

@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Fontisto } from '@expo/vector-icons';
 
 const PlantCard = ({ item }) => {
-
+  // add onPress handler that will take user to the description page
   return (
     <View style={styles.plantInformationContainer}>
       <View>
@@ -31,6 +31,10 @@ const styles = StyleSheet.create({
   },
 
   plantInfo: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     backgroundColor: '#F2F2F2',
     borderColor: '#C2C2C2',
     paddingRight: 10,
@@ -39,15 +43,6 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-
-  heart: {
-    marginRight: 10,
-    color: 'red',
   },
 
   plantImage: {
@@ -59,8 +54,8 @@ const styles = StyleSheet.create({
   },
 
   userImage: {
-    width: 33,
-    height: 33,
+    width: 30,
+    height: 30,
     borderRadius: '50%',
   },
 });
