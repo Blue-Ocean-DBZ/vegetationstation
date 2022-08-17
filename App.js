@@ -1,11 +1,13 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import React, {useState} from 'react';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './components/Auth/Login.js'
 import Register from './components/Auth/Register.js'
 import TabNavigator from './TabNavigator.js'
 import EditProfile from './components/Auth/EditProfile.js'
+import Home from './components/Home.js'
 import Profile from './components/Profile.js';
 
 
@@ -28,9 +30,6 @@ export default function App() {
         <Stack.Screen name="Profile" component={Profile} options={{ title: 'Profile' }} />
       </Stack.Navigator>
     </NavigationContainer>
-
-
-
-);
-}
+  );
+};
 

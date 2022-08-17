@@ -28,7 +28,7 @@ const EditProfile = () => {
       .then(() => {
         navigation.reset({
           index: 0,
-          routes: [{ name: 'Profile' }],
+          routes: [{ name: 'TabNavigator' }],
         });
       })
       .catch(err => alert('Please enter a valid zipcode'))
@@ -89,9 +89,9 @@ const EditProfile = () => {
           <TouchableOpacity style={styles.buttonGrp} onPress={saveHandler}>
             <Text style={styles.button}>Save</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonGrp} onPress={logoutHandler}>
+          {/* <TouchableOpacity style={styles.buttonGrp} onPress={logoutHandler}>
             <Text style={styles.button}>Temporary Logout</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>

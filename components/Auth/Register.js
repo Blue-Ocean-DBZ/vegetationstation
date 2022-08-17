@@ -15,11 +15,11 @@ const Register = () => {
     const expression = /(?!.*\.{2})^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([\t]*\r\n)?[\t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([\t]*\r\n)?[\t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
 
     return expression.test(String(email).toLowerCase())
-}
+  }
 
   const handleSignUp = () => {
     setIsLoading(true);
-    if(!validate(email)) {
+    if (!validate(email)) {
       alert('The email provided is not in the right format.');
       setIsLoading(false);
       return;
@@ -47,18 +47,20 @@ const Register = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <KeyboardAvoidingView style={styles.container}>
+      <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <ImageBackground source={require('./placeholder/bg.png')} resizeMode="cover" style={styles.bg}>
+
           <View style={styles.inputContainer}>
             <Text style={styles.header}>Register</Text>
-            <TextInput placeholder='Username' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={username} style={styles.input} onChangeText={text => setUsername(text)} />
-            <TextInput placeholder='Email' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={email} style={styles.input} onChangeText={text => setEmail(text)} keyboardType="email-address" />
-            <TextInput placeholder='Password' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={password} style={styles.input} secureTextEntry onChangeText={text => setPassword(text)} onSubmitEditing={handleSignUp}/>
-          <Text style={styles.notice}>By continuing, you agree to Vegetation Station's Terms of Service and acknowledge Vegetation Station's Privacy Policy.</Text>
+            <TextInput placeholder='Username' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={username} style={styles.input} onChangeText={text => setUsername(text)} textContentType="username" enablesReturnKeyAutomatically autoCorrect="false"/>
+            <TextInput placeholder='Email' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={email} style={styles.input} onChangeText={text => setEmail(text)} keyboardType="email-address" textContentType="email" enablesReturnKeyAutomatically/>
+            <TextInput placeholder='Password' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={password} style={styles.input} secureTextEntry onChangeText={text => setPassword(text)} onSubmitEditing={handleSignUp} textContentType="password" enablesReturnKeyAutomatically/>
+            <Text style={styles.notice}>By continuing, you agree to Vegetation Station's Terms of Service and acknowledge Vegetation Station's Privacy Policy.</Text>
             <TouchableOpacity style={isLoading ? styles.disabledWrapper : styles.registerBtnWrapper} onPress={handleSignUp} disabled={isLoading ? true : false}>
               <Text style={isLoading ? styles.disabledBtn : styles.registerBtn}>{isLoading ? 'Creating User..' : 'Register'}</Text>
             </TouchableOpacity>
           </View>
+
           <View styles={styles.haveaccount}>
             <Text style={styles.haveaccounttext}>Already have an account?</Text>
             <TouchableOpacity style={styles.buttonGrp} onPress={() => navigation.goBack()}>
