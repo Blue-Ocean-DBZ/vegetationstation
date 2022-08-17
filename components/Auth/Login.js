@@ -29,7 +29,7 @@ const Login = () => {
     .then(() => {
       navigation.reset({
         index: 0,
-        routes: [{ name: 'EditProfile' }],
+        routes: [{ name: 'TabNavigator' }],
         //change this to Homepage when homepage component is made.
       });
       setIsLoading(false);
@@ -41,17 +41,17 @@ const Login = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={styles.mainContainer}>
-      <KeyboardAvoidingView style={styles.container}>
+      <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <ImageBackground source={require('./placeholder/bg.png')} resizeMode="cover" style={styles.bg}>
           <View style={styles.imageWrapper}>
             <Image style={styles.image} source={require('./placeholder/logo.png')} />
             <Text style={styles.header}>Vegetation Station</Text>
           </View>
           <View style={styles.inputContainer}>
-            <TextInput placeholder='Email' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={email} style={styles.input} onChangeText={text => setEmail(text)} keyboardType="email-address" />
-            <TextInput placeholder='Password' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={password} style={styles.input} secureTextEntry onChangeText={text => setPassword(text)} onSubmitEditing={loginHandler}/>
-            <TouchableOpacity style={styles.loginBtnWrapper} onPress={loginHandler} disabled={isLoading ? true : false}>
-              <Text style={styles.loginBtn}>Login</Text>
+            <TextInput placeholder='Email' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={email} style={styles.input} onChangeText={text => setEmail(text)} keyboardType="email-address" enablesReturnKeyAutomatically/>
+            <TextInput placeholder='Password' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={password} style={styles.input} secureTextEntry onChangeText={text => setPassword(text)} onSubmitEditing={loginHandler} enablesReturnKeyAutomatically/>
+            <TouchableOpacity style={isLoading ? styles.disabledWrapper: styles.loginBtnWrapper} onPress={loginHandler} disabled={isLoading ? true : false}>
+              <Text style={isLoading ? styles.disabledBtn: styles.loginBtn}>{isLoading ? 'Logging In..':'Login' }</Text>
             </TouchableOpacity>
           </View>
           <View styles={styles.noaccount}>
@@ -127,10 +127,21 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     backgroundColor: "#BC6C25",
     borderRadius: 6,
-
   },
   loginBtn: {
     color: "#FFE7D2",
+    fontSize: 16,
+    fontWeight: "700"
+  },
+  disabledWrapper: {
+    width: "100%",
+    alignItems: "center",
+    paddingVertical: 20,
+    backgroundColor: "#888",
+    borderRadius: 6,
+  },
+  disabledBtn: {
+    color: "#333",
     fontSize: 16,
     fontWeight: "700"
   }

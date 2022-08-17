@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { Button } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import Home from './zdc/Home.js';
+import Home from './components/Home.js';
 import MyPlants from './zdc/MyPlants.js';
 import Trades from './zdc/Trades.js';
 import Favorites from './zdc/Favorites.js';
 import Profile from './components/Profile.js';
 import EditProfile from './zdc/EditProfile.js';
 import PlantPage from './zdc/PlantPage.js';
+import PlantDescription from './components/Plants/PlantDescription.js';
 import TradeInbox from './components/Trades/TradeInbox/TradeInbox.js';
 
 //multiple stack navigations inside individual tab navigations
@@ -29,6 +31,18 @@ function HomeStackScreen() {
       <HomeStack.Screen name="Profile" component={Profile} />
       <HomeStack.Screen name="Edit Profile" component={EditProfile} />
       <HomeStack.Screen name="Plant Card" component={PlantPage} />
+      <HomeStack.Screen name="Plant Description" component={PlantDescription} options={{
+          title: 'Plant Description',
+          // headerRight: () => (
+          //   <Button
+          //     onPress={() => setRequestTrade(true)}
+          //     title={requestTrade ? 'Trade Pending':'Trade'}
+          //     disabled={requestTrade ? true:false}
+          //     color="#000"
+          //     style={styles.tradeButton}
+          //   />
+          // ),
+          }}/>
       <HomeStack.Screen name="Trade Requests" component={TradeInbox} />
     </HomeStack.Navigator>
   );
