@@ -15,39 +15,33 @@ const TradeInbox = (props) => {
   const [acceptedData, setAcceptedData] = useState([])
   const navigation = useNavigation()
 
-  let removeTrade = (index) => {
-    console.log(index)
-    setPendingData(pendingData.filter((item, i) => i !== index));
-  }
+
 
   let getInboxData = () => {
-    axios.get('http://localhost:3000/trades?user_id=1')
+    axios.get('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=1')//change to current user id
+    // axios.get('http:/localhost:3000/trades?user_id=1')//change to current user id
     .then((response) => {
-        // console.log(response.data)
-        let x = response.data.map(function(obj){
-          return obj.tradesobj
-        })
-        // console.log(x, ' this is your obj')
-        setTradesData(x)
-        return x
+      let data = response.data.filter((item, i) => {
+        return item.pending === false
+      })
+        setTradesData(data)
+        return response.data
     })
     .then((response) => {
       // console.log(response.data)
-      let data = response.filter((item, i) => {
-        return item.pending === false
+      let pending = response.filter((item, i) => {
+        return item.pending === true
       })
-      setPendingData(data);
+      setPendingData(pending);
       return response
+
   })
   .then((response) => {
-    // console.log(pendingData,'slhfdkjasgfasfjsahgdf')
     let accepted = response.filter((item, i) => {
       return item.accepted === true
     })
-
     setAcceptedData(accepted);
     return response
-    // setAcceptedData(tradesData.filter((item, i) => item.accepted == true));
 })
     .catch((err) => {
       console.log(err, 'this is your error')
@@ -73,9 +67,9 @@ const TradeInbox = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.container}>
-      <View style={styles.InboxHeader}>
-        <AntDesign name="arrowleft" size={24} color="black" onPress={goBack}/>
-      </View>
+        <View style={styles.InboxHeader}>
+          <AntDesign name="arrowleft" size={24} color="black" onPress={goBack}/>
+        </View>
         <View style={styles.statusContainer}>
           <Button
             onPress={() => setCurrInbox('Pending')}
@@ -87,12 +81,12 @@ const TradeInbox = (props) => {
             title="Accepted"
             color="#606C38"
           />
-          {/* <Button
+          <Button
             onPress={() => setCurrInbox('History')}
             title="History"
             color="#606C38"
             accessibilityLabel="Learn more about this purple button"
-          /> */}
+          />
         </View>
         <View
           style={{
@@ -102,7 +96,7 @@ const TradeInbox = (props) => {
           marginRight: 5
           }}
         />
-    </View>
+      </View>
     {/* pending  */}
      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.TradeContainer}>
@@ -113,7 +107,6 @@ const TradeInbox = (props) => {
               entry={entry}
               index={index}
               currInbox={currInbox}
-              removeTrade={removeTrade}
               getInboxData={getInboxData}
               />
             )}
