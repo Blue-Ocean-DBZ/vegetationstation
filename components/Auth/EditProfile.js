@@ -30,9 +30,8 @@ const EditProfile = () => {
           index: 0,
           routes: [{ name: 'TabNavigator' }],
         });
-
       })
-      .catch(err => console.log(err))
+      .catch(err => alert('Please enter a valid zipcode'))
       // uncomment when homepage is made
   }
 
