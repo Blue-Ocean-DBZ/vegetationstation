@@ -10,7 +10,6 @@ import * as ImagePicker from 'expo-image-picker';
 import { auth } from '../firebase.js'
 import PlantCard from './Plants/PlantCard.js';
 
-
 let _data = [
   {
     pending: true,
@@ -32,13 +31,16 @@ let _data = [
   },
 ];
 
+
+
 const Home = (props) => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredList, setFilteredList] = useState([]);
   const [dummyData, setDummyData] = useState([]);
-  const [favoritesList, setFavoritesList] = useState(DATA);
   const [image, setImage] = useState(auth.currentUser?.photoURL || 'https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg')
+  const [data, setData] = useState([]);
+  const [favoritesList, setFavoritesList] = useState(data);
 
   const navigate = useNavigation()
 
@@ -53,8 +55,6 @@ const Home = (props) => {
       setFilteredList([]);
     }
   }
-
-
 
   const renderSuggestions = () => {
     if(data.length === 0) {
@@ -135,7 +135,7 @@ const Home = (props) => {
       </View> */}
       <View style={styles.plantsWrapper}>
         <FlatList
-          data={DATA}
+          data={_data}
           renderItem={(props)=> <PlantCard {...props} navigate={navigate}/>}
           numColumns={2}
           contentContainerStyle={{ paddingBottom: 350 }}
@@ -147,79 +147,79 @@ const Home = (props) => {
 
 export default Home;
 
-const DATA = [
-  {
-    name: 'PlantOne',
-    owner: 'Brandon',
-    location: 'LA',
-    distance: '12 mi away',
-    favorite: true,
-    url: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/indoor-plants-1634736990.jpg?crop=1.00xw:1.00xh;0,0&resize=1200:*',
-  },
-  {
-    name: 'PlantTwo',
-    owner: 'Shannon',
-    location: 'SF',
-    distance: '312 mi away',
-    favorite: true,
-    url: 'https://cdn.shopify.com/s/files/1/0150/6262/products/the-sill_money-tree_small_bryant_black.jpg?v=1653591376',
-  },
-  {
-    name: 'PlantThree',
-    owner: 'Carson',
-    location: 'OC',
-    distance: '24 mi away',
-    favorite: true,
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmF6j-VfIy1CwkaCi4L_YJH5hl1qGsufLD4A&usqp=CAU',
-  },
-  {
-    name: 'PlantFour',
-    owner: 'Gian',
-    location: 'Stockton',
-    distance: '246 mi away',
-    favorite: true,
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbIHw3oUEi2EAMDD6AHDe2j37Y2JuEozh6tg&usqp=CAU',
-  },
-  {
-    name: 'PlantFive',
-    owner: 'Jonathan',
-    location: 'LA',
-    distance: '12 mi away',
-    favorite: true,
-    url: 'https://empire-s3-production.bobvila.com/slides/30451/original/Gloxinia-flowering-houseplants.jpg?1551987245',
-  },
-  {
-    name: 'PlantSix',
-    owner: 'David',
-    location: 'Sacramento',
-    distance: '442 mi away',
-    favorite: true,
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9HZXoUNWkyvVOQhBOKI6Te9WAEjL35peDcA&usqp=CAU',
-  },{
-    name: 'PlantSeven',
-    owner: 'Kevin',
-    location: 'Cupertino',
-    distance: '246 mi away',
-    favorite: true,
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoJi4K4-eM57BhLUM8dOqS5PV0FZUN-2usMw&usqp=CAU',
-  },
-  {
-    name: 'PlantEight',
-    owner: 'Theresa',
-    location: 'OC',
-    distance: '12 mi away',
-    favorite: true,
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRowhGAXIPf4gl8Tp1sQF9_zgxP8Xx36mBFTA&usqp=CAU',
-  },
-  {
-    name: 'PlantNine',
-    owner: 'Clayton',
-    location: 'Sacramento',
-    distance: '442 mi away',
-    favorite: true,
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwCTPKnYjEN3XdLC7PMgo9qViE-4-VK-JvKw&usqp=CAU',
-  },
-];
+// const DATA = [
+//   {
+//     name: 'PlantOne',
+//     owner: 'Brandon',
+//     location: 'LA',
+//     distance: '12 mi away',
+//     favorite: true,
+//     url: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/indoor-plants-1634736990.jpg?crop=1.00xw:1.00xh;0,0&resize=1200:*',
+//   },
+//   {
+//     name: 'PlantTwo',
+//     owner: 'Shannon',
+//     location: 'SF',
+//     distance: '312 mi away',
+//     favorite: true,
+//     url: 'https://cdn.shopify.com/s/files/1/0150/6262/products/the-sill_money-tree_small_bryant_black.jpg?v=1653591376',
+//   },
+//   {
+//     name: 'PlantThree',
+//     owner: 'Carson',
+//     location: 'OC',
+//     distance: '24 mi away',
+//     favorite: true,
+//     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmF6j-VfIy1CwkaCi4L_YJH5hl1qGsufLD4A&usqp=CAU',
+//   },
+//   {
+//     name: 'PlantFour',
+//     owner: 'Gian',
+//     location: 'Stockton',
+//     distance: '246 mi away',
+//     favorite: true,
+//     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbIHw3oUEi2EAMDD6AHDe2j37Y2JuEozh6tg&usqp=CAU',
+//   },
+//   {
+//     name: 'PlantFive',
+//     owner: 'Jonathan',
+//     location: 'LA',
+//     distance: '12 mi away',
+//     favorite: true,
+//     url: 'https://empire-s3-production.bobvila.com/slides/30451/original/Gloxinia-flowering-houseplants.jpg?1551987245',
+//   },
+//   {
+//     name: 'PlantSix',
+//     owner: 'David',
+//     location: 'Sacramento',
+//     distance: '442 mi away',
+//     favorite: true,
+//     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9HZXoUNWkyvVOQhBOKI6Te9WAEjL35peDcA&usqp=CAU',
+//   },{
+//     name: 'PlantSeven',
+//     owner: 'Kevin',
+//     location: 'Cupertino',
+//     distance: '246 mi away',
+//     favorite: true,
+//     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoJi4K4-eM57BhLUM8dOqS5PV0FZUN-2usMw&usqp=CAU',
+//   },
+//   {
+//     name: 'PlantEight',
+//     owner: 'Theresa',
+//     location: 'OC',
+//     distance: '12 mi away',
+//     favorite: true,
+//     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRowhGAXIPf4gl8Tp1sQF9_zgxP8Xx36mBFTA&usqp=CAU',
+//   },
+//   {
+//     name: 'PlantNine',
+//     owner: 'Clayton',
+//     location: 'Sacramento',
+//     distance: '442 mi away',
+//     favorite: true,
+//     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwCTPKnYjEN3XdLC7PMgo9qViE-4-VK-JvKw&usqp=CAU',
+//   },
+// ];
 
 
 const styles= StyleSheet.create({

@@ -6,8 +6,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-// import Home from './components/Home.js';
-import Home from './zdc/Home.js'
+import Home from './components/Home.js';
+// import Home from './zdc/Home.js'
 import MyPlants from './zdc/MyPlants.js';
 import Trades from './zdc/Trades.js';
 import MyFavoritesHome from './components/MyFavorites/MyFavoritesHome.js';
