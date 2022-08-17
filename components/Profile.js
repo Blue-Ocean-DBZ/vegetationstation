@@ -29,7 +29,7 @@ const MyPlantsStackScreen = () => (
   </View>
 );
 
-export default function App() {
+export default function Profile () {
 
   const navigation = useNavigation();
 
