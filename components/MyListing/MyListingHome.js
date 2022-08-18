@@ -6,6 +6,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { ref, uploadBytes } from "firebase/storage";
 import { storage, auth, signOutUser } from '../../firebase.js'
 import axios from 'axios';
+import { usePlant } from '../../TabNavigator.js';
 
 const MyListingHome = () => {
   //be able to get access to user ID
@@ -17,19 +18,20 @@ const MyListingHome = () => {
   const [addPlantName, setAddPlantName] = useState('');
   const [plantList, setPlantList] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(true);
+  const {userIdentity} = usePlant();
+  const userID = userIdentity[0];
+
 
   useEffect(() => {
-    console.log('this is the auth', auth)
-    axios.get('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/myPlants?user_id=7')
+    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/myPlants?user_id=${userID}`)
       .then((results)=> {
-        console.log(results.data, 'dfjahdkl;sjfhjsdzk;fashjk');
         setPlantList(results.data)
       })
+    console.log(userID, 'user Identity in listing home')
   }, []);
 
   const handleAddPlant = () => {
     setDisplayModal(true);
-    console.log(auth.currentUser.uid)
   };
 
   const selectPicture = async () => {
@@ -80,15 +82,18 @@ const MyListingHome = () => {
         axios.post ('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/plant', {
           plant_name: addPlantName,
           photo: uri,
-          user_id: 7,
+          user_id: userID,
         })
       })
       .then(()=> {
-        axios.get('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/myPlants?user_id=7')
+        axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/myPlants?user_id=${userID}`)
         .then((results)=> {
           setPlantList(results.data)
         })
       })
+
+
+
       .catch(err => console.log(err))
     setImagePath(addPicImage);
     setAddPlantName('');
@@ -136,7 +141,6 @@ const MyListingHome = () => {
             {setShowConfirmation(false);
             for (let i = 0; i < tempArray.length; i++){
               if (tempArray[i].plant_id === id) {
-                console.log (tempArray[i], 'should return info of deleted plant from mylisting') //returns deleted plant from mylistng
                 let plant_id = tempArray[i].plant_id
                 tempArray.splice(i, 1);
                 setPlantList(tempArray)
@@ -219,8 +223,9 @@ const styles= StyleSheet.create({
 
   container: {
     height: "100%",
-    justifyContent: 'center',
-    width: "100%"
+    justifyContent: 'flex-start',
+    marginTop: -50,
+    width: "100%",
   },
 
   addPlantModalContainer: {
