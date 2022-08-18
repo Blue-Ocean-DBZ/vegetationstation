@@ -10,7 +10,7 @@ const MyFavoritesHome = () => {
   const [favoritesList, setFavoritesList] = useState([]);
   const {userIdentity} = usePlant();
   const userID = userIdentity[0];
-  const meterToMiles = 0.00062;
+  const meterToMiles = 1609;
 
   useEffect(() => {
     axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?user_id=${userID}`)
@@ -31,8 +31,8 @@ const MyFavoritesHome = () => {
               <Text style={styles.title}>{item.plant_name}</Text>
             </View>
             <View>
-              <Text style={styles.otherPlantInfo}>{item.zip}</Text>
-              <Text style={styles.otherPlantInfo}>{Math.floor(item.distance*meterToMiles)} miles</Text>
+              <Text style={styles.otherPlantInfo}>{item.zip} ({Math.floor(item.distance / meterToMiles)} miles)</Text>
+              {/*<Text style={styles.otherPlantInfo}>{Math.floor(item.distance / meterToMiles)} miles</Text>*/ }
               <Text style={styles.otherPlantInfo}>{item.username}</Text>
             </View>
           </View>
