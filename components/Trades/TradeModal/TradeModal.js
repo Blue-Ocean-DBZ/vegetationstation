@@ -17,7 +17,7 @@ const axios = require('axios')
 const TradeModal = (props) => {
 
   const navigation = useNavigation()
-  const [postData, setPostData] = useState({plant_offer_id: null, plant_target_id: 15})
+  const [postData, setPostData] = useState({plant_offer_id: null, plant_target_id: 157})
 
   let goBack = () => {
     props.closeModal(false)

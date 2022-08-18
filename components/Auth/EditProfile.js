@@ -6,6 +6,7 @@ import { ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 import { storage, auth, signOutUser } from '../../firebase.js'
 import axios from 'axios'
+import { usePlant } from '../../TabNavigator.js'
 
 const EditProfile = () => {
   const [username, setUsername] = useState(auth.currentUser?.displayName)
@@ -13,6 +14,12 @@ const EditProfile = () => {
   const [status, setStatus] = useState('')
   const [image, setImage] = useState(auth.currentUser?.photoURL || 'https://th-thumbnailer.cdn-si-edu.com/bZAar59Bdm95b057iESytYmmAjI=/1400x1050/filters:focal(594x274:595x275)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/95/db/95db799b-fddf-4fde-91f3-77024442b92d/egypt_kitty_social.jpg')
   const navigation = useNavigation()
+
+  //from axios
+  const {userIdentity, userZipcode , userProfilePicture} = usePlant();
+  const [userId, setUserId] = userIdentity;
+  const [userZip, setUserZip] = userZipcode;
+  const [userProfilePic, setUserProfilePic] = userProfilePicture;
 
   const saveHandler = () => {
     if(zipcode.length !== 5) {
@@ -34,6 +41,12 @@ const EditProfile = () => {
       .catch(err => alert('Please enter a valid zipcode'))
       // uncomment when homepage is made
   }
+
+  if (auth.currentUser?.photoURL === null) {
+    updateProfile(auth.currentUser, {
+      photoURL: image
+    })
+  };
 
   const logoutHandler = () => {
     signOutUser()

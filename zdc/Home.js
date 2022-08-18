@@ -4,15 +4,17 @@ import { usePlant } from '../TabNavigator.js'
 
 export default function Home({ navigation }) {
 
-  const {test, test1 , test2} = usePlant();
-  const [user, setUser] = test;
+  const {userIdentity, userZipcode, userProfilePicture, test1 , test2, test3} = usePlant();
+  const [userId, setUserId] = userIdentity;
+  const [userZip, setUserZip] = userZipcode;
+  const [userProfilePic, setUserProfilePic] = userProfilePicture;
   const [messages, setMessages] = test1;
-  const [string, setString] = test2;
+  const [word, setWord] = test2;
   // const [plantArray, setPlantArray] = test3;
 
   return (
       <View style={styles.container}>
-        <Text>{user}</Text>
+        <Text>{userZip}</Text>
         <Button
           title="Profile"
           onPress={() => navigation.navigate('Profile')}
