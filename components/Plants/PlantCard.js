@@ -17,11 +17,11 @@ const PlantCard = ({ item, navigate }) => {
     <TouchableWithoutFeedback onPress={() => navigate.push('Plant Description')}>
       <View style={styles.plantInformationContainer}>
         <View>
-          <Image source={{ uri: item.url }} style={styles.plantImage}/>
+          <Image source={{ uri: item.photo }} style={styles.plantImage}/>
         </View>
           <View style= {styles.plantInfo}>
-            <Image source={ item.profile_pic } style={styles.userImage}/>
-            <Text style={styles.otherPlantInfo}>{item.distance}</Text>
+            <Image source={ item.photo } style={styles.userImage}/>
+            <Text style={styles.otherPlantInfo}>{Math.floor(item.distance/10000)} miles away</Text>
           </View>
       </View>
     </TouchableWithoutFeedback>
