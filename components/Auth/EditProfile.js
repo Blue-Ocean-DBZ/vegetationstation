@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios'
 import { useNavigation } from '@react-navigation/core'
+import { ActivityIndicator } from 'react-native-paper';
 import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView,TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { ref, uploadBytes } from "firebase/storage";
@@ -10,6 +11,7 @@ import { PlantContext } from '../../TabNavigator.js'
 
 const EditProfile = () => {
   const data = useContext(PlantContext)
+  const [loading, setLoading] = useState(false)
   const [id, setId] = useState('')
   const [username, setUsername] = useState(auth.currentUser?.displayName)
   const [zipcode, setZipcode] = useState('')
@@ -44,7 +46,6 @@ const EditProfile = () => {
         })
         .catch(err => alert('Please enter a valid zipcode'))
     } else {
-      console.log(id, zipcode)
       axios.put('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/user', {
         user_id: id,
         profile_pic: auth.currentUser?.photoURL || image,
@@ -93,19 +94,24 @@ const EditProfile = () => {
     if (pickerResult.cancelled === true) {
       return;
     }
+    setLoading(true)
     const res = await fetch(pickerResult.uri)
     const blob = await res.blob()
     const filename =  pickerResult.uri.substring(pickerResult.uri.lastIndexOf('/') + 1)
     const imageRef = ref(storage, filename)
     uploadBytes(imageRef, blob)
       .then(snapshot => {
-        const uri = `https://firebasestorage.googleapis.com/v0/b/vegetationstation1.appspot.com/o/${filename}?alt=media`
+        const uri = `https://firebasestorage.googleapis.com/v0/b/vegetationstation2.appspot.com/o/${filename}?alt=media`
         setImage(pickerResult.uri);
         updateProfile(auth.currentUser, {
           photoURL: uri
         })
+        setLoading(false)
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        setLoading(false)
+        console.log(err)
+      })
   }
 
   return (
@@ -118,6 +124,7 @@ const EditProfile = () => {
           </TouchableOpacity>
         </View>
           <Text style={styles.username}>{username}</Text>
+          {loading ? <ActivityIndicator animating={true} color='#FEFAE0' size={70} style={{position: 'absolute', top: '20%', zIndex: 1000}}/> : null}
         <View style={styles.inputContainer}>
           <TextInput placeholder='Zip Code' placeholderTextColor='#D3D3D3'  autoCapitalize='none' value={zipcode} style={styles.input} onChangeText={text => setZipcode(text)} maxLength={5} minLength={5} keyboardType="number-pad"/>
           <Text style={styles.notice}>We use your zip code to locate plant swappers near the area.</Text>
@@ -127,9 +134,6 @@ const EditProfile = () => {
           <TouchableOpacity style={styles.buttonGrp} onPress={saveHandler}>
             <Text style={styles.button}>Save</Text>
           </TouchableOpacity>
-          {/* <TouchableOpacity style={styles.buttonGrp} onPress={logoutHandler}>
-            <Text style={styles.button}>Temporary Logout</Text>
-          </TouchableOpacity> */}
         </View>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
@@ -171,13 +175,15 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   button: {
+    height: 60,
     width: '100%',
     textAlign: 'center',
-    backgroundColor: '#1B2722',
+    backgroundColor: '#2C3D36',
+    borderColor: '#2C3D36',
     padding: 20,
     borderRadius: 10,
     fontSize: 20,
-    fontWeight: '700',
+    fontWeight: 'bold',
     color: 'whitesmoke',
     overflow: 'hidden'
   },
