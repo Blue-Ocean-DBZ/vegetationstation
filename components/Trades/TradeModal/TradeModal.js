@@ -23,15 +23,14 @@ const TradeModal = (props) => {
     props.closeModal(false)
   }
 
+  //set users plant id to trade
   let setImage =  async (plantID) => {
     setPostData({...postData, plant_offer_id: plantID});
     console.log(postData)
-
   }
 
   useEffect(() => {
   },[])
-
   let submitTrade = (obj) => {
     //if plant not chosen
     if(postData.plant_offer_id === null) {
@@ -39,6 +38,7 @@ const TradeModal = (props) => {
         { text: 'OK', onPress: () => console.log('OK Pressed') },
       ]);
     } else {
+      //if plant chosen post trade
       return axios.post('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades', postData)
       .then((response) => {
         setPostData({...postData, plant_offer_id: null});
