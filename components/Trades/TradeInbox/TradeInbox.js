@@ -1,62 +1,73 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/core'
-import { Alert, Modal, StyleSheet, Text, Pressable, View, Image, useWindowDimensions, ScrollView, Button } from 'react-native';
+import { RefreshControl, Alert, Modal, StyleSheet, Text, Pressable, View, Image, useWindowDimensions, ScrollView, Button } from 'react-native';
 import InboxList from './InboxList.js'
 import { AntDesign } from '@expo/vector-icons';
 import TradesData from '../exampleData/InboxDummy.js';
 import DummyAccepted from '../exampleData/InboxDummyAccpted.js'
 import axios from 'axios'
 import {  auth } from '../../../firebase.js'
+import { usePlant } from '../../../TabNavigator.js';
 
 
 const TradeInbox = (props) => {
 
   const [currInbox, setCurrInbox] = useState('Pending')
-  const [pendingData, setPendingData] = useState([])
-  const [tradesData, setTradesData] = useState([])
-  const [acceptedData, setAcceptedData] = useState([])
-  const [userID, setUserID] = useState(212)//212 //317
+  const [refreshing, setRefreshing] = useState(false);
+  // const [userID, setUserID] = useState(212)//212 //317
   const navigation = useNavigation()
+  const {pendingTrades, trades, acceptedTrades, userIdentity, userZipcode, getInbox} = usePlant();
+  const [userZip, setUserZip] = userZipcode;
+  const [userId, setUserId] = userIdentity; //212 //317
+  const [pendingData, setPendingData] = pendingTrades;
+  const [tradesData, setTradesData] = trades;
+  const [acceptedData, setAcceptedData] = acceptedTrades;
   // console.log(auth.currentUser.uid, 'lashfkljshfkljsahdlkfjhasklfhkasjlh')
 
+  // const onRefresh = React.useCallback(() => {
+  //   setRefreshing(true);
+  //   getInboxData(userId);
+  //   wait(2000).then(() => setRefreshing(false));
+  // }, []);
 
-  let getInboxData = () => {
-    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userID}`)//change to current user id
-    .then((response) => {
-      let data = response.data.filter((item, i) => {
-        return item.pending === false
-      })
-        setTradesData([...data])
-        return response.data
+  console.log(userId, '11111')
+  getInbox(userId)
+//   let getInboxData = () => {
+//     console.log('refreshed')
+//     axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)//change to current user id
+//     .then((response) => {
+//       let data = response.data.filter((item, i) => {
+//         return item.pending === false
+//       })
+//         setTradesData([...data])
+//         return response.data
 
-    })
-    .then((response) => {
-      console.log(tradesData)
-      // console.log(response.data)
-      let pending = response.filter((item, i) => {
-        return item.pending === true
-      })
-      setPendingData([...pending]);
-      return response
-
-  })
-  .then((response) => {
-    let accepted = response.filter((item, i) => {
-      return item.accepted === true
-    })
-    setAcceptedData([...accepted]);
-    return response
-})
-    .catch((err) => {
-      console.log(err, 'this is your error')
-    })
-  }
-
-
+//     })
+//     .then((response) => {
+//       console.log(tradesData)
+//       // console.log(response.data)
+//       let pending = response.filter((item, i) => {
+//         return item.pending === true
+//       })
+//       setPendingData([...pending]);
+//       return response
+//   })
+//   .then((response) => {
+//     let accepted = response.filter((item, i) => {
+//       return item.accepted === true
+//     })
+//     setAcceptedData([...accepted]);
+//     return response
+// })
+//     .catch((err) => {
+//       console.log(err, 'this is your error')
+//     })
+//   }
 
   useEffect (() => {
-
-  getInboxData()
+    // console.log(userId, 'uuuuseeerrrr userid')
+    // console.log('trades', tradesData)
+    //   getInboxData()
   }, [])
 
 //  useEffect (() => {
@@ -69,7 +80,7 @@ const TradeInbox = (props) => {
   }
 
   let switchTab = (tabName) => {
-    getInboxData()
+    getInbox(userId)
     setCurrInbox(tabName)
   }
 
@@ -107,7 +118,7 @@ const TradeInbox = (props) => {
           }}
         />
       </View>
-     <ScrollView showsVerticalScrollIndicator={false} style ={styles.scroll} >
+     <ScrollView  showsVerticalScrollIndicator={false} style ={styles.scroll} >
         <View style={styles.TradeContainer}>
         {currInbox === 'Pending' && <View style={styles.InboxEntryContainer}>
             {pendingData.map((entry, index = 0) =>
@@ -116,8 +127,8 @@ const TradeInbox = (props) => {
               entry={entry}
               index={index}
               currInbox={currInbox}
-              getInboxData={getInboxData}
-              userID ={userID}
+              getInbox={getInbox}
+              userID ={userId}
               />
             )}
           </View>
@@ -129,8 +140,8 @@ const TradeInbox = (props) => {
               entry={entry}
               index={index}
               currInbox={currInbox}
-              getInboxData={getInboxData}
-              userID ={userID}
+              getInbox={getInbox}
+              userID ={userId}
               />
             )}
           </View>
@@ -142,8 +153,8 @@ const TradeInbox = (props) => {
               entry={entry}
               index={index}
               currInbox={currInbox}
-              getInboxData={getInboxData}
-              userID ={userID}
+              getInbox={getInbox}
+              userID ={userId}
               />
             )}
             </View>

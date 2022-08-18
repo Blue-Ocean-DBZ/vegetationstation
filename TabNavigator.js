@@ -86,8 +86,8 @@ function FavoritesStackScreen() {
 export const PlantContext = React.createContext()
 
 export function usePlant () {
-  const {userIdentity, userZipcode, userProfilePicture, plantList, userMessages , test2, test3} = useContext(PlantContext);
-  return {userIdentity, userZipcode, userProfilePicture, plantList, userMessages, test2, test3};
+  const {userIdentity, userZipcode, userProfilePicture, plantList, userMessages , test2, test3, pendingTrades, trades, acceptedTrades, getInbox} = useContext(PlantContext);
+  return {userIdentity, userZipcode, userProfilePicture, plantList, userMessages, test2, test3, pendingTrades, trades, acceptedTrades, getInbox};
 }
 
 // Tab Navigator, individual stack navigators are nested inside
@@ -96,12 +96,15 @@ export default function TabNavigator() {
 
   const firebaseID = auth.currentUser.uid;
 
-  const [userId, setUserId] = useState(212);
+  const [userId, setUserId] = useState(212);//change to null
   const [userZip, setUserZip] = useState(null);
   const [userProfilePic, setUserProfilePic] = useState('');
   const [messages, setMessages] = useState(null);
   const [string, setString] = useState('This is working');
   const [plantArray, setPlantArray] = useState([]);
+  const [pendingData, setPendingData] = useState([])
+  const [tradesData, setTradesData] = useState([])
+  const [acceptedData, setAcceptedData] = useState([])
 
   useEffect( () => {
       async function fetchData() {
@@ -112,19 +115,20 @@ export default function TabNavigator() {
         setUserProfilePic(response.data.profile_pic);
         const resp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/all?user_id=${userId}`)
         setPlantArray(resp.data);
+        const tradeResp = await getInboxData(userId);
         const notifResp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
           let data = notifResp.data.filter((item, i) => {
             return (item.plant_offer.owner_id === userId) && (item.shown_to_user_offer === false)
           })
           let dataCount = data.length
-          console.log('first array', data)
+          // console.log('first array', data)
           let data2 = notifResp.data.filter((item, i) => {
             return (item.plant_offer.owner_id !== userId) && ((item.shown_to_user_target === false))
             // return (item.plant_offer.owner_id !== userId)
           })
           let data2Count = data2.length
-          console.log('second array', data2)
-          console.log(dataCount + data2Count);
+          // console.log('second array', data2)
+          // console.log(dataCount + data2Count);
           if ((dataCount + data2Count) > 0) {
             setMessages(dataCount + data2Count);
           }
@@ -136,15 +140,51 @@ export default function TabNavigator() {
       fetchData();
   }, [userZip])
 
+  function getInboxData (id) {
+    console.log(userId, 'useridd in inbox data')
+    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${id}`)//change to current user id
+    .then((response) => {
+      let data = response.data.filter((item, i) => {
+        return item.pending === false
+      })
+        setTradesData([...data])
+        return response.data
+
+    })
+    .then((response) => {
+      console.log(tradesData)
+      // console.log(response.data)
+      let pending = response.filter((item, i) => {
+        return item.pending === true
+      })
+      setPendingData([...pending]);
+      return response
+  })
+  .then((response) => {
+    let accepted = response.filter((item, i) => {
+      return item.accepted === true
+    })
+    setAcceptedData([...accepted]);
+    return response
+  })
+    .catch((err) => {
+      console.log(err, 'this is your error')
+    })
+  }
+
   return (
     <PlantContext.Provider
       value ={{
+        getInbox: getInboxData,
         userIdentity: [userId, setUserId],
         userZipcode: [userZip, setUserZip],
         userProfilePicture: [userProfilePic, setUserProfilePic],
         userMessages: [messages, setMessages],
         test2: [string, setString],
-        plantList: [plantArray, setPlantArray]}}>
+        plantList: [plantArray, setPlantArray],
+        pendingTrades: [pendingData, setPendingData],
+        trades: [tradesData, setTradesData],
+        acceptedTrades: [acceptedData, setAcceptedData]}}>
       <Tab.Navigator screenOptions={{
         tabBarStyle: {backgroundColor: "#8eb69b"},
         tabBarActiveTintColor: "#fefae0",
@@ -172,6 +212,14 @@ export default function TabNavigator() {
           }}/>
         <Tab.Screen
           name="Trade" component={TradeStackScreen}
+          listeners={({ navigation, route }) => ({
+            tabPress: e => {
+              // Prevent default action
+              e.preventDefault();
+              // getInboxData();
+              navigation.navigate('Trade')
+            },
+          })}
           options={{
             tabBarBadge: messages,
             tabBarIcon: ({color, size}) => (
