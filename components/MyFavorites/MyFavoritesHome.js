@@ -117,13 +117,8 @@ const MyFavoritesHome = () => {
               <Text style={styles.otherPlantInfo}>{item.username}</Text>
             </View>
           </View>
-<<<<<<< HEAD
           <TouchableWithoutFeedback onPress={() => { deleteFavorite(item.plant_id) }}>
             <Ionicons name="heart" style={styles.heart} size={25} />
-=======
-          <TouchableWithoutFeedback onPress= {() => {deleteFavorite(item.id)}}>
-            <Ionicons name="heart" style= {styles.heart} size= {25}/>
->>>>>>> 0761e79233ae9de56fa1a1ef7e5aa2be39916d18
           </TouchableWithoutFeedback>
         </View>
       </View>
@@ -132,17 +127,11 @@ const MyFavoritesHome = () => {
 
   const deleteFavorite = (id) => { //delete favorites functionality here
     let tempArray = favoritesList.slice();
-<<<<<<< HEAD
     for (let i = 0; i < tempArray.length; i++) {
       if (tempArray[i].plant_id === id) {
         console.log(tempArray[i], 'plant information') //should log deleted plant information
         let favoriteId = tempArray[i].favorites_id;
         console.log(favoriteId, ' favorites id')
-=======
-    for (let i = 0; i < tempArray.length; i++){
-      if (tempArray[i].id === id) {
-        console.log (tempArray[i], 'plant information') //should log deleted plant information
->>>>>>> 0761e79233ae9de56fa1a1ef7e5aa2be39916d18
         tempArray.splice(i, 1);
         setFavoritesList(tempArray)
         axios.delete(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?favorites_id=${favoriteId}`)
