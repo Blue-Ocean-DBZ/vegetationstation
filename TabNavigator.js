@@ -106,32 +106,32 @@ export default function TabNavigator() {
   const [tradesData, setTradesData] = useState([])
   const [acceptedData, setAcceptedData] = useState([])
 
+
+  useEffect(() => {
+    let interval = null
+    clearInterval(interval)
+    interval = setInterval(async () => {
+      const notifResp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
+      let count = notifResp.data[0].notifications
+          setMessages(count);
+    }, 5000)
+  }, [])
+
+
+
   useEffect( () => {
       async function fetchData() {
       try {
         const response = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${firebaseID}`)
-        setUserId(response.data.id);
+        // setUserId(response.data.id);
         setUserZip(response.data.zip);
         setUserProfilePic(response.data.profile_pic);
         const resp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/all?user_id=${userId}`)
         setPlantArray(resp.data);
         const tradeResp = await getInboxData(userId);
         const notifResp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
-          let data = notifResp.data.filter((item, i) => {
-            return (item.plant_offer.owner_id === userId) && (item.shown_to_user_offer === false)
-          })
-          let dataCount = data.length
-          // console.log('first array', data)
-          let data2 = notifResp.data.filter((item, i) => {
-            return (item.plant_offer.owner_id !== userId) && ((item.shown_to_user_target === false))
-            // return (item.plant_offer.owner_id !== userId)
-          })
-          let data2Count = data2.length
-          // console.log('second array', data2)
-          // console.log(dataCount + data2Count);
-          if ((dataCount + data2Count) > 0) {
-            setMessages(dataCount + data2Count);
-          }
+        let count = notifResp.data[0].notifications
+        setMessages(count);
       }
       catch { err =>
         console.log('final error', err);

@@ -20,7 +20,7 @@ const InboxList = (props) => {
     return axios.put(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades`,
     {trade_id: tradeId, user_id: userID, accepted: true})
   .then((response) => {
-    props.getInboxData(userID)
+    props.getInbox(userID)
     console.log('Accepted succesful', response)
   })
   .catch((err) => {
@@ -36,7 +36,7 @@ const InboxList = (props) => {
       return axios.put(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades`,
       {trade_id: tradeId, user_id: userID, accepted: false})
     .then((response) => {
-      props.getInboxData(userID)
+      props.getInbox(userID)
       console.log('Declined succesful', response)
     })
     .catch((err) => {
@@ -51,7 +51,7 @@ const InboxList = (props) => {
     return axios.put(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades/shown`,
     {trade_id: tradeId, user_id: userID})
     .then((response) => {
-      props.getInboxData(userID)
+      props.getInbox(userID)
       return axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userID}`)
       .then((res) => {
         let data = res.data.filter((item, i) => {

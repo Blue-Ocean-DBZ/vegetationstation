@@ -30,8 +30,7 @@ const TradeInbox = (props) => {
   //   wait(2000).then(() => setRefreshing(false));
   // }, []);
 
-  console.log(userId, '11111')
-  getInbox(userId)
+  // getInbox(userId)
 //   let getInboxData = () => {
 //     console.log('refreshed')
 //     axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)//change to current user id
@@ -64,11 +63,11 @@ const TradeInbox = (props) => {
 //     })
 //   }
 
-  useEffect (() => {
-    // console.log(userId, 'uuuuseeerrrr userid')
-    // console.log('trades', tradesData)
-    //   getInboxData()
-  }, [])
+  // useEffect (() => {
+  //   // console.log(userId, 'uuuuseeerrrr userid')
+  //   // console.log('trades', tradesData)
+  //   //   getInboxData()
+  // }, [])
 
 //  useEffect (() => {
 
@@ -80,9 +79,12 @@ const TradeInbox = (props) => {
   }
 
   let switchTab = (tabName) => {
-    getInbox(userId)
     setCurrInbox(tabName)
   }
+
+  useEffect(() => {
+    getInbox(userId)
+  }, [currInbox])
 
 
   return (
