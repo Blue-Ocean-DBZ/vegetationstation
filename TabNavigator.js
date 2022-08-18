@@ -5,9 +5,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
 import Home from './components/Home.js';
-// import Home from './zdc/Home.js'
+
 import MyPlants from './zdc/MyPlants.js';
 import Trades from './zdc/Trades.js';
 import MyFavoritesHome from './components/MyFavorites/MyFavoritesHome.js';
@@ -94,19 +93,18 @@ export default function TabNavigator() {
 
   const firebaseID = auth.currentUser.uid;
 
-  const [userId, setUserId] = useState(1);
-  const [userZip, setUserZip] = useState(11111);
+  const [userId, setUserId] = useState(null);
+  const [userZip, setUserZip] = useState(null);
   const [userProfilePic, setUserProfilePic] = useState('');
   const [messages, setMessages] = useState(null);
   const [string, setString] = useState('This is working');
   const [plantArray, setPlantArray] = useState([1, 2, 3]);
 
-  console.log(userId, userZip, userProfilePic)
-
   useEffect(() => {
     console.log('before axios', firebaseID)
     axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${firebaseID}`)
     .then((response) => {
+      console.log(response)
       setUserId(response.data.id);
       setUserZip(response.data.zip);
       setUserProfilePic(response.data.profile_pic);
@@ -117,7 +115,7 @@ export default function TabNavigator() {
     .catch((err) => {
       console.log(err);
     })
-  }, [])
+  }, [userZip])
 
   return (
     <PlantContext.Provider
