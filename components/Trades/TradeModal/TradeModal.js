@@ -13,7 +13,7 @@ const axios = require('axios')
     //user_plant_id
     //target_user_id
     //target_plant_id
-
+  //
 const TradeModal = (props) => {
 
   const navigation = useNavigation()

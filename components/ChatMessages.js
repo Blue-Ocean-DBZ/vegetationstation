@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, TouchableWithoutFeedba
 import { signOutUser } from '../firebase.js';
 import { useNavigation } from '@react-navigation/core'
 
-export default function ChatMessages () {
+export default function ChatMessages ({ route}) {
   const [message, setMessage] = useState(undefined);
   const [fakeMessages, setFakeMessages] = useState([
     {
@@ -61,6 +61,8 @@ export default function ChatMessages () {
 
   const navigation = useNavigation();
 
+  const {user_id, trade_id} = route.params
+
   const addMessage = (e) => {
     e.preventDefault();
     setFakeMessages([...fakeMessages, {
@@ -76,7 +78,9 @@ export default function ChatMessages () {
     navigation.goBack();
   }
   return (
+
       <KeyboardAvoidingView style={styles.container} behavior="padding">
+        {console.log(user_id, trade_id, 'inbox info')}
         <TouchableOpacity style={styles.backContainer} onPress={goBack}>
           <Text styles={styles.textButton}> X </Text>
         </TouchableOpacity>
