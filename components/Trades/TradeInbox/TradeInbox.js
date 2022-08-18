@@ -7,6 +7,7 @@ import TradesData from '../exampleData/InboxDummy.js';
 import DummyAccepted from '../exampleData/InboxDummyAccpted.js'
 import axios from 'axios'
 import { storage, auth, signOutUser } from '../../../firebase.js'
+import { usePlant } from '../../../TabNavigator.js'
 
 
 const TradeInbox = (props) => {
@@ -17,6 +18,10 @@ const TradeInbox = (props) => {
   const [userID, setUserID] = useState(212)
   const navigation = useNavigation()
   console.log(auth)
+
+  const {userMessages} = usePlant();
+  const [messages, setMessages] = userMessages;
+  console.log('trade inbox', messages);
 
 
   let getInboxData = () => {

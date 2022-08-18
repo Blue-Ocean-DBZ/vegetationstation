@@ -84,8 +84,12 @@ function FavoritesStackScreen() {
 export const PlantContext = React.createContext()
 
 export function usePlant () {
-  const {userIdentity, userZipcode, userProfilePicture, test1 , test2, test3} = useContext(PlantContext);
-  return {userIdentity, userZipcode, userProfilePicture, test1, test2, test3};
+  const {userIdentity, userZipcode, userProfilePicture, userMessages , test2, test3} = useContext(PlantContext);
+  return {userIdentity, userZipcode, userProfilePicture, userMessages, test2, test3};
+}
+
+export function plantInfo () {
+  axios.get()
 }
 
 // Tab Navigator, individual stack navigators are nested inside
@@ -119,11 +123,14 @@ export default function TabNavigator() {
           setMessages(data.length)
         }
       })
+      .catch((err) => {
+        console.log(err);
+      })
     })
     .catch((err) => {
       console.log(err);
     })
-  }, [])
+  }, [userZip, messages])
 
   return (
     <PlantContext.Provider
@@ -131,7 +138,7 @@ export default function TabNavigator() {
         userIdentity: [userId, setUserId],
         userZipcode: [userZip, setUserZip],
         userProfilePicture: [userProfilePic, setUserProfilePic],
-        test1: [messages, setMessages],
+        userMessages: [messages, setMessages],
         test2: [string, setString],
         test3: [plantArray, setPlantArray]}}>
       <Tab.Navigator screenOptions={{
