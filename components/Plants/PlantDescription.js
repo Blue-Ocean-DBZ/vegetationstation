@@ -1,106 +1,118 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { StyleSheet, FlatList, Text, View, TouchableOpacity, TouchableWithoutFeedback, Image } from 'react-native';
-import { Fontisto } from '@expo/vector-icons';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Modal, StyleSheet, FlatList, Text, View, TouchableOpacity, TouchableWithoutFeedback, Image } from 'react-native';
+import {FontAwesome, Ionicons} from 'react-native-vector-icons'
 import PlantCard from './PlantCard.js';
 import { auth } from '../../firebase.js';
-import OpenModal from '../Trades/TradeModal/OpenModal.js'
+import TradeModal from '../Trades/TradeModal/TradeModal.js'
 
-let dummyData = [
-  {
-    pending: true,
-    plant_id: 183916,
-    name: 'PlantSix',
-    owner: 'David',
-    location: 'Sacramento',
-    distance: '442 mi away',
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9HZXoUNWkyvVOQhBOKI6Te9WAEjL35peDcA&usqp=CAU',
-    profile_pic: auth.currentUser?.photoURL,
-  }
-];
-
-// need to grab props of selected plant somehow
-const PlantDescription = () => {
-  console.log('in plant description')
-
-  const [plantListing, setPlantListing] = useState(dummyData);
+const PlantDescription = ({ route }) => {
+  const plant = route.params;
+  console.log('line 11 this is plant', plant)
   const [fillHeart, setFillHeart] = useState('red');
-  const [showModal, setShowModal] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [favorites, setFavorites] = useState(null);
 
-  // not changing colors
+  // useEffect()
+
   const toggleFavorite = () => {
-    fillHeart === 'red' ? setFillHeart('white') : setFillHeart('red');
+
+    if (fillHeart === 'red') {
+      setFillHeart('white');
+    } else {
+      setFillHeart('red');
+    }
   };
 
-  // show modal
-  const _onTradeButton = () => {
-    setShowModal(true);
+  const closeModal = () => {
+    setModalVisible(false);
   }
 
   return (
     <View>
       <View style={styles.container}>
         <Image
-          source={{ url: plantListing[0].url }}
+          source={{ url: plant.photo }}
           style={styles.plantImage}>
         </Image>
         <View style={styles.plantInfoContainer}>
           <View>
             <View style={styles.plantNameWithHeart}>
-              <Text style={styles.title}>{dummyData[0].name}</Text>
+              <Text style={styles.title}>{plant.plant_name}</Text>
               <TouchableWithoutFeedback onPress={() => {toggleFavorite()}}>
-                <Fontisto name="heart" size={27} color={fillHeart} style={styles.heart} />
+                <Ionicons
+                name="heart"
+                style= {styles.heart}
+                color={fillHeart}
+                size= {30}
+                />
               </TouchableWithoutFeedback>
             </View>
-            <Text style={styles.detail}>{`${plantListing[0].location} (${plantListing[0].distance})`}</Text>
-            <Text style={styles.detail}>{`Owner: ${plantListing[0].owner}`}</Text>
+            <Text style={styles.detail}>{`${plant.location} (${Math.floor(plant.distance / 1609)} miles away)`}</Text>
+            <Text style={styles.detail}>{`Owner: ${plant.username}`}</Text>
           </View>
           <View>
             <Text style={styles.title}>Status:</Text>
-            <Text style={styles.detail}>{plantListing[0].pending ? `-PENDING-` : `-AVAILABLE-`}</Text>
+            <Text style={styles.detail}>{plant.pending ? `-PENDING-` : `-AVAILABLE-`}</Text>
           </View>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={() => _onTradeButton()}>
+            <TouchableOpacity
+              disable={plant.pending}
+              onPress={() => setModalVisible(true)}
+            >
               <View style={styles.button}>
-                <Text style={styles.buttonText}>{plantListing[0].pending ? 'Trade pending' : 'Trade'}</Text>
+                <Text style={styles.buttonText}>{plant.pending ? 'Trade pending' : 'Trade'}</Text>
               </View>
             </TouchableOpacity>
           </View>
         </View>
       </View>
-      {showModal && <OpenModal />}
+      <View style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <TradeModal closeModal={closeModal}/>
+            </View>
+          </View>
+        </Modal>
+      </View>
     </View>
   )
 };
 
 const styles = StyleSheet.create({
   container: {
-    height: 650,
-    flex: 1,
-    backgroundColor: '#fff',
+    height: 800,
   },
 
   buttonContainer: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     height: 40,
+    marginTop: 40,
   },
 
   button: {
-    height: 38,
-    width: 150,
-    borderColor: 'black',
+    height: 60,
+    width: 350,
+    backgroundColor: '#2C3D36',
+    borderColor: '#2C3D36',
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 5,
+    borderRadius: 10,
   },
 
   buttonText: {
-    color: 'black',
-    fontSize: 22,
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'whitesmoke',
   },
 
   plantImage: {
@@ -124,21 +136,45 @@ const styles = StyleSheet.create({
   },
 
   heart: {
-    marginTop: 13,
-    marginRight: 10,
+    marginTop: 7,
+    marginRight: 7,
     borderColor: 'black'
   },
 
   title: {
     marginTop: 10,
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: 'bold',
   },
 
   detail: {
     marginTop: 8,
-    fontSize: 20,
-  }
+    fontSize: 18,
+  },
+
+  centeredView: {
+    flexDirection: 'column',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 40,
+  },
+
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 5,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
 
 });
 

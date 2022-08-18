@@ -62,7 +62,7 @@ function MyPlantStackScreen() {
 function TradeStackScreen() {
   return (
     <TradeStack.Navigator>
-      <TradeStack.Screen name="Trade" component={TradeInbox} />
+      <TradeStack.Screen name="Trades" component={TradeInbox} />
     </TradeStack.Navigator>
   );
 }
@@ -79,12 +79,8 @@ function FavoritesStackScreen() {
 export const PlantContext = React.createContext()
 
 export function usePlant () {
-  const {userIdentity, userZipcode, userProfilePicture, userMessages , test2, test3} = useContext(PlantContext);
-  return {userIdentity, userZipcode, userProfilePicture, userMessages, test2, test3};
-}
-
-export function plantInfo () {
-  axios.get()
+  const {userIdentity, userZipcode, userProfilePicture, plantList, userMessages , test2} = useContext(PlantContext);
+  return {userIdentity, userZipcode, userProfilePicture, plantList, userMessages, test2};
 }
 
 // Tab Navigator, individual stack navigators are nested inside
@@ -97,36 +93,24 @@ export default function TabNavigator() {
   const [userProfilePic, setUserProfilePic] = useState('');
   const [messages, setMessages] = useState(null);
   const [string, setString] = useState('This is working');
-  const [plantArray, setPlantArray] = useState([1, 2, 3]);
+  const [plantArray, setPlantArray] = useState([]);
 
-  useEffect(() => {
-    console.log('before axios', firebaseID)
-    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${firebaseID}`)
-    .then((response) => {
-      console.log('id', response.data.id)
-      setUserId(response.data.id);
-      setUserZip(response.data.zip);
-      setUserProfilePic(response.data.profile_pic);
-    })
-    .then(() => {
-      axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
-      .then((response) => {
-        let data = response.data.filter((item, i) => {
-          return item.shown_to_user_offer === true
-        })
-        if (data.length > 0) {
-          setMessages(data.length)
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-  }, [userZip, messages])
-
+  useEffect( () => {
+      async function fetchData() {
+      try {
+        const response = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${firebaseID}`)
+        setUserId(response.data.id);
+        setUserZip(response.data.zip);
+        setUserProfilePic(response.data.profile_pic);
+        const resp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/all?user_id=${userId}`)
+        setPlantArray(resp.data);
+      }
+      catch { err =>
+        console.log('final error', err);
+       }
+      }
+      fetchData();
+  }, [userZip])
 
   return (
     <PlantContext.Provider
@@ -136,7 +120,7 @@ export default function TabNavigator() {
         userProfilePicture: [userProfilePic, setUserProfilePic],
         userMessages: [messages, setMessages],
         test2: [string, setString],
-        test3: [plantArray, setPlantArray]}}>
+        plantList: [plantArray, setPlantArray]}}>
       <Tab.Navigator screenOptions={{
         tabBarStyle: {backgroundColor: "#8eb69b"},
         tabBarActiveTintColor: "#fefae0",

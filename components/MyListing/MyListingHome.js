@@ -6,6 +6,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { ref, uploadBytes } from "firebase/storage";
 import { storage, auth, signOutUser } from '../../firebase.js'
 import axios from 'axios';
+import { usePlant } from '../../TabNavigator.js';
 
 const MyListingHome = () => {
   //be able to get access to user ID
@@ -17,19 +18,20 @@ const MyListingHome = () => {
   const [addPlantName, setAddPlantName] = useState('');
   const [plantList, setPlantList] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(true);
+  const {userIdentity} = usePlant();
+  const userID = userIdentity[0];
+
 
   useEffect(() => {
-    console.log('this is the auth', auth)
-    axios.get('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/myPlants?user_id=7')
+    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/myPlants?user_id=${userID}`)
       .then((results)=> {
-        console.log(results.data, 'dfjahdkl;sjfhjsdzk;fashjk');
         setPlantList(results.data)
       })
+    console.log(userID, 'user Identity in listing home')
   }, []);
 
   const handleAddPlant = () => {
     setDisplayModal(true);
-    console.log(auth.currentUser.uid)
   };
 
   const selectPicture = async () => {
@@ -59,8 +61,7 @@ const MyListingHome = () => {
     setAddPlantName('')
   };
 
-  const uploadPhoto = async () => { //addPlant functionality here
-    console.log(addPlantName); // plant name
+  const uploadPhoto = async () => {
     setDisplayModal(!displayModal);
     const res = await fetch(imagePath)
     const blob = await res.blob()
@@ -70,23 +71,20 @@ const MyListingHome = () => {
     const imageRef = ref(storage, filename)
     uploadBytes(imageRef, blob)
       .then(snapshot => {
-          uri = `https://firebasestorage.googleapis.com/v0/b/vegetationstation1.appspot.com/o/${filename}?alt=media`;
-          return uri;
-      })
-      .then (uri => {
-        uri = uri;
+          uri = `https://firebasestorage.googleapis.com/v0/b/vegetationstation2.appspot.com/o/${filename}?alt=media`;
+          // return uri;
       })
       .then(() => {
         axios.post ('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/plant', {
           plant_name: addPlantName,
           photo: uri,
-          user_id: 7,
+          user_id: userID,
         })
-      })
-      .then(()=> {
-        axios.get('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/myPlants?user_id=7')
-        .then((results)=> {
+        .then (()=> {
+          axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/myPlants?user_id=${userID}`)
+          .then((results)=> {
           setPlantList(results.data)
+          })
         })
       })
       .catch(err => console.log(err))
@@ -136,7 +134,6 @@ const MyListingHome = () => {
             {setShowConfirmation(false);
             for (let i = 0; i < tempArray.length; i++){
               if (tempArray[i].plant_id === id) {
-                console.log (tempArray[i], 'should return info of deleted plant from mylisting') //returns deleted plant from mylistng
                 let plant_id = tempArray[i].plant_id
                 tempArray.splice(i, 1);
                 setPlantList(tempArray)
@@ -180,7 +177,6 @@ const MyListingHome = () => {
                       value= {addPlantName}
                       onChangeText= {setAddPlantName}
                       style= {styles.textInput}
-                      autoCapitalize= 'characters'
                       clearButtonMode= 'always'
                     />
                     {addPlantName.length > 0 ? <Button style= {styles.upload} onPress= {uploadPhoto}>Upload</Button> : null}
@@ -219,8 +215,9 @@ const styles= StyleSheet.create({
 
   container: {
     height: "100%",
-    justifyContent: 'center',
-    width: "100%"
+    justifyContent: 'flex-start',
+    marginTop: -50,
+    width: "100%",
   },
 
   addPlantModalContainer: {
@@ -320,13 +317,12 @@ upload: {
   },
 
   remove: {
-    // marginRight: 10,
     textDecorationLine: 'underline',
   },
 
   plantImage: {
-    width: 100,
-    height: 125,
+    width: 80,
+    height: 105,
     padding: 0,
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,

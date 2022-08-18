@@ -4,12 +4,11 @@ import { usePlant } from '../TabNavigator.js'
 
 export default function Home({ navigation }) {
 
-  const {userIdentity, userZipcode, userProfilePicture, userMessages , test2, test3} = usePlant();
+  const {userIdentity, userZipcode, userProfilePicture, userMessages} = usePlant();
   const [userId, setUserId] = userIdentity;
   const [userZip, setUserZip] = userZipcode;
   const [userProfilePic, setUserProfilePic] = userProfilePicture;
   const [messages, setMessages] = userMessages;
-  const [word, setWord] = test2;
   // const [plantArray, setPlantArray] = test3;
 
   return (
