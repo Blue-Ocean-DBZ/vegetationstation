@@ -2,66 +2,25 @@ import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState, useRef } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, TouchableWithoutFeedback, TextInput, Keyboard, ScrollView, KeyboardAvoidingView, Button, ImageBackground } from 'react-native';
 import { signOutUser } from '../firebase.js';
-import { useNavigation } from '@react-navigation/core'
+import { useNavigation } from '@react-navigation/core';
+import axios from 'axios';
+import { auth } from '../firebase.js';
+
 
 export default function ChatMessages ({ route}) {
-  const [message, setMessage] = useState(undefined);
-  const [fakeMessages, setFakeMessages] = useState([
-    {
-      user1: 'vegeta',
-      user2: 'goku',
-      message: 'ur a saiyan'
-    },
-    {
-      user1: 'goku',
-      user2: 'vegeta',
-      message: 'nuh uh'
-    },
-    {
-      user1: 'vegeta',
-      user2: 'goku',
-      message: 'yuh huh'
-    },
-    {
-      user1: 'goku',
-      user2: 'vegeta',
-      message: 'ur a saiyan'
-    },
-    {
-      user1: 'vegeta',
-      user2: 'goku',
-      message: 'no, im a saiyan prince',
-    },
-    {
-      user1: 'vegeta',
-      user2: 'goku',
-      message: 'A SAIYANS PRIDE',
-    },
-    {
-      user1: 'vegeta',
-      user2: 'goku',
-      message: 'A SAIYANS PRIDE',
-    },
-    {
-      user1: 'vegeta',
-      user2: 'goku',
-      message: 'A SAIYANS PRIDE',
-    },
-    {
-      user1: 'vegeta',
-      user2: 'goku',
-      message: 'A SAIYANS PRIDE',
-    },
-    {
-      user1: 'vegeta',
-      user2: 'goku',
-      message: 'A SAIYANS PRIDE',
-    }
-  ])
+  const [message, setMessage] = useState('');
+  const [actualMessages, setActualMessages] = useState([]);
+  const [submitClick, setSubmitClick] = useState(0)
 
   useEffect(() => {
-    navigation.setOptions({title: 'Chat Messages'})
-  },[])
+    axios.get('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/messages', {params: {
+      trade_id: 12,
+    }})
+    .then((res) => {
+      setActualMessages(res.data)
+    })
+    .catch((err) => console.log(err))
+  },[submitClick])
 
   const navigation = useNavigation();
 
@@ -69,12 +28,19 @@ export default function ChatMessages ({ route}) {
 
   const addMessage = (e) => {
     e.preventDefault();
-    setFakeMessages([...fakeMessages, {
-      user1: 'vegeta',
-      user2: 'goku',
-      message: message,
-    }])
-    setMessage(undefined)
+    axios.post('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/messages', {
+      user_id: 212,
+      trade_id: 12,
+      content: message,
+    })
+    .then(() => {
+      let temp = submitClick + 1
+      setSubmitClick(temp)
+      setMessage(undefined)
+    })
+    .catch((err) => {
+      console.log('post', err)
+    })
   };
 
   const goBack = (e) => {
@@ -84,12 +50,13 @@ export default function ChatMessages ({ route}) {
   return (
 
       <KeyboardAvoidingView style={styles.container} behavior="padding">
+              {console.log(user_id, trade_id)}
+
         <ImageBackground
         source={{uri:'https://pbs.twimg.com/media/Erp2ZjwXEAQbA4R.jpg'}}
         resizeMode="cover"
         style={styles.backgroundImg}
         >
-        {console.log(user_id, trade_id, 'inbox info')}
         <TouchableOpacity style={styles.backContainer} onPress={goBack}>
           <Image
           source={{uri: 'https://cdn-icons-png.flaticon.com/512/60/60577.png'}}
@@ -99,19 +66,19 @@ export default function ChatMessages ({ route}) {
         </TouchableOpacity>
         <ScrollView>
           <View style={styles.msgContainer}>
-        {fakeMessages?.map((msg, i) => {
-          if (msg.user1 === 'vegeta') {
+        {actualMessages?.map((msg, i) => {
+          if (msg.username === 'Jamie') {
             return (
             <View key={'messageid' + i} style={styles.chatBoxRight}>
-              <Text style={styles.textRight}>{msg.user1}</Text>
-              <Text style={styles.textRight}>{msg.message}</Text>
+              <Text style={styles.textRight}>{msg.username}</Text>
+              <Text style={styles.textRight}>{msg.content}</Text>
             </View>
             )
           } else {
             return (
             <View key={'messageid' + i} style={styles.chatBoxLeft}>
-              <Text style={styles.textLeft}>{msg.user1}</Text>
-              <Text style={styles.textLeft}>{msg.message}</Text>
+              <Text style={styles.textLeft}>{msg.username}</Text>
+              <Text style={styles.textLeft}>{msg.content}</Text>
             </View>
             )
           }
