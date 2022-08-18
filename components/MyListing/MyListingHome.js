@@ -72,22 +72,19 @@ const MyListingHome = () => {
     uploadBytes(imageRef, blob)
       .then(snapshot => {
           uri = `https://firebasestorage.googleapis.com/v0/b/vegetationstation1.appspot.com/o/${filename}?alt=media`;
-          return uri;
+          // return uri;
       })
-      // .then (uri => {
-      //   uri = uri;
-      // })
       .then(() => {
         axios.post ('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/plant', {
           plant_name: addPlantName,
           photo: uri,
           user_id: userID,
         })
-      })
-      .then(()=> {
-        axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/myPlants?user_id=${userID}`)
-        .then((results)=> {
+        .then (()=> {
+          axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/myPlants?user_id=${userID}`)
+          .then((results)=> {
           setPlantList(results.data)
+          })
         })
       })
       .catch(err => console.log(err))
@@ -180,7 +177,6 @@ const MyListingHome = () => {
                       value= {addPlantName}
                       onChangeText= {setAddPlantName}
                       style= {styles.textInput}
-                      autoCapitalize= 'characters'
                       clearButtonMode= 'always'
                     />
                     {addPlantName.length > 0 ? <Button style= {styles.upload} onPress= {uploadPhoto}>Upload</Button> : null}
@@ -321,13 +317,12 @@ upload: {
   },
 
   remove: {
-    // marginRight: 10,
     textDecorationLine: 'underline',
   },
 
   plantImage: {
-    width: 100,
-    height: 125,
+    width: 80,
+    height: 105,
     padding: 0,
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
