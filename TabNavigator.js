@@ -92,7 +92,7 @@ export function plantInfo () {
 export default function TabNavigator() {
 
   const firebaseID = auth.currentUser.uid;
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState(212);
   const [userZip, setUserZip] = useState(null);
   const [userProfilePic, setUserProfilePic] = useState('');
   const [messages, setMessages] = useState(null);
@@ -103,7 +103,7 @@ export default function TabNavigator() {
     console.log('before axios', firebaseID)
     axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${firebaseID}`)
     .then((response) => {
-      console.log(response)
+      console.log('id', response.data.id)
       setUserId(response.data.id);
       setUserZip(response.data.zip);
       setUserProfilePic(response.data.profile_pic);
@@ -112,7 +112,7 @@ export default function TabNavigator() {
       axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
       .then((response) => {
         let data = response.data.filter((item, i) => {
-          return item.pending === true
+          return item.shown_to_user_offer === true
         })
         if (data.length > 0) {
           setMessages(data.length)
