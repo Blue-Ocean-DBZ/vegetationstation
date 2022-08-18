@@ -7,6 +7,11 @@ import PlantDescription from './PlantDescription'
 
 const PlantCard = ({ item, navigate }) => {
 
+  // const PlantDescription = ( item ) => {
+
+
+  // }
+
   // add onPress handler that will take user to the description page'
   return (
     <TouchableWithoutFeedback onPress={() => navigate.push('Plant Description')}>
@@ -40,7 +45,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#F2F2F2',
+    backgroundColor: 'white',
     borderColor: '#C2C2C2',
     paddingRight: 10,
     paddingLeft: 10,

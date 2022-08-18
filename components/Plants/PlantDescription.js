@@ -21,30 +21,24 @@ let dummyData = [
 
 // need to grab props of selected plant somehow
 const PlantDescription = () => {
+  console.log('in plant description')
+
   const [plantListing, setPlantListing] = useState(dummyData);
   const [fillHeart, setFillHeart] = useState('red');
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false);
 
   // not changing colors
   const toggleFavorite = () => {
     fillHeart === 'red' ? setFillHeart('white') : setFillHeart('red');
   };
 
-  const _onPressButton = () => {
+  // show modal
+  const _onTradeButton = () => {
     setShowModal(true);
   }
 
   return (
     <View>
-      <View>
-
-        <TouchableOpacity onPress={() => _onPressButton()}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>Trade</Text>
-          </View>
-        </TouchableOpacity>
-
-      </View>
       <View style={styles.container}>
         <Image
           source={{ url: plantListing[0].url }}
@@ -53,7 +47,7 @@ const PlantDescription = () => {
         <View style={styles.plantInfoContainer}>
           <View>
             <View style={styles.plantNameWithHeart}>
-              <Text style={styles.title}>{plantListing[0].name}</Text>
+              <Text style={styles.title}>{dummyData[0].name}</Text>
               <TouchableWithoutFeedback onPress={() => {toggleFavorite()}}>
                 <Fontisto name="heart" size={27} color={fillHeart} style={styles.heart} />
               </TouchableWithoutFeedback>
@@ -64,6 +58,13 @@ const PlantDescription = () => {
           <View>
             <Text style={styles.title}>Status:</Text>
             <Text style={styles.detail}>{plantListing[0].pending ? `-PENDING-` : `-AVAILABLE-`}</Text>
+          </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={() => _onTradeButton()}>
+              <View style={styles.button}>
+                <Text style={styles.buttonText}>{plantListing[0].pending ? 'Trade pending' : 'Trade'}</Text>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -79,12 +80,27 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
 
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 40,
+  },
+
   button: {
     height: 38,
+    width: 150,
+    borderColor: 'black',
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
   },
 
   buttonText: {
-    color: 'black'
+    color: 'black',
+    fontSize: 22,
   },
 
   plantImage: {

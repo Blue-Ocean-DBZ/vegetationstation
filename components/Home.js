@@ -11,31 +11,6 @@ import { auth } from '../firebase.js'
 import PlantCard from './Plants/PlantCard.js';
 import ProfilePic from './Auth/placeholder/gui.png'
 
-let _data = [
-  {
-    pending: true,
-    plant_id: 1839,
-    name: 'PlantSix',
-    owner: 'David',
-    location: 'Sacramento',
-    distance: '442 mi away',
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9HZXoUNWkyvVOQhBOKI6Te9WAEjL35peDcA&usqp=CAU',
-    // profile_pic: auth.currentUser?.photoURL,
-    profile_pic: ProfilePic,
-  },
-  {
-    pending: false,
-    plant_id: 18,
-    name: 'PlantSeven',
-    owner: 'Kevin',
-    location: 'Cupertino',
-    distance: '246 mi away',
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoJi4K4-eM57BhLUM8dOqS5PV0FZUN-2usMw&usqp=CAU',
-    // profile_pic: auth.currentUser?.photoURL,
-    profile_pic: ProfilePic,
-  },
-];
-
 const Home = (props) => {
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -281,6 +256,6 @@ const styles= StyleSheet.create({
 
   plantsWrapper: {
     marginTop: 20,
-    height: "100%"
+    height: '100%',
   }
-})
+});
