@@ -12,12 +12,9 @@ import MyFavoritesHome from './components/MyFavorites/MyFavoritesHome.js';
 import MyListingHome from './components/MyListing/MyListingHome.js';
 import Profile from './components/Profile.js';
 import EditProfile from './components/Auth/EditProfile.js';
-// import PlantPage from './zdc/PlantPage.js';
 import PlantDescription from './components/Plants/PlantDescription.js';
 import TradeInbox from './components/Trades/TradeInbox/TradeInbox.js';
-
 import { auth } from './firebase.js';
-
 const axios = require('axios');
 
 //Navigators
@@ -95,7 +92,6 @@ export function plantInfo () {
 export default function TabNavigator() {
 
   const firebaseID = auth.currentUser.uid;
-
   const [userId, setUserId] = useState(null);
   const [userZip, setUserZip] = useState(null);
   const [userProfilePic, setUserProfilePic] = useState('');
