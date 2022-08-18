@@ -13,31 +13,32 @@ const axios = require('axios')
     //user_plant_id
     //target_user_id
     //target_plant_id
-
+  //
 const TradeModal = (props) => {
 
   const navigation = useNavigation()
-  const [postData, setPostData] = useState({plant_offer_id: null, plant_target_id: 157})
+  const [postData, setPostData] = useState({plant_offer_id: null, plant_target_id: 15})
 
   let goBack = () => {
     props.closeModal(false)
   }
 
+  //set users plant id to trade
   let setImage =  async (plantID) => {
     setPostData({...postData, plant_offer_id: plantID});
     console.log(postData)
-
   }
 
   useEffect(() => {
   },[])
-
   let submitTrade = (obj) => {
+    //if plant not chosen
     if(postData.plant_offer_id === null) {
       Alert.alert('Select', 'You must select a plant.', [
         { text: 'OK', onPress: () => console.log('OK Pressed') },
       ]);
     } else {
+      //if plant chosen post trade
       return axios.post('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades', postData)
       .then((response) => {
         setPostData({...postData, plant_offer_id: null});
@@ -57,39 +58,39 @@ const TradeModal = (props) => {
   return (
 
     <View style={styles.centeredView}>
-            <View style ={styles.TradeHeader}>
-              <View>
-                <AntDesign name="arrowleft" size={24} color="black" style={{paddingLeft: 18}} onPress={goBack}/>
-              </View>
-              <TouchableOpacity style={styles.header} onPress={submitTrade} >
-                <Image
-                  style={styles.logo}
-                  source={{
-                  uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg==',
-                  }}
-                />
-                <Text style={styles.SubmitText}>Submit Trade</Text>
-              </TouchableOpacity>
-            </View>
-              <View style={styles.UserContainer}>
-                <Text style={styles.UserText}>Goku's plants</Text>{/* Replace with curr username */}
-          </View>
-           <View>
+      <View style ={styles.TradeHeader}>
+        <View>
+          <AntDesign name="arrowleft" size={24} color="black" style={{paddingLeft: 18}} onPress={goBack}/>
         </View>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.TradeContainer}>
-              <View style={styles.TradeEntryContainer}>
-                {plantData.map((plant, index) =>
-                  <TradeListEntry
-                  plant={plant}
-                  key={index}
-                  setImage={setImage}
-                  selectedImage={postData.plant_offer_id}
-                  />
-                )}
-              </View>
+        <TouchableOpacity style={styles.header} onPress={submitTrade} >
+          <Image
+            style={styles.logo}
+            source={{
+            uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg==',
+            }}
+          />
+          <Text style={styles.SubmitText}>Submit Trade</Text>
+        </TouchableOpacity>
+      </View>
+        <View style={styles.UserContainer}>
+          <Text style={styles.UserText}>Goku's plants</Text>{/* Replace with curr username */}
+    </View>
+    <View>
+      </View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.TradeContainer}>
+            <View style={styles.TradeEntryContainer}>
+              {plantData.map((plant, index) =>
+                <TradeListEntry
+                plant={plant}
+                key={index}
+                setImage={setImage}
+                selectedImage={postData.plant_offer_id}
+                />
+              )}
             </View>
-          </ScrollView>
+          </View>
+        </ScrollView>
     </View>
   );
 };

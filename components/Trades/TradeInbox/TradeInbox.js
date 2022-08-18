@@ -16,7 +16,7 @@ const TradeInbox = (props) => {
   const [acceptedData, setAcceptedData] = useState([])
   const [userID, setUserID] = useState(212)
   const navigation = useNavigation()
-  console.log(auth)
+  console.log(auth.currentUser.uid, 'lashfkljshfkljsahdlkfjhasklfhkasjlh')
 
 
   let getInboxData = () => {
@@ -168,6 +168,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     display: 'flex',
     flexDirection: 'row',
+    paddingBottom: 10
   },
   InboxEntryContainer: {
     display: 'flex',

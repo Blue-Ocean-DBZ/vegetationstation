@@ -2,9 +2,15 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableWithoutFeedback } from 'react-native';
 import { Fontisto } from '@expo/vector-icons';
+import PlantDescription from './PlantDescription'
 
 
 const PlantCard = ({ item, navigate }) => {
+
+  // const PlantDescription = ( item ) => {
+
+
+  // }
 
   // add onPress handler that will take user to the description page'
   return (
@@ -14,7 +20,7 @@ const PlantCard = ({ item, navigate }) => {
           <Image source={{ uri: item.url }} style={styles.plantImage}/>
         </View>
           <View style= {styles.plantInfo}>
-            <Image source={{ uri: item.profile_pic }} style={styles.userImage}/>
+            <Image source={ item.profile_pic } style={styles.userImage}/>
             <Text style={styles.otherPlantInfo}>{item.distance}</Text>
           </View>
       </View>
@@ -39,7 +45,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#F2F2F2',
+    backgroundColor: 'white',
     borderColor: '#C2C2C2',
     paddingRight: 10,
     paddingLeft: 10,
@@ -50,7 +56,7 @@ const styles = StyleSheet.create({
   },
 
   plantImage: {
-    width: 180,
+    width: "100%",
     height: 180,
     padding: 0,
     borderTopLeftRadius: 20,

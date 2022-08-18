@@ -9,28 +9,7 @@ import { SearchBar } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 import { auth } from '../firebase.js'
 import PlantCard from './Plants/PlantCard.js';
-
-
-let _data = [
-  {
-    pending: true,
-    name: 'PlantSix',
-    owner: 'David',
-    location: 'Sacramento',
-    distance: '442 mi away',
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9HZXoUNWkyvVOQhBOKI6Te9WAEjL35peDcA&usqp=CAU',
-    profile_pic: auth.currentUser?.photoURL,
-  },
-  {
-    pending: false,
-    name: 'PlantSeven',
-    owner: 'Kevin',
-    location: 'Cupertino',
-    distance: '246 mi away',
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoJi4K4-eM57BhLUM8dOqS5PV0FZUN-2usMw&usqp=CAU',
-    profile_pic: auth.currentUser?.photoURL,
-  },
-];
+import ProfilePic from './Auth/placeholder/gui.png'
 
 const Home = (props) => {
 
@@ -133,10 +112,12 @@ const Home = (props) => {
 
         </SafeAreaView>
       </View> */}
-      <View>
+      <View style={styles.plantsWrapper}>
         <FlatList
-          data={_data}
+          data={DATA}
           renderItem={(props)=> <PlantCard {...props} navigate={navigate}/>}
+          numColumns={2}
+          contentContainerStyle={{ paddingBottom: 350 }}
         />
       </View>
     </View>
@@ -236,85 +217,19 @@ const styles= StyleSheet.create({
 
   searchBarContainer: {
     backgroundColor: 'white',
-    paddingVertical: 2
    },
 
   searchInputContainer: {
     backgroundColor: 'white',
     borderWidth: 1,
     borderRadius: 5,
-    marginTop: 30,
-    marginLeft: 20,
-    marginRight: 20
-  },
-
-  searchInput: {
-    marginTop: 20,
-    marginLeft: 20,
-    marginRight: 20
-  },
-
-  header: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between'
-  },
-
-  headerTitle: {
-    position: 'relative',
-    fontSize: 18,
-    width: 235,
-    height: 31,
-    marginTop: 29,
-    marginLeft: 25
-  },
-
-  plantCardContainer: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'row',
-    marginBottom: 10,
-    marginLeft: 20,
-    width: '90%',
-  },
-
-  item: {
-    backgroundColor: 'white',
-    paddingLeft: 10,
-    paddingTop: 15,
-    paddingBottom: 5,
-    flex: 1,
-    justifyContent: 'space-around',
-  },
-
-  plantImage: {
-    width: 100,
-    height: '100%',
-    padding: 0
-  },
-
-  plantInfoWithHeartButton: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-
-  heart: {
-    marginRight: 10,
-    color: 'red'
-  },
-
-  otherPlantInfo: {
-    marginTop: 5,
-    fontSize: 12
+    marginVertical: 15,
+    marginHorizontal: 20,
   },
 
   plantInformation: {
     display: 'flex',
   },
-
-
 
   plantName: {
     display: 'flex',
@@ -325,8 +240,8 @@ const styles= StyleSheet.create({
   },
 
   profileImage: {
-    width: 38,
-    height: 50.83,
+    width: 50,
+    height: 50,
     borderRadius: '50%',
     top: 14,
     right: 14
@@ -337,5 +252,10 @@ const styles= StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingBottom: 20
+  },
+
+  plantsWrapper: {
+    marginTop: 20,
+    height: '100%',
   }
-})
+});
