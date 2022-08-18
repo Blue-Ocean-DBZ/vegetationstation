@@ -1,98 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, StatusBar, TouchableOpacity, Modal, Pressable, Image, FlatList, TextInput, KeyboardAvoidingView, ScrollView, TouchableWithoutFeedback, Alert } from 'react-native';
 import { Button, Title } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { ref, uploadBytes } from "firebase/storage";
 import { storage, auth, signOutUser } from '../../firebase.js'
-
-let DATA = [
-  {
-    name: 'American Marigold',
-    owner: 'Brandon',
-    location: 'LA',
-    distance: '12 mi away',
-    favorite: true,
-    url: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/indoor-plants-1634736990.jpg?crop=1.00xw:1.00xh;0,0&resize=1200:*',
-  },
-  {
-    name: 'PlantTwo',
-    owner: 'Shannon',
-    location: 'SF',
-    distance: '312 mi away',
-    favorite: true,
-    url: 'https://cdn.shopify.com/s/files/1/0150/6262/products/the-sill_money-tree_small_bryant_black.jpg?v=1653591376',
-  },
-  {
-    name: 'PlantThree',
-    owner: 'Carson',
-    location: 'OC',
-    distance: '24 mi away',
-    favorite: true,
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmF6j-VfIy1CwkaCi4L_YJH5hl1qGsufLD4A&usqp=CAU',
-  },
-  {
-    name: 'PlantFour',
-    owner: 'Gian',
-    location: 'Stockton',
-    distance: '246 mi away',
-    favorite: true,
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbIHw3oUEi2EAMDD6AHDe2j37Y2JuEozh6tg&usqp=CAU',
-  },
-  {
-    name: 'PlantFive',
-    owner: 'Jonathan',
-    location: 'LA',
-    distance: '12 mi away',
-    favorite: true,
-    url: 'https://empire-s3-production.bobvila.com/slides/30451/original/Gloxinia-flowering-houseplants.jpg?1551987245',
-  },
-  {
-    name: 'PlantSix',
-    owner: 'David',
-    location: 'Sacramento',
-    distance: '442 mi away',
-    favorite: true,
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9HZXoUNWkyvVOQhBOKI6Te9WAEjL35peDcA&usqp=CAU',
-  },{
-    name: 'PlantSeven',
-    owner: 'Kevin',
-    location: 'Cupertino',
-    distance: '246 mi away',
-    favorite: true,
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoJi4K4-eM57BhLUM8dOqS5PV0FZUN-2usMw&usqp=CAU',
-  },
-  {
-    name: 'PlantEight',
-    owner: 'Theresa',
-    location: 'OC',
-    distance: '12 mi away',
-    favorite: true,
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRowhGAXIPf4gl8Tp1sQF9_zgxP8Xx36mBFTA&usqp=CAU',
-  },
-  {
-    name: 'PlantNine',
-    owner: 'Clayton',
-    location: 'Sacramento',
-    distance: '442 mi away',
-    favorite: true,
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwCTPKnYjEN3XdLC7PMgo9qViE-4-VK-JvKw&usqp=CAU',
-  },
-];
+import axios from 'axios';
 
 const MyListingHome = () => {
-
+  //be able to get access to user ID
   const addPicImage = 'https://cdn.pixabay.com/photo/2018/11/13/21/44/instagram-3814061_1280.png';
   const addPlantImage = 'https://i.imgur.com/2ytxNFo.png';
 
   const [displayModal, setDisplayModal] = useState(false);
   const [imagePath, setImagePath] = useState(addPicImage);
   const [addPlantName, setAddPlantName] = useState('');
-  const [favoritesList, setFavoritesList] = useState(DATA);
+  const [plantList, setPlantList] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(true);
+
+  useEffect(() => {
+    console.log('this is the auth', auth)
+    axios.get('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/myPlants?user_id=7')
+      .then((results)=> {
+        console.log(results.data, 'dfjahdkl;sjfhjsdzk;fashjk');
+        setPlantList(results.data)
+      })
+  }, []);
 
   const handleAddPlant = () => {
     setDisplayModal(true);
+    console.log(auth.currentUser.uid)
   };
 
   const selectPicture = async () => {
@@ -116,7 +53,7 @@ const MyListingHome = () => {
     setImagePath(result.uri)
   };
 
-  const closeModal = () => {
+  const closeModal = async () => {
     setDisplayModal(!displayModal);
     setImagePath(addPicImage);
     setAddPlantName('')
@@ -128,12 +65,29 @@ const MyListingHome = () => {
     const res = await fetch(imagePath)
     const blob = await res.blob()
     const filename =  imagePath.substring(imagePath.lastIndexOf('/') + 1)
-
+    let uri;
+    let newPlant;
     const imageRef = ref(storage, filename)
     uploadBytes(imageRef, blob)
       .then(snapshot => {
-        const uri = `https://firebasestorage.googleapis.com/v0/b/vegetationstation1.appspot.com/o/${filename}?alt=media` // url we get back from firebase
-        console.log(uri);
+          uri = `https://firebasestorage.googleapis.com/v0/b/vegetationstation1.appspot.com/o/${filename}?alt=media`;
+          return uri;
+      })
+      .then (uri => {
+        uri = uri;
+      })
+      .then(() => {
+        axios.post ('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/plant', {
+          plant_name: addPlantName,
+          photo: uri,
+          user_id: 7,
+        })
+      })
+      .then(()=> {
+        axios.get('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/myPlants?user_id=7')
+        .then((results)=> {
+          setPlantList(results.data)
+        })
       })
       .catch(err => console.log(err))
     setImagePath(addPicImage);
@@ -143,21 +97,20 @@ const MyListingHome = () => {
   const renderPlants = ({ item }) => (
     <View style= {styles.plantInformationContainer}>
       <View >
-        <Image source= {{url: item.url}} style= {styles.plantImage}/>
+        <Image source= {{url: item.photo}} style= {styles.plantImage}/>
       </View>
       <View style= {styles.item}>
         <View style= {styles.plantInfoWithRemoveButton}>
           <View>
             <View style={styles.plantName}>
-              <Text style= {styles.title}>{item.name}</Text>
+              <Text style= {styles.title}>{item.plant_name}</Text>
             </View>
             <View>
-              <Text style= {styles.otherPlantInfo}>{item.location}</Text>
-              <Text style= {styles.otherPlantInfo}>{item.distance}</Text>
-              <Text style= {styles.otherPlantInfo}>{item.owner}</Text>
+              <Text style= {styles.otherPlantInfo}>{item.zip}</Text>
+              <Text style= {styles.otherPlantInfo}>{auth.currentUser.displayName}</Text>
             </View>
           </View>
-          <TouchableWithoutFeedback onPress= {() => {deleteFavorite(item.url)}}>
+          <TouchableWithoutFeedback onPress= {() => {deleteFavorite(item.plant_id)}}>
             <Text style= {styles.remove}>Remove</Text>
           </TouchableWithoutFeedback>
         </View>
@@ -165,12 +118,12 @@ const MyListingHome = () => {
     </View>
   );
 
-  const deleteFavorite = (url) => {//delete plant functionality here
-    let tempArray = favoritesList.slice();
+  const deleteFavorite = (id) => {//delete plant functionality here
+    let tempArray = plantList.slice();
     let plantName;
     for (let i = 0; i < tempArray.length; i++){
-      if (tempArray[i].url === url) {
-        plantName = tempArray[i].name;
+      if (tempArray[i].plant_id === id) {
+        plantName = tempArray[i].plant_name;
       }
     }
     return Alert.alert (
@@ -182,10 +135,12 @@ const MyListingHome = () => {
           onPress: () =>
             {setShowConfirmation(false);
             for (let i = 0; i < tempArray.length; i++){
-              if (tempArray[i].url === url) {
+              if (tempArray[i].plant_id === id) {
                 console.log (tempArray[i], 'should return info of deleted plant from mylisting') //returns deleted plant from mylistng
+                let plant_id = tempArray[i].plant_id
                 tempArray.splice(i, 1);
-                setFavoritesList(tempArray)
+                setPlantList(tempArray)
+                axios.delete(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/plant?plant_id=${plant_id}`)
               }
             }
           },
@@ -195,12 +150,10 @@ const MyListingHome = () => {
         }
       ]
     );
-
   };
 
   return (
     <SafeAreaView style= {styles.container}>
-
       <View>
         <Modal
           animationType= 'slide'
@@ -209,10 +162,8 @@ const MyListingHome = () => {
           onRequestClose= {()=> {setDisplayModal(!displayModal);}}>
           <KeyboardAwareScrollView contentContainerStyle= {styles.addPlantModalContainer}>
             <View style= {styles.addPlantModalContainer}>
-
-
-                <View style= {styles.close}>
-                  <Button onPress= {closeModal}>Close</Button>
+              <View style= {styles.close}>
+                <Button onPress= {closeModal}>Close</Button>
               </View>
               <Text style= {styles.modalTitle}>I'm Sexy and I Grow It</Text>
               <Image source= {{uri: imagePath}} style= {styles.image} />
@@ -223,16 +174,16 @@ const MyListingHome = () => {
               <View style= {styles.buttonLayoutPhotos}>
                 {(imagePath != addPicImage) && imagePath ?
                   <View>
-                        <TextInput
-                          placeholder= 'Add Plant Common Name'
-                          placeholderTextColor= 'grey'
-                          value= {addPlantName}
-                          onChangeText= {setAddPlantName}
-                          style= {styles.textInput}
-                          autoCapitalize= 'characters'
-                          clearButtonMode= 'always'
-                        />
-                        {addPlantName.length > 0 ? <Button style= {styles.upload} onPress= {uploadPhoto}>Upload</Button> : null}
+                    <TextInput
+                      placeholder= 'Add Plant Common Name'
+                      placeholderTextColor= 'grey'
+                      value= {addPlantName}
+                      onChangeText= {setAddPlantName}
+                      style= {styles.textInput}
+                      autoCapitalize= 'characters'
+                      clearButtonMode= 'always'
+                    />
+                    {addPlantName.length > 0 ? <Button style= {styles.upload} onPress= {uploadPhoto}>Upload</Button> : null}
                   </View>
                   : null}
               </View>
@@ -252,7 +203,7 @@ const MyListingHome = () => {
 
       <View>
         <FlatList
-          data={favoritesList}
+          data={plantList}
           renderItem={renderPlants}
           contentContainerStyle={{ paddingBottom: 50 }}
         />
