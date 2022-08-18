@@ -94,8 +94,8 @@ export default function TabNavigator() {
 
   const firebaseID = auth.currentUser.uid;
 
-  const [userId, setUserId] = useState(1);
-  const [userZip, setUserZip] = useState(11111);
+  const [userId, setUserId] = useState(null);
+  const [userZip, setUserZip] = useState(null);
   const [userProfilePic, setUserProfilePic] = useState('');
   const [messages, setMessages] = useState(null);
   const [string, setString] = useState('This is working');
@@ -116,7 +116,7 @@ export default function TabNavigator() {
     .catch((err) => {
       console.log(err);
     })
-  }, [])
+  }, [userZip])
 
   return (
     <PlantContext.Provider

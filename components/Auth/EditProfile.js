@@ -44,14 +44,21 @@ const EditProfile = () => {
         })
         .catch(err => alert('Please enter a valid zipcode'))
     } else {
+      console.log(id, zipcode)
       axios.put('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/user', {
         user_id: id,
         profile_pic: auth.currentUser?.photoURL || image,
         zip: zipcode
       })
-        .then((data) => {
-          console.log(data)
-          navigation.goBack()
+        .then(() => {
+          const set = data?.userZipcode[1]
+          const setPic = data?.userProfilePicture[1]
+          setPic(image)
+          set(zipcode)
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Home' }],
+          });
         })
         .catch((err) => {
           console.log(err)
