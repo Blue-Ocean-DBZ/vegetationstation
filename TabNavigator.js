@@ -5,16 +5,15 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Home from './components/Home.js';
 
-// import Home from './components/Home.js';
-import Home from './zdc/Home.js'
 import MyPlants from './zdc/MyPlants.js';
 import Trades from './zdc/Trades.js';
 import MyFavoritesHome from './components/MyFavorites/MyFavoritesHome.js';
 import MyListingHome from './components/MyListing/MyListingHome.js';
 import Profile from './components/Profile.js';
 import EditProfile from './components/Auth/EditProfile.js';
-import PlantPage from './zdc/PlantPage.js';
+// import PlantPage from './zdc/PlantPage.js';
 import PlantDescription from './components/Plants/PlantDescription.js';
 import TradeInbox from './components/Trades/TradeInbox/TradeInbox.js';
 
@@ -38,12 +37,12 @@ function HomeStackScreen(props) {
       <HomeStack.Screen name="Home" component={Home} />
       <HomeStack.Screen name="Profile" component={Profile} />
       <HomeStack.Screen name="EditProfile" component={EditProfile} />
-      <HomeStack.Screen name="Plant Card" component={PlantPage} />
+      {/* <HomeStack.Screen name="Plant Card" component={PlantPage} /> */}
       <HomeStack.Screen name="Plant Description" component={PlantDescription} options={{
           title: 'Plant Description',
           // headerRight: () => (
           //   <Button
-          //     onPress={() => setRequestTrade(true)}
+          //     onPresrs={() => setRequestTrade(true)}
           //     title={requestTrade ? 'Trade Pending':'Trade'}
           //     disabled={requestTrade ? true:false}
           //     color="#000"
@@ -94,19 +93,18 @@ export default function TabNavigator() {
 
   const firebaseID = auth.currentUser.uid;
 
-  const [userId, setUserId] = useState(1);
-  const [userZip, setUserZip] = useState(11111);
+  const [userId, setUserId] = useState(null);
+  const [userZip, setUserZip] = useState(null);
   const [userProfilePic, setUserProfilePic] = useState('');
   const [messages, setMessages] = useState(null);
   const [string, setString] = useState('This is working');
   const [plantArray, setPlantArray] = useState([1, 2, 3]);
 
-  console.log(userId, userZip, userProfilePic)
-
   useEffect(() => {
     console.log('before axios', firebaseID)
     axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${firebaseID}`)
     .then((response) => {
+      console.log(response)
       setUserId(response.data.id);
       setUserZip(response.data.zip);
       setUserProfilePic(response.data.profile_pic);
@@ -117,7 +115,7 @@ export default function TabNavigator() {
     .catch((err) => {
       console.log(err);
     })
-  }, [])
+  }, [userZip])
 
   return (
     <PlantContext.Provider

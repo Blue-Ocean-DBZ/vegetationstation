@@ -9,28 +9,7 @@ import { SearchBar } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 import { auth } from '../firebase.js'
 import PlantCard from './Plants/PlantCard.js';
-
-
-let _data = [
-  {
-    pending: true,
-    name: 'PlantSix',
-    owner: 'David',
-    location: 'Sacramento',
-    distance: '442 mi away',
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9HZXoUNWkyvVOQhBOKI6Te9WAEjL35peDcA&usqp=CAU',
-    profile_pic: auth.currentUser?.photoURL,
-  },
-  {
-    pending: false,
-    name: 'PlantSeven',
-    owner: 'Kevin',
-    location: 'Cupertino',
-    distance: '246 mi away',
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoJi4K4-eM57BhLUM8dOqS5PV0FZUN-2usMw&usqp=CAU',
-    profile_pic: auth.currentUser?.photoURL,
-  },
-];
+import ProfilePic from './Auth/placeholder/gui.png'
 
 const Home = (props) => {
 
@@ -277,6 +256,6 @@ const styles= StyleSheet.create({
 
   plantsWrapper: {
     marginTop: 20,
-    height: "100%"
+    height: '100%',
   }
-})
+});
