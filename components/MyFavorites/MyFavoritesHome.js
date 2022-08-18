@@ -10,16 +10,13 @@ const MyFavoritesHome = () => {
   const [favoritesList, setFavoritesList] = useState([]);
   const {userIdentity} = usePlant();
   const userID = userIdentity[0];
+  const meterToMiles = 0.00062;
 
   useEffect(() => {
     axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?user_id=${userID}`)
       .then((results) => {
-        //console.log(results.data, 'this is the result from useeffect')
         setFavoritesList(results.data)
-
       })
-      console.log(userIdentity, 'user identiy');
-      console.log(userID, 'user ID')
   }, []);
 
   const renderPlants = ({ item }) => (
@@ -35,7 +32,7 @@ const MyFavoritesHome = () => {
             </View>
             <View>
               <Text style={styles.otherPlantInfo}>{item.zip}</Text>
-              <Text style={styles.otherPlantInfo}>{item.distance} plz not miles</Text>
+              <Text style={styles.otherPlantInfo}>{Math.floor(item.distance*meterToMiles)} miles</Text>
               <Text style={styles.otherPlantInfo}>{item.username}</Text>
             </View>
           </View>
@@ -51,20 +48,16 @@ const MyFavoritesHome = () => {
     let tempArray = favoritesList.slice();
     for (let i = 0; i < tempArray.length; i++) {
       if (tempArray[i].plant_id === id) {
-        console.log(tempArray[i], 'plant information') //should log deleted plant information
         let favoriteId = tempArray[i].favorites_id;
-        console.log(favoriteId, ' favorites id')
         tempArray.splice(i, 1);
         setFavoritesList(tempArray)
         axios.delete(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?favorites_id=${favoriteId}`)
       }
-
     }
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <Title style= {styles.headerTitle}> My Favorites</Title> */}
       <FlatList
         data={favoritesList}
         renderItem={renderPlants}
