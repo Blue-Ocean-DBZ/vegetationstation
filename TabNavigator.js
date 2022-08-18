@@ -96,7 +96,7 @@ export default function TabNavigator() {
 
   const firebaseID = auth.currentUser.uid;
 
-  const [userId, setUserId] = useState(212);//change to null
+  const [userId, setUserId] = useState(null);
   const [userZip, setUserZip] = useState(null);
   const [userProfilePic, setUserProfilePic] = useState('');
   const [messages, setMessages] = useState(null);
@@ -111,9 +111,18 @@ export default function TabNavigator() {
     let interval = null
     clearInterval(interval)
     interval = setInterval(async () => {
-      const notifResp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
-      let count = notifResp.data[0].notifications
+      try {
+        const notifResp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
+        let count = notifResp.data[0].notifications
+        if (count > 0) {
           setMessages(count);
+        } else {
+          setMessages(null);
+        }
+      }
+      catch { err =>
+        console.log(err);
+      }
     }, 5000)
   }, [])
 
@@ -123,7 +132,7 @@ export default function TabNavigator() {
       async function fetchData() {
       try {
         const response = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${firebaseID}`)
-        // setUserId(response.data.id);
+        setUserId(response.data.id);
         setUserZip(response.data.zip);
         setUserProfilePic(response.data.profile_pic);
         const resp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/all?user_id=${userId}`)
@@ -131,17 +140,20 @@ export default function TabNavigator() {
         const tradeResp = await getInboxData(userId);
         const notifResp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
         let count = notifResp.data[0].notifications
-        setMessages(count);
+        if (count > 0) {
+          setMessages(count);
+        } else {
+          setMessages(null);
+        }
       }
       catch { err =>
-        console.log('final error', err);
+        console.log(err);
        }
       }
       fetchData();
   }, [userZip])
 
   function getInboxData (id) {
-    console.log(userId, 'useridd in inbox data')
     axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${id}`)//change to current user id
     .then((response) => {
       let data = response.data.filter((item, i) => {
@@ -152,7 +164,7 @@ export default function TabNavigator() {
 
     })
     .then((response) => {
-      console.log(tradesData)
+      // console.log(tradesData)
       // console.log(response.data)
       let pending = response.filter((item, i) => {
         return item.pending === true

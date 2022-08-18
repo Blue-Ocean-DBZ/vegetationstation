@@ -9,10 +9,10 @@ const axios = require('axios')
 //need plant target id
 
 const TradeModal = (props) => {
-  console.log(props)
-  const navigation = useNavigation()
-  const [postData, setPostData] = useState({plant_offer_id: null, plant_target_id: 245})//change to props.selectedPlant
 
+  const navigation = useNavigation()
+  const [postData, setPostData] = useState({plant_offer_id: null, plant_target_id: props.selectedPlant})//change to props.selectedPlant
+  console.log(props.selectedPlant)
   let goBack = () => {
     props.closeModal(false)
   }
@@ -24,7 +24,9 @@ const TradeModal = (props) => {
   }
 
   useEffect(() => {
+
   },[])
+
   let submitTrade = (obj) => {
     //if plant not chosen
     if(postData.plant_offer_id === null) {
