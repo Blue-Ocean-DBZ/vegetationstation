@@ -219,8 +219,9 @@ const styles= StyleSheet.create({
 
   container: {
     height: "100%",
-    justifyContent: 'center',
-    width: "100%"
+    justifyContent: 'flex-start',
+    marginTop: -50,
+    width: "100%",
   },
 
   addPlantModalContainer: {
