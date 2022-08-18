@@ -13,8 +13,10 @@ const InboxList = (props) => {
   let acceptTrade = () => {
       console.log('Accepted')
       let tradeId = props.entry.trade_id
-      console.log(tradeId)
-      return axios.put(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?trade_id=${tradeId}&accepted=true`)
+      let userID = props.userID
+      console.log(userID)
+      return axios.put(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades`,
+      {trade_id: tradeId, user_id: userID, accepted: true})
     // return axios.put(`http://localhost:3000/trades?trade_id=${tradeId}&accepted=true`)
     .then((response) => {
       props.getInboxData()
@@ -29,7 +31,9 @@ const InboxList = (props) => {
   let declineTrade = () => {
     console.log('Declined')
     let tradeId = props.entry.trade_id
-    return axios.put(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?trade_id=${tradeId}&accepted=false`)
+    let userID = props.userID
+    return axios.put(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades`,
+    {trade_id: tradeId, user_id: userID, accepted: false})
     // return axios.put(`http://localhost:3000/trades?trade_id=${tradeId}&accepted=false`)
     .then((response) => {
       props.getInboxData()
@@ -45,7 +49,12 @@ const InboxList = (props) => {
     console.log('plant_target', props.entry.plant_target)
     console.log('--------------------')
     console.log('plant_offer', props.entry.plant_offer)
-    navigation.push('ChatMessages')
+    let tradeID = props.entry.trade_id
+    // navigation.push('ChatMessages')
+    navigation.navigate('ChatMessages', {
+      user_id: 212,
+      trade_id: tradeID,
+    });
     // let tradeId = props.entry.trade_id
   //   return axios.put(`http://localhost:3000/trades?trade_id=${tradeId}&shown_to_user=true`)
   //   .then((response) => {
@@ -86,32 +95,32 @@ const InboxList = (props) => {
          }
           <View style={styles.TradeInfoContainer}>
           {Boolean(props.entry.plant_offer.owner_id !== props.userID) ? <View  >
-              <Text style={{fontWeight: props.entry.shown_to_user   ?  'normal': 'bold'}}>{props.entry.plant_offer.username}</Text>
+              <Text style={{fontWeight: props.entry.shown_to_user_target   ?  'bold': 'normal'}}>{props.entry.plant_offer.username}</Text>
               <Text style={{  width:110,
                               whiteSpace: 'nowrap',
                               overflow: 'hidden',
                               textOverflow: 'ellipsis',
-                              fontWeight: props.entry.shown_to_user   ?  'normal': 'bold'
+                              fontWeight: props.entry.shown_to_user_target   ?  'bold': 'normal'
                           }}
                               adjustsFontSizeToFit={true}
-              >{props.entry.plant_offer.plant_name}</Text>{/*add target plant name to request*/}
-              {props.entry.pending  && <Text style={{fontWeight: props.entry.shown_to_user  ?  'normal': 'bold'}}>Pending</Text>}
-              {props.entry.accepted && <Text style={{fontWeight: props.entry.shown_to_user  ?  'normal': 'bold'}}>Accepted</Text>}
-              {props.entry.accepted  === false && <Text style={{fontWeight: props.entry.shown_to_user  ?  'normal': 'bold'}}>Declined</Text>}
+              >{props.entry.plant_offer.plant_name}</Text>
+              {props.entry.pending  && <Text style={{fontWeight: props.entry.shown_to_user_target === false  ?  'bold': 'normal'}}>Pending</Text>}
+              {props.entry.accepted && <Text style={{fontWeight: props.entry.shown_to_user_target === false ?  'bold': 'normal'}}>Accepted</Text>}
+              {props.entry.accepted  === false && <Text style={{fontWeight: props.entry.shown_to_user_target === false ?  'bold': 'normal'}}>Declined</Text>}
             </View> :
             <View  >
-            <Text style={{fontWeight: props.entry.shown_to_user   ?  'normal': 'bold'}}>{props.entry.plant_target.username}</Text>
+            <Text style={{fontWeight: props.entry.shown_to_user_offer   ?  'bold': 'normal'}}>{props.entry.plant_target.username}</Text>
             <Text style={{  width:110,
                             whiteSpace: 'nowrap',
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
-                            fontWeight: props.entry.shown_to_user   ?  'normal': 'bold'
+                            fontWeight: props.entry.shown_to_user_offer   ?  'bold': 'normal'
                         }}
                             adjustsFontSizeToFit={true}
-            >{props.entry.plant_target.plant_name}</Text>{/*add target plant name to request*/}
-            {props.entry.pending  && <Text style={{fontWeight: props.entry.shown_to_user  ?  'normal': 'bold'}}>Pending</Text>}
-            {props.entry.accepted && <Text style={{fontWeight: props.entry.shown_to_user  ?  'normal': 'bold'}}>Accepted</Text>}
-            {props.entry.accepted  === false && <Text style={{fontWeight: props.entry.shown_to_user  ?  'normal': 'bold'}}>Declined</Text>}
+            >{props.entry.plant_target.plant_name}</Text>
+            {props.entry.pending  && <Text style={{fontWeight: props.entry.shown_to_user_offer === false ?  'bold': 'normal'}}>Pending</Text>}
+            {props.entry.accepted && <Text style={{fontWeight: props.entry.shown_to_user_offer === false ?  'bold': 'normal'}}>Accepted</Text>}
+            {props.entry.accepted  === false && <Text style={{fontWeight: props.entry.shown_to_user_offer === false ?  'bold': 'normal'}}>Declined</Text>}
           </View>}
           </View>
             {/* if user id === curr props.userID */}

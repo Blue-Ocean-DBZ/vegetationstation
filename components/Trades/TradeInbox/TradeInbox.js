@@ -168,6 +168,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     display: 'flex',
     flexDirection: 'row',
+    paddingBottom: 10
   },
   InboxEntryContainer: {
     display: 'flex',

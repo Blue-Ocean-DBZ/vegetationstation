@@ -32,27 +32,12 @@ const Home = (props) => {
     let filteredListing = [];
     if (query) {
       const regex = new RegExp(`^/${query}/`, 'i');
-
-      filteredListing = plantArray.filter(v =>(v.plant_name.toLowerCase()).includes(query.toLowerCase().indexOf))
-      console.log('FILTER', filteredListing)
+      filteredListing = plantArray.filter(v =>
+        v.plant_name.toLowerCase().includes(query.toLowerCase())
+      )
       setFilteredList(filteredListing);
     } else {
       setFilteredList([]);
-    }
-  }
-
-  const renderSuggestions = () => {
-    if(filteredListing.length === 0) {
-      return null
-    } else {
-      // FOR LATER data={suggestions}
-        return (
-          <FlatList>
-            data={filteredListing}
-            renderItem={renderCard}
-            keyExtractor={item => item.id}
-          </FlatList>
-        )
     }
   }
 
@@ -108,23 +93,19 @@ const Home = (props) => {
             inputContainerStyle={styles.searchBar} placeholder="search plants" onChangeText={onChangeSearch} value={searchTerm}   placeholderTextColor={'#g5g5g5'}
           />
       </View>
-      {/* <View style={styles.overallContainer}>
-        <View style={styles.header}>
-        </View>
-        <SafeAreaView>
-          {filteredList.length > 0 ? <FlatList data={filteredList} renderItem={renderCard}/>
-          : searchTerm ? <FlatList data={filteredList} renderItem={renderCard}/>
-          : <FlatList data={DATA} renderItem={renderCard}/>}
-
-        </SafeAreaView>
-      </View> */}
       <View style={styles.plantsWrapper}>
-        <FlatList
+      {/* This is the conditional for filtering with the searchbar */}
+        {filteredList.length === 0 && searchTerm.length === 0 ?
+          <FlatList
           data={plantArray}
           renderItem={(props)=> <PlantCard {...props} navigate={navigate}/>}
           numColumns={2}
-          contentContainerStyle={{ paddingBottom: 350 }}
-        />
+          contentContainerStyle={{ paddingBottom: 350 }}/>
+          : filteredList.length > 0 ? <FlatList data={filteredList} renderItem={(props)=> <PlantCard {...props} navigate={navigate}/>}
+          numColumns={2}
+          contentContainerStyle={{ paddingBottom: 350 }}/>
+          : null
+          }
       </View>
     </View>
   )
@@ -214,19 +195,19 @@ const styles= StyleSheet.create({
     paddingLeft: 10,
     height: 500,
     width: 'auto',
-    backgroundColor: 'white'
+    backgroundColor: '#F2F2F2'
   },
 
   searchBar: {
-    backgroundColor: 'white',
+    backgroundColor: '#F2F2F2',
   },
 
   searchBarContainer: {
-    backgroundColor: 'white',
+    backgroundColor: '#F2F2F2',
    },
 
   searchInputContainer: {
-    backgroundColor: 'white',
+    backgroundColor: '#F2F2F2',
     borderWidth: 1,
     borderRadius: 5,
     marginVertical: 15,
@@ -256,8 +237,13 @@ const styles= StyleSheet.create({
   homeHeader: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingBottom: 20
+    justifyContent: 'space-between'
+  },
+
+  headerTitle: {
+    paddingTop: '6%',
+    paddingLeft: 20,
+    paddingBottom: 7
   },
 
   plantsWrapper: {
