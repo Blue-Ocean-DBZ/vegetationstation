@@ -1,13 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, FlatList, Text, View, TouchableWithoutFeedback, Image } from 'react-native';
+import { StyleSheet, FlatList, Text, View, TouchableOpacity, TouchableWithoutFeedback, Image } from 'react-native';
 import { Fontisto } from '@expo/vector-icons';
 import PlantCard from './PlantCard.js';
-import { auth } from '../../firebase.js'
+import { auth } from '../../firebase.js';
+import OpenModal from '../Trades/TradeModal/OpenModal.js'
 
 let dummyData = [
   {
     pending: true,
+    plant_id: 183916,
     name: 'PlantSix',
     owner: 'David',
     location: 'Sacramento',
@@ -19,39 +21,54 @@ let dummyData = [
 
 // need to grab props of selected plant somehow
 const PlantDescription = () => {
+  console.log('in plant description')
+
   const [plantListing, setPlantListing] = useState(dummyData);
   const [fillHeart, setFillHeart] = useState('red');
+  const [showModal, setShowModal] = useState(false);
 
   // not changing colors
   const toggleFavorite = () => {
-    if (fillHeart === 'red') {
-      setFillHeart('white');r
-    }
-    setFillHeart('red');
+    fillHeart === 'red' ? setFillHeart('white') : setFillHeart('red');
   };
 
+  // show modal
+  const _onTradeButton = () => {
+    setShowModal(true);
+  }
+
   return (
-    <View style={styles.container}>
-      <Image
-        source={{ url: plantListing[0].url }}
-        style={styles.plantImage}>
-      </Image>
-      <View style={styles.plantInfoContainer}>
-        <View>
-          <View style={styles.plantNameWithHeart}>
-            <Text style={styles.title}>{plantListing[0].name}</Text>
-            <TouchableWithoutFeedback onPress={() => {toggleFavorite()}}>
-              <Fontisto name="heart" size={27} color={fillHeart} style={styles.heart} />
-            </TouchableWithoutFeedback>
+    <View>
+      <View style={styles.container}>
+        <Image
+          source={{ url: plantListing[0].url }}
+          style={styles.plantImage}>
+        </Image>
+        <View style={styles.plantInfoContainer}>
+          <View>
+            <View style={styles.plantNameWithHeart}>
+              <Text style={styles.title}>{dummyData[0].name}</Text>
+              <TouchableWithoutFeedback onPress={() => {toggleFavorite()}}>
+                <Fontisto name="heart" size={27} color={fillHeart} style={styles.heart} />
+              </TouchableWithoutFeedback>
+            </View>
+            <Text style={styles.detail}>{`${plantListing[0].location} (${plantListing[0].distance})`}</Text>
+            <Text style={styles.detail}>{`Owner: ${plantListing[0].owner}`}</Text>
           </View>
-          <Text style={styles.detail}>{`${plantListing[0].location} (${plantListing[0].distance})`}</Text>
-          <Text style={styles.detail}>{`Owner: ${plantListing[0].owner}`}</Text>
-        </View>
-        <View>
-          <Text style={styles.title}>Status:</Text>
-          <Text style={styles.detail}>{plantListing[0].pending ? `-PENDING-` : `-AVAILABLE-`}</Text>
+          <View>
+            <Text style={styles.title}>Status:</Text>
+            <Text style={styles.detail}>{plantListing[0].pending ? `-PENDING-` : `-AVAILABLE-`}</Text>
+          </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={() => _onTradeButton()}>
+              <View style={styles.button}>
+                <Text style={styles.buttonText}>{plantListing[0].pending ? 'Trade pending' : 'Trade'}</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
+      {showModal && <OpenModal />}
     </View>
   )
 };
@@ -61,6 +78,29 @@ const styles = StyleSheet.create({
     height: 650,
     flex: 1,
     backgroundColor: '#fff',
+  },
+
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 40,
+  },
+
+  button: {
+    height: 38,
+    width: 150,
+    borderColor: 'black',
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+  },
+
+  buttonText: {
+    color: 'black',
+    fontSize: 22,
   },
 
   plantImage: {
