@@ -1,45 +1,70 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import axios from 'axios'
 import { useNavigation } from '@react-navigation/core'
 import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView,TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 import { storage, auth, signOutUser } from '../../firebase.js'
-import axios from 'axios'
-import { usePlant } from '../../TabNavigator.js'
+import { PlantContext } from '../../TabNavigator.js'
 
 const EditProfile = () => {
+  const data = useContext(PlantContext)
+  const [id, setId] = useState('')
   const [username, setUsername] = useState(auth.currentUser?.displayName)
   const [zipcode, setZipcode] = useState('')
   const [status, setStatus] = useState('')
   const [image, setImage] = useState(auth.currentUser?.photoURL || 'https://th-thumbnailer.cdn-si-edu.com/bZAar59Bdm95b057iESytYmmAjI=/1400x1050/filters:focal(594x274:595x275)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/95/db/95db799b-fddf-4fde-91f3-77024442b92d/egypt_kitty_social.jpg')
   const navigation = useNavigation()
 
+  useEffect(() => {
+    setZipcode(data?.userZipcode[0])
+    setId(data?.userIdentity[0])
+  }, [id])
+
   //from axios
-  const {userIdentity, userZipcode , userProfilePicture} = usePlant();
-  const [userId, setUserId] = userIdentity;
-  const [userZip, setUserZip] = userZipcode;
-  const [userProfilePic, setUserProfilePic] = userProfilePicture;
 
   const saveHandler = () => {
     if(zipcode.length !== 5) {
       alert('Please enter a valid zipcode');
       return;
     }
-    axios.post('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/user', {
-      username,
-      firebase_id: auth.currentUser.uid,
-      profile_pic: auth.currentUser?.photoURL || image,
-      zip: zipcode
-    })
-      .then(() => {
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'TabNavigator' }],
-        });
+    if(id === undefined) {
+      axios.post('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/user', {
+        username,
+        firebase_id: auth.currentUser.uid,
+        profile_pic: auth.currentUser?.photoURL || image,
+        zip: zipcode
       })
-      .catch(err => alert('Please enter a valid zipcode'))
-      // uncomment when homepage is made
+        .then(() => {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'TabNavigator' }],
+          });
+        })
+        .catch(err => alert('Please enter a valid zipcode'))
+    } else {
+      console.log(id, zipcode)
+      axios.put('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/user', {
+        user_id: id,
+        profile_pic: auth.currentUser?.photoURL || image,
+        zip: zipcode
+      })
+        .then(() => {
+          const set = data?.userZipcode[1]
+          const setPic = data?.userProfilePicture[1]
+          setPic(image)
+          set(zipcode)
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Home' }],
+          });
+        })
+        .catch((err) => {
+          console.log(err)
+          alert('Please enter a valid zipcode')
+        })
+    }
   }
 
   if (auth.currentUser?.photoURL === null) {
