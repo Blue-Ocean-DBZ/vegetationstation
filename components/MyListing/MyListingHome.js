@@ -91,6 +91,9 @@ const MyListingHome = () => {
           setPlantList(results.data)
         })
       })
+
+
+
       .catch(err => console.log(err))
     setImagePath(addPicImage);
     setAddPlantName('');
@@ -138,7 +141,6 @@ const MyListingHome = () => {
             {setShowConfirmation(false);
             for (let i = 0; i < tempArray.length; i++){
               if (tempArray[i].plant_id === id) {
-                console.log (tempArray[i], 'should return info of deleted plant from mylisting') //returns deleted plant from mylistng
                 let plant_id = tempArray[i].plant_id
                 tempArray.splice(i, 1);
                 setPlantList(tempArray)
