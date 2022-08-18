@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState, useRef } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, TouchableWithoutFeedback, TextInput, Keyboard, ScrollView, KeyboardAvoidingView, Button } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TouchableWithoutFeedback, TextInput, Keyboard, ScrollView, KeyboardAvoidingView, Button, ImageBackground } from 'react-native';
 import { signOutUser } from '../firebase.js';
 import { useNavigation } from '@react-navigation/core'
 
@@ -77,6 +77,11 @@ export default function ChatMessages () {
   }
   return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
+        <ImageBackground
+        source={{uri:'https://pbs.twimg.com/media/Erp2ZjwXEAQbA4R.jpg'}}
+        resizeMode="cover"
+        style={styles.backgroundImg}
+        >
         <TouchableOpacity style={styles.backContainer} onPress={goBack}>
           <Text styles={styles.textButton}> X </Text>
         </TouchableOpacity>
@@ -117,6 +122,7 @@ export default function ChatMessages () {
               <Text style = {styles.submitButtonText}> Submit </Text>
           </TouchableOpacity>
         </View>
+        </ImageBackground>
       </KeyboardAvoidingView>
   );
 }
@@ -164,6 +170,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     alignSelf: 'center',
+    backgroundColor: 'white',
 
   },
   submitButton: {
@@ -181,7 +188,6 @@ const styles = StyleSheet.create({
     bottom: '0%',
     width: '100%',
     alignSelf: 'center',
-    backgroundColor: 'white',
     height: '15%',
     justifyContent: 'center'
   },
@@ -205,5 +211,8 @@ const styles = StyleSheet.create({
     width: '50%',
     textAlign: 'center',
   },
+  backgroundImg: {
+    flex: 1,
+  }
 });
 
