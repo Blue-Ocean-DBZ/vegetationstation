@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   topImage: {
-    height: '28%',
+    height: 250,
     alignSelf: 'stretch',
   },
   photoContainer: {
