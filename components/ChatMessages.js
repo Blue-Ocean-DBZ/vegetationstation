@@ -59,6 +59,10 @@ export default function ChatMessages () {
     }
   ])
 
+  useEffect(() => {
+    navigation.setOptions({title: 'Chat Messages'})
+  },[])
+
   const navigation = useNavigation();
 
   const addMessage = (e) => {
@@ -83,7 +87,11 @@ export default function ChatMessages () {
         style={styles.backgroundImg}
         >
         <TouchableOpacity style={styles.backContainer} onPress={goBack}>
-          <Text styles={styles.textButton}> X </Text>
+          <Image
+          source={{uri: 'https://cdn-icons-png.flaticon.com/512/60/60577.png'}}
+          styles={styles.backgroundImg}
+          resizeMode="cover"
+          ></Image>
         </TouchableOpacity>
         <ScrollView>
           <View style={styles.msgContainer}>
@@ -184,7 +192,7 @@ const styles = StyleSheet.create({
       color: 'white'
   },
   submitMessages: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: '0%',
     width: '100%',
     alignSelf: 'center',
@@ -194,22 +202,23 @@ const styles = StyleSheet.create({
   msgContainer: {
     width: '100%',
     padding: 5,
-    height: '65%',
+    height: '100%',
     overflow: 'auto',
+    borderColor: 'black',
+    overflow: 'scroll',
   },
   backContainer: {
     position: 'absolute',
     height: 50,
     width: 50,
-    backgroundColor: 'white',
-    zIndex: 1,
+    zIndex: 3,
     justifyContent: 'center',
-    top: 20,
+    top: 30,
+    left: 10,
+    backgroundColor: 'white',
   },
   textButton: {
-    height: 'auto',
-    width: '50%',
-    textAlign: 'center',
+    flex: 1,
   },
   backgroundImg: {
     flex: 1,
