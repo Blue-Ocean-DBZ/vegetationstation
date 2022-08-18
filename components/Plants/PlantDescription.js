@@ -1,37 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { Modal, StyleSheet, FlatList, Text, View, TouchableOpacity, TouchableWithoutFeedback, Image } from 'react-native';
-import { Fontisto } from '@expo/vector-icons';
+import {FontAwesome, Ionicons} from 'react-native-vector-icons'
 import PlantCard from './PlantCard.js';
 import { auth } from '../../firebase.js';
 import TradeModal from '../Trades/TradeModal/TradeModal.js'
 
-let dummyData = {
-  pending: true,
-  plant_id: 183916,
-  name: 'PlantSix',
-  owner: 'David',
-  location: 'Sacramento',
-  distance: '442 mi away',
-  url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9HZXoUNWkyvVOQhBOKI6Te9WAEjL35peDcA&usqp=CAU',
-  profile_pic: auth.currentUser?.photoURL,
-};
+const PlantDescription = ({ route }) => {
+  const plant = route.params;
 
-
-// need to grab props of selected plant somehow
-const PlantDescription = () => {
-  console.log('in plant description')
-
-  const [plantListing, setPlantListing] = useState(dummyData);
   const [fillHeart, setFillHeart] = useState('red');
   const [modalVisible, setModalVisible] = useState(false);
 
-  // not changing colors
   const toggleFavorite = () => {
     fillHeart === 'red' ? setFillHeart('white') : setFillHeart('red');
   };
 
-  // show modal
   const closeModal = () => {
     setModalVisible(false);
   }
@@ -40,33 +24,36 @@ const PlantDescription = () => {
     <View>
       <View style={styles.container}>
         <Image
-          source={{ url: plantListing.url }}
+          source={{ url: plant.photo }}
           style={styles.plantImage}>
         </Image>
         <View style={styles.plantInfoContainer}>
           <View>
             <View style={styles.plantNameWithHeart}>
-              <Text style={styles.title}>{dummyData.name}</Text>
+              <Text style={styles.title}>{plant.plant_name}</Text>
               <TouchableWithoutFeedback onPress={() => {toggleFavorite()}}>
-                <Fontisto
-                  name="heart"
-                  size={27}
-                  color={fillHeart}
-                  style={styles.heart}
+                <Ionicons
+                name="heart"
+                style= {styles.heart}
+                color={fillHeart}
+                size= {25}
                 />
               </TouchableWithoutFeedback>
             </View>
-            <Text style={styles.detail}>{`${plantListing.location} (${plantListing.distance})`}</Text>
-            <Text style={styles.detail}>{`Owner: ${plantListing.owner}`}</Text>
+            <Text style={styles.detail}>{`${plant.location} (${plant.distance})`}</Text>
+            <Text style={styles.detail}>{`Owner: ${plant.owner}`}</Text>
           </View>
           <View>
             <Text style={styles.title}>Status:</Text>
-            <Text style={styles.detail}>{plantListing.pending ? `-PENDING-` : `-AVAILABLE-`}</Text>
+            <Text style={styles.detail}>{plant.pending ? `-PENDING-` : `-AVAILABLE-`}</Text>
           </View>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <TouchableOpacity
+              disable={plant.pending}
+              onPress={() => setModalVisible(true)}
+            >
               <View style={styles.button}>
-                <Text style={styles.buttonText}>{plantListing.pending ? 'Trade pending' : 'Trade'}</Text>
+                <Text style={styles.buttonText}>{plant.pending ? 'Trade pending' : 'Trade'}</Text>
               </View>
             </TouchableOpacity>
           </View>
