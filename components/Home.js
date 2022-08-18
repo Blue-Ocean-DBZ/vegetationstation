@@ -249,5 +249,7 @@ const styles= StyleSheet.create({
   plantsWrapper: {
     marginTop: 20,
     height: '100%',
+    paddingLeft: 5,
+    paddingRight: 5,
   }
 });
