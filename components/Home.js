@@ -17,12 +17,12 @@ const Home = (props) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredList, setFilteredList] = useState([]);
   const [dummyData, setDummyData] = useState([]);
-  // const {userIdentity, userZipcode, userProfilePicture, plantList} = usePlant();
-  // const [id, setId] = userIdentity;
-  // const [zip, setZip] = userZipcode;
-  // const [profilePic, setProfilePic] = userProfilePicture;
+  const {userIdentity, userZipcode, userProfilePicture, plantList} = usePlant();
+  const [id, setId] = userIdentity;
+  const [zip, setZip] = userZipcode;
+  const [profilePic, setProfilePic] = userProfilePicture;
   const [favoritesList, setFavoritesList] = useState(DATA);
-  // const [plantArray, setPlantArray] = plantList;
+  const [plantArray, setPlantArray] = plantList;
   const [image, setImage] = useState(auth.currentUser?.photoURL || 'https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg')
 
   const navigate = useNavigation()
@@ -31,8 +31,10 @@ const Home = (props) => {
     setSearchTerm(query);
     let filteredListing = [];
     if (query) {
-      const regex = new RegExp(`^${query}`, 'i');
-      filteredListing = DATA.filter(v => regex.test(v.name))
+      const regex = new RegExp(`^/${query}/`, 'i');
+
+      filteredListing = plantArray.filter(v =>(v.plant_name.toLowerCase()).includes(query.toLowerCase().indexOf))
+      console.log('FILTER', filteredListing)
       setFilteredList(filteredListing);
     } else {
       setFilteredList([]);
@@ -40,13 +42,13 @@ const Home = (props) => {
   }
 
   const renderSuggestions = () => {
-    if(data.length === 0) {
+    if(filteredListing.length === 0) {
       return null
     } else {
       // FOR LATER data={suggestions}
         return (
           <FlatList>
-            data={DATA}
+            data={filteredListing}
             renderItem={renderCard}
             keyExtractor={item => item.id}
           </FlatList>
@@ -118,7 +120,7 @@ const Home = (props) => {
       </View> */}
       <View style={styles.plantsWrapper}>
         <FlatList
-          data={DATA}
+          data={plantArray}
           renderItem={(props)=> <PlantCard {...props} navigate={navigate}/>}
           numColumns={2}
           contentContainerStyle={{ paddingBottom: 350 }}

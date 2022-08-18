@@ -7,11 +7,6 @@ import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Home from './components/Home.js';
 
-<<<<<<< HEAD
-// import Home from './components/Home.js';
-import Home from './components/Home.js'
-=======
->>>>>>> 7d9c575dec856a31757b1a27f0a7499e4811b0f9
 import MyPlants from './zdc/MyPlants.js';
 import Trades from './zdc/Trades.js';
 import MyFavoritesHome from './components/MyFavorites/MyFavoritesHome.js';
@@ -105,28 +100,22 @@ export default function TabNavigator() {
   const [string, setString] = useState('This is working');
   const [plantArray, setPlantArray] = useState([]);
 
-  useEffect(() => {
-    console.log('before axios', firebaseID)
-    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${firebaseID}`)
-    .then((response) => {
-      console.log(response)
-      setUserId(response.data.id);
-      setUserZip(response.data.zip);
-      setUserProfilePic(response.data.profile_pic);
-    })
-    .then(() => {
-      axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/all?user_id=${userId}`)
-      .then((response) => {
-        setPlantArray(response.data);
-      })
-      .catch(err => console.log('error setting plant array', err))
-    })
-    .then(() => {
-      console.log(userId, userZip, userProfilePic)
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+  useEffect( () => {
+      async function fetchData() {
+      try {
+        const response = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${firebaseID}`)
+        setUserId(response.data.id);
+        setUserZip(response.data.zip);
+        setUserProfilePic(response.data.profile_pic);
+        const resp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/all?user_id=${userId}`)
+
+        setPlantArray(resp.data);
+      }
+      catch { err =>
+        console.log('final error', err);
+       }
+      }
+      fetchData();
   }, [userZip])
 
   return (
@@ -137,7 +126,7 @@ export default function TabNavigator() {
         userProfilePicture: [userProfilePic, setUserProfilePic],
         test1: [messages, setMessages],
         test2: [string, setString],
-        test3: [plantArray, setPlantArray]}}>
+        plantList: [plantArray, setPlantArray]}}>
       <Tab.Navigator screenOptions={{
         tabBarStyle: {backgroundColor: "#8eb69b"},
         tabBarActiveTintColor: "#fefae0",
