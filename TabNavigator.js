@@ -6,15 +6,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-// import Home from './components/Home.js';
-import Home from './zdc/Home.js'
+import Home from './components/Home.js';
+// import Home from './zdc/Home.js'
 import MyPlants from './zdc/MyPlants.js';
 import Trades from './zdc/Trades.js';
 import MyFavoritesHome from './components/MyFavorites/MyFavoritesHome.js';
 import MyListingHome from './components/MyListing/MyListingHome.js';
 import Profile from './components/Profile.js';
 import EditProfile from './components/Auth/EditProfile.js';
-import PlantPage from './zdc/PlantPage.js';
+// import PlantPage from './zdc/PlantPage.js';
 import PlantDescription from './components/Plants/PlantDescription.js';
 import TradeInbox from './components/Trades/TradeInbox/TradeInbox.js';
 
@@ -38,12 +38,12 @@ function HomeStackScreen(props) {
       <HomeStack.Screen name="Home" component={Home} />
       <HomeStack.Screen name="Profile" component={Profile} />
       <HomeStack.Screen name="EditProfile" component={EditProfile} />
-      <HomeStack.Screen name="Plant Card" component={PlantPage} />
+      {/* <HomeStack.Screen name="Plant Card" component={PlantPage} /> */}
       <HomeStack.Screen name="Plant Description" component={PlantDescription} options={{
           title: 'Plant Description',
           // headerRight: () => (
           //   <Button
-          //     onPress={() => setRequestTrade(true)}
+          //     onPresrs={() => setRequestTrade(true)}
           //     title={requestTrade ? 'Trade Pending':'Trade'}
           //     disabled={requestTrade ? true:false}
           //     color="#000"
