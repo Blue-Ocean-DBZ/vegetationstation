@@ -110,10 +110,9 @@ const styles = StyleSheet.create({
   },
 
   buttonText: {
-    color: 'black',
     fontSize: 20,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'whitesmoke',
   },
 
   plantImage: {

@@ -171,13 +171,15 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   button: {
-    width: '100%',
+    height: 60,
+    width: 350,
     textAlign: 'center',
-    backgroundColor: '#1B2722',
+    backgroundColor: '#2C3D36',
+    borderColor: '#2C3D36',
     padding: 20,
     borderRadius: 10,
     fontSize: 20,
-    fontWeight: '700',
+    fontWeight: 'bold',
     color: 'whitesmoke',
     overflow: 'hidden'
   },
