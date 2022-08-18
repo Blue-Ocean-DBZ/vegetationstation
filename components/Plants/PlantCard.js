@@ -27,17 +27,16 @@ const PlantCard = ({ item, navigate }) => {
 
 const styles = StyleSheet.create({
   plantInformationContainer: {
-    display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'center',
     marginBottom: 10,
-    marginLeft: 17,
-    marginRight: 17,
-    width: 180,
+    paddingLeft: 5,
+    paddingRight: 5,
+    width: '50%',
     height: 230,
   },
 
   plantInfo: {
-    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

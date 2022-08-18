@@ -101,7 +101,7 @@ const EditProfile = () => {
     const imageRef = ref(storage, filename)
     uploadBytes(imageRef, blob)
       .then(snapshot => {
-        const uri = `https://firebasestorage.googleapis.com/v0/b/vegetationstation1.appspot.com/o/${filename}?alt=media`
+        const uri = `https://firebasestorage.googleapis.com/v0/b/vegetationstation2.appspot.com/o/${filename}?alt=media`
         setImage(pickerResult.uri);
         updateProfile(auth.currentUser, {
           photoURL: uri
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 60,
-    width: 350,
+    width: '100%',
     textAlign: 'center',
     backgroundColor: '#2C3D36',
     borderColor: '#2C3D36',
