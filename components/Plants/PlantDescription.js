@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, FlatList, Text, View, TouchableOpacity, TouchableWithoutFeedback, Image } from 'react-native';
+import { Modal, StyleSheet, FlatList, Text, View, TouchableOpacity, TouchableWithoutFeedback, Image } from 'react-native';
 import { Fontisto } from '@expo/vector-icons';
 import PlantCard from './PlantCard.js';
 import { auth } from '../../firebase.js';
-import OpenModal from '../Trades/TradeModal/OpenModal.js'
+import TradeModal from '../Trades/TradeModal/TradeModal.js'
 
 let dummyData = {
   pending: true,
@@ -24,7 +24,7 @@ const PlantDescription = () => {
 
   const [plantListing, setPlantListing] = useState(dummyData);
   const [fillHeart, setFillHeart] = useState('red');
-  const [showModal, setShowModal] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   // not changing colors
   const toggleFavorite = () => {
@@ -32,8 +32,8 @@ const PlantDescription = () => {
   };
 
   // show modal
-  const _onTradeButton = () => {
-    setShowModal(true);
+  const closeModal = () => {
+    setModalVisible(false);
   }
 
   return (
@@ -59,7 +59,7 @@ const PlantDescription = () => {
             <Text style={styles.detail}>{plantListing.pending ? `-PENDING-` : `-AVAILABLE-`}</Text>
           </View>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={() => _onTradeButton()}>
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
               <View style={styles.button}>
                 <Text style={styles.buttonText}>{plantListing.pending ? 'Trade pending' : 'Trade'}</Text>
               </View>
@@ -67,7 +67,18 @@ const PlantDescription = () => {
           </View>
         </View>
       </View>
-      {showModal && <OpenModal />}
+        <View style={styles.centeredView}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <TradeModal closeModal={closeModal}/>
+              </View>
+            </View>
+          </Modal>
+        </View>
     </View>
   )
 };
@@ -140,7 +151,31 @@ const styles = StyleSheet.create({
   detail: {
     marginTop: 8,
     fontSize: 20,
-  }
+  },
+
+  centeredView: {
+    flexDirection: 'column',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 40,
+  },
+
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 5,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
 
 });
 
