@@ -2,26 +2,20 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableWithoutFeedback } from 'react-native';
 import { Fontisto } from '@expo/vector-icons';
-import PlantDescription from './PlantDescription'
-
+import Logo from './../Auth/placeholder/logo.png'
+import PlantDescription from './PlantDescription';
 
 const PlantCard = ({ item, navigate }) => {
-
-  // const PlantDescription = ( item ) => {
-
-
-  // }
-
   // add onPress handler that will take user to the description page'
   return (
-    <TouchableWithoutFeedback onPress={() => navigate.push('Plant Description')}>
+    <TouchableWithoutFeedback onPress={() => navigate.push('Plant Description', item )}>
       <View style={styles.plantInformationContainer}>
         <View>
-          <Image source={{ uri: item.url }} style={styles.plantImage}/>
+          <Image source={{ uri: item.photo }} style={styles.plantImage}/>
         </View>
           <View style= {styles.plantInfo}>
-            <Image source={ item.profile_pic } style={styles.userImage}/>
-            <Text style={styles.otherPlantInfo}>{item.distance}</Text>
+            <Image source={Logo} style={styles.userImage}/>
+            <Text style={styles.otherPlantInfo}>{Math.floor(item.distance/10000)} miles away</Text>
           </View>
       </View>
     </TouchableWithoutFeedback>
@@ -67,6 +61,7 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: '50%',
+    backgroundColor: '#2C3D36',
   },
 });
 
