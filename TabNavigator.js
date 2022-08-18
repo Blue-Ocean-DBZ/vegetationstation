@@ -16,6 +16,8 @@ import EditProfile from './components/Auth/EditProfile.js';
 // import PlantPage from './zdc/PlantPage.js';
 import PlantDescription from './components/Plants/PlantDescription.js';
 import TradeInbox from './components/Trades/TradeInbox/TradeInbox.js';
+import InboxList from './components/Trades/TradeInbox/InboxList.js';
+
 
 import { auth } from './firebase.js';
 
@@ -67,6 +69,7 @@ function TradeStackScreen() {
   return (
     <TradeStack.Navigator>
       <TradeStack.Screen name="Trades" component={TradeInbox} />
+      <TradeStack.Screen name="Inbox" component={InboxList} />
     </TradeStack.Navigator>
   );
 }
@@ -83,8 +86,8 @@ function FavoritesStackScreen() {
 export const PlantContext = React.createContext()
 
 export function usePlant () {
-  const {userIdentity, userZipcode, userProfilePicture, plantList, test1 , test2, test3} = useContext(PlantContext);
-  return {userIdentity, userZipcode, userProfilePicture, plantList, test1, test2, test3};
+  const {userIdentity, userZipcode, userProfilePicture, plantList, userMessages , test2, test3} = useContext(PlantContext);
+  return {userIdentity, userZipcode, userProfilePicture, plantList, userMessages, test2, test3};
 }
 
 // Tab Navigator, individual stack navigators are nested inside
@@ -93,7 +96,7 @@ export default function TabNavigator() {
 
   const firebaseID = auth.currentUser.uid;
 
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState(212);
   const [userZip, setUserZip] = useState(null);
   const [userProfilePic, setUserProfilePic] = useState('');
   const [messages, setMessages] = useState(null);
@@ -108,8 +111,23 @@ export default function TabNavigator() {
         setUserZip(response.data.zip);
         setUserProfilePic(response.data.profile_pic);
         const resp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/all?user_id=${userId}`)
-
         setPlantArray(resp.data);
+        const notifResp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
+          let data = notifResp.data.filter((item, i) => {
+            return (item.plant_offer.owner_id === userId) && (item.shown_to_user_offer === false)
+          })
+          let dataCount = data.length
+          console.log('first array', data)
+          let data2 = notifResp.data.filter((item, i) => {
+            return (item.plant_offer.owner_id !== userId) && ((item.shown_to_user_target === false))
+            // return (item.plant_offer.owner_id !== userId)
+          })
+          let data2Count = data2.length
+          console.log('second array', data2)
+          console.log(dataCount + data2Count);
+          if ((dataCount + data2Count) > 0) {
+            setMessages(dataCount + data2Count);
+          }
       }
       catch { err =>
         console.log('final error', err);
@@ -124,7 +142,7 @@ export default function TabNavigator() {
         userIdentity: [userId, setUserId],
         userZipcode: [userZip, setUserZip],
         userProfilePicture: [userProfilePic, setUserProfilePic],
-        test1: [messages, setMessages],
+        userMessages: [messages, setMessages],
         test2: [string, setString],
         plantList: [plantArray, setPlantArray]}}>
       <Tab.Navigator screenOptions={{

@@ -8,7 +8,7 @@ import TradeModal from '../Trades/TradeModal/TradeModal.js'
 
 const PlantDescription = ({ route }) => {
   const plant = route.params;
-
+//  console.log(plant)
   const [fillHeart, setFillHeart] = useState('red');
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -66,7 +66,7 @@ const PlantDescription = ({ route }) => {
             visible={modalVisible}>
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <TradeModal selectedPlant={dummyData[0].plant_id} closeModal={closeModal}/>
+                <TradeModal selectedPlant={plant.plant_id} closeModal={closeModal}/>
               </View>
             </View>
           </Modal>

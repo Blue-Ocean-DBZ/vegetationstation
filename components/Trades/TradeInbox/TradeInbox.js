@@ -17,7 +17,7 @@ const TradeInbox = (props) => {
   const [acceptedData, setAcceptedData] = useState([])
   const [userID, setUserID] = useState(212)//212 //317
   const navigation = useNavigation()
-  console.log(auth.currentUser.uid, 'lashfkljshfkljsahdlkfjhasklfhkasjlh')
+  // console.log(auth.currentUser.uid, 'lashfkljshfkljsahdlkfjhasklfhkasjlh')
 
 
   let getInboxData = () => {
@@ -28,8 +28,10 @@ const TradeInbox = (props) => {
       })
         setTradesData([...data])
         return response.data
+
     })
     .then((response) => {
+      console.log(tradesData)
       // console.log(response.data)
       let pending = response.filter((item, i) => {
         return item.pending === true
@@ -57,10 +59,10 @@ const TradeInbox = (props) => {
   getInboxData()
   }, [])
 
- useEffect (() => {
+//  useEffect (() => {
 
-  console.log('rerendered')
-  }, [tradesData, acceptedData, pendingData])
+//   console.log('rerendered')
+//   }, [tradesData, acceptedData, pendingData])
 
   let goBack = () => {
     navigation.goBack();

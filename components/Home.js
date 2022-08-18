@@ -34,7 +34,7 @@ const Home = (props) => {
       const regex = new RegExp(`^/${query}/`, 'i');
 
       filteredListing = plantArray.filter(v =>(v.plant_name.toLowerCase()).includes(query.toLowerCase().indexOf))
-      console.log('FILTER', filteredListing)
+      // console.log('FILTER', filteredListing)
       setFilteredList(filteredListing);
     } else {
       setFilteredList([]);

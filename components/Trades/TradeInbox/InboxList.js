@@ -4,10 +4,14 @@ import { Fontisto, Ionicons, AntDesign,Entypo } from '@expo/vector-icons'
 const axios = require('axios')
 import ImageModal from 'react-native-image-modal';
 import { useNavigation } from '@react-navigation/core'
+import { usePlant } from '../../../TabNavigator.js';
 
 const InboxList = (props) => {
   // console.log('props.USER ID', props.userID)
   const navigation = useNavigation();
+
+  const {userMessages} = usePlant();
+  const [messages, setMessages] = userMessages;
 
   let acceptTrade = () => {
     let tradeId = props.entry.trade_id
@@ -48,6 +52,21 @@ const InboxList = (props) => {
     {trade_id: tradeId, user_id: userID})
     .then((response) => {
       props.getInboxData()
+      return axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userID}`)
+      .then((res) => {
+        let data = res.data.filter((item, i) => {
+          return (item.plant_offer.owner_id === userID) && (item.shown_to_user_offer === false)
+        })
+        let dataCount = data.length
+        console.log('first array', data)
+        let data2 = res.data.filter((item, i) => {
+          return (item.plant_offer.owner_id !== userID) && ((item.shown_to_user_target === false) || (item.shown_to_user_target === null))
+        })
+        console.log('second array', data2)
+        if (data.length.concat(data2.length) > 0) {
+          setMessages(data.length.concat(data2.length));
+        }
+      })
       console.log('shown to user succesful', response)
     })
     .catch((err) => {
@@ -58,6 +77,7 @@ const InboxList = (props) => {
   let openMessage = () => {
     shownToUser()
     let tradeID = props.entry.trade_id
+    console.log(tradeID)
     navigation.navigate('ChatMessages', {
       user_id: props.userID,
       trade_id: tradeID,
