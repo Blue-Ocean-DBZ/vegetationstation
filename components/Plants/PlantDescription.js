@@ -48,7 +48,12 @@ const PlantDescription = () => {
             <View style={styles.plantNameWithHeart}>
               <Text style={styles.title}>{dummyData.name}</Text>
               <TouchableWithoutFeedback onPress={() => {toggleFavorite()}}>
-                <Fontisto name="heart" size={27} color={fillHeart} style={styles.heart} />
+                <Fontisto
+                  name="heart"
+                  size={27}
+                  color={fillHeart}
+                  style={styles.heart}
+                />
               </TouchableWithoutFeedback>
             </View>
             <Text style={styles.detail}>{`${plantListing.location} (${plantListing.distance})`}</Text>
@@ -101,7 +106,7 @@ const styles = StyleSheet.create({
   button: {
     height: 60,
     width: 350,
-    backgroundColor: 'black',
+    backgroundColor: 'white',
     borderColor: 'black',
     borderWidth: 1,
     justifyContent: 'center',
@@ -113,7 +118,6 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 20,
     fontWeight: 'bold',
-    fontColor: 'white'
   },
 
   plantImage: {
