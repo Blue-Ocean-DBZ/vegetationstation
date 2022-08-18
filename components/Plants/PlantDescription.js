@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Modal, StyleSheet, FlatList, Text, View, TouchableOpacity, TouchableWithoutFeedback, Image } from 'react-native';
 import {FontAwesome, Ionicons} from 'react-native-vector-icons'
 import PlantCard from './PlantCard.js';
@@ -8,12 +9,20 @@ import TradeModal from '../Trades/TradeModal/TradeModal.js'
 
 const PlantDescription = ({ route }) => {
   const plant = route.params;
-
+  console.log('line 11 this is plant', plant)
   const [fillHeart, setFillHeart] = useState('red');
   const [modalVisible, setModalVisible] = useState(false);
+  const [favorites, setFavorites] = useState(null);
+
+  // useEffect()
 
   const toggleFavorite = () => {
-    fillHeart === 'red' ? setFillHeart('white') : setFillHeart('red');
+
+    if (fillHeart === 'red') {
+      setFillHeart('white');
+    } else {
+      setFillHeart('red');
+    }
   };
 
   const closeModal = () => {
@@ -36,12 +45,12 @@ const PlantDescription = ({ route }) => {
                 name="heart"
                 style= {styles.heart}
                 color={fillHeart}
-                size= {25}
+                size= {30}
                 />
               </TouchableWithoutFeedback>
             </View>
-            <Text style={styles.detail}>{`${plant.location} (${plant.distance})`}</Text>
-            <Text style={styles.detail}>{`Owner: ${plant.owner}`}</Text>
+            <Text style={styles.detail}>{`${plant.location} (${Math.floor(plant.distance / 1609)} miles away)`}</Text>
+            <Text style={styles.detail}>{`Owner: ${plant.username}`}</Text>
           </View>
           <View>
             <Text style={styles.title}>Status:</Text>
@@ -59,42 +68,41 @@ const PlantDescription = ({ route }) => {
           </View>
         </View>
       </View>
-        <View style={styles.centeredView}>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}>
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <TradeModal closeModal={closeModal}/>
-              </View>
+      <View style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <TradeModal closeModal={closeModal}/>
             </View>
-          </Modal>
-        </View>
+          </View>
+        </Modal>
+      </View>
     </View>
   )
 };
 
 const styles = StyleSheet.create({
   container: {
-    height: 650,
-    flex: 1,
-    backgroundColor: '#fff',
+    height: 800,
   },
 
   buttonContainer: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     height: 40,
+
   },
 
   button: {
     height: 60,
     width: 350,
-    backgroundColor: 'white',
-    borderColor: 'black',
+    backgroundColor: '#2C3D36',
+    borderColor: '#2C3D36',
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -105,6 +113,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 20,
     fontWeight: 'bold',
+    color: 'white',
   },
 
   plantImage: {
@@ -128,20 +137,20 @@ const styles = StyleSheet.create({
   },
 
   heart: {
-    marginTop: 13,
-    marginRight: 10,
+    marginTop: 7,
+    marginRight: 7,
     borderColor: 'black'
   },
 
   title: {
     marginTop: 10,
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: 'bold',
   },
 
   detail: {
     marginTop: 8,
-    fontSize: 20,
+    fontSize: 18,
   },
 
   centeredView: {

@@ -14,8 +14,11 @@ const PlantCard = ({ item, navigate }) => {
           <Image source={{ uri: item.photo }} style={styles.plantImage}/>
         </View>
           <View style= {styles.plantInfo}>
-            <Image source={Logo} style={styles.userImage}/>
-            <Text style={styles.otherPlantInfo}>{Math.floor(item.distance/10000)} miles away</Text>
+            <Image
+              source={item.profile_pic !== "fake.com" ? { uri: item.profile_pic } : Logo}
+              style={styles.userImage}
+            />
+            <Text style={styles.otherPlantInfo}>{Math.floor(item.distance / 1609)} miles away</Text>
           </View>
       </View>
     </TouchableWithoutFeedback>
@@ -24,7 +27,6 @@ const PlantCard = ({ item, navigate }) => {
 
 const styles = StyleSheet.create({
   plantInformationContainer: {
-    flex: 1,
     display: 'flex',
     flexDirection: 'column',
     marginBottom: 10,
