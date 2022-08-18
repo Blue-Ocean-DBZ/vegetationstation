@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   topImage: {
-    height: '28%',
+    height: 250,
     alignSelf: 'stretch',
   },
   photoContainer: {
@@ -80,13 +80,15 @@ const styles = StyleSheet.create({
     fontSize: 15
   },
   button: {
+    height: 60,
     width: '100%',
     textAlign: 'center',
-    backgroundColor: '#1B2722',
+    backgroundColor: '#2C3D36',
+    borderColor: '#2C3D36',
     padding: 20,
     borderRadius: 10,
     fontSize: 20,
-    fontWeight: '700',
+    fontWeight: 'bold',
     color: 'whitesmoke',
     overflow: 'hidden',
     marginTop: 30,
