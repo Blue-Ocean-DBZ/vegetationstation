@@ -152,7 +152,7 @@ export default function TabNavigator() {
             )
           }}/>
         <Tab.Screen
-          name="Trades" component={TradeStackScreen}
+          name="Trade" component={TradeStackScreen}
           options={{
             tabBarBadge: messages,
             tabBarIcon: ({color, size}) => (

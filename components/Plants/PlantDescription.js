@@ -75,7 +75,7 @@ const PlantDescription = () => {
             visible={modalVisible}>
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <TradeModal closeModal={closeModal}/>
+                <TradeModal selectedPlant={dummyData[0].plant_id} closeModal={closeModal}/>
               </View>
             </View>
           </Modal>
