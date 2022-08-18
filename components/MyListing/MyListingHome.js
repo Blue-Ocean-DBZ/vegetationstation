@@ -61,8 +61,7 @@ const MyListingHome = () => {
     setAddPlantName('')
   };
 
-  const uploadPhoto = async () => { //addPlant functionality here
-    console.log(addPlantName); // plant name
+  const uploadPhoto = async () => {
     setDisplayModal(!displayModal);
     const res = await fetch(imagePath)
     const blob = await res.blob()
@@ -75,9 +74,9 @@ const MyListingHome = () => {
           uri = `https://firebasestorage.googleapis.com/v0/b/vegetationstation1.appspot.com/o/${filename}?alt=media`;
           return uri;
       })
-      .then (uri => {
-        uri = uri;
-      })
+      // .then (uri => {
+      //   uri = uri;
+      // })
       .then(() => {
         axios.post ('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/plant', {
           plant_name: addPlantName,
@@ -91,9 +90,6 @@ const MyListingHome = () => {
           setPlantList(results.data)
         })
       })
-
-
-
       .catch(err => console.log(err))
     setImagePath(addPicImage);
     setAddPlantName('');
