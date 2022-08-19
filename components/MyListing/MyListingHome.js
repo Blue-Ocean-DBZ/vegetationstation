@@ -70,7 +70,7 @@ const MyListingHome = () => {
     const imageRef = ref(storage, filename)
     uploadBytes(imageRef, blob)
       .then(snapshot => {
-          uri = `https://firebasestorage.googleapis.com/v0/b/vegie3-32b58.appspot.com/o/${filename}?alt=media`;
+          uri = `https://firebasestorage.googleapis.com/v0/b/vegiestation1.appspot.com/o/${filename}?alt=media`;
           // return uri;
       })
       .then(() => {
