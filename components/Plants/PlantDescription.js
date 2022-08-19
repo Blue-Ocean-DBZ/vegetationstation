@@ -9,11 +9,9 @@ import TradeModal from '../Trades/TradeModal/TradeModal.js'
 
 const PlantDescription = ({ route }) => {
   const plant = route.params;
-  console.log('line 11 this is plant', plant)
   const [fillHeart, setFillHeart] = useState('red');
   const [modalVisible, setModalVisible] = useState(false);
   const [favorites, setFavorites] = useState(null);
-
   // useEffect()
 
   const toggleFavorite = () => {
@@ -68,14 +66,15 @@ const PlantDescription = ({ route }) => {
           </View>
         </View>
       </View>
-      <View style={styles.centeredView}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <TradeModal closeModal={closeModal}/>
+
+        <View style={styles.centeredView}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <TradeModal selectedPlant={plant.plant_id} closeModal={closeModal}/>
             </View>
           </View>
         </Modal>
