@@ -140,6 +140,7 @@ export default function TabNavigator() {
         setMessages(count);
       } else {
         setMessages(null);
+
       }
     }
     catch { err =>
