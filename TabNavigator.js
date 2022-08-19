@@ -107,14 +107,17 @@ export default function TabNavigator() {
   const [acceptedData, setAcceptedData] = useState([])
 
 
+
   useEffect(() => {
+    let num = 1;
     let interval = null
     clearInterval(interval)
     interval = setInterval(async () => {
       try {
+        num++
         const notifResp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
         let count = notifResp.data[0]?.notifications
-        // setTradesData(notifResp.data)
+        console.log('count', count)
         getInboxData(userId)
         if (count > 0) {
           setMessages(count);
@@ -125,9 +128,8 @@ export default function TabNavigator() {
       catch { err =>
         console.log(err);
       }
-    }, 5000)
+    }, 10000)
   }, [])
-
 
 
   useEffect( () => {
@@ -152,7 +154,7 @@ export default function TabNavigator() {
         console.log(err);
        }
       }
-      fetchData();
+      fetchData()
   }, [userZip])
 
   async function getNewListings (id) {
@@ -236,7 +238,7 @@ export default function TabNavigator() {
             tabPress: e => {
               // Prevent default action
               e.preventDefault();
-              // getInboxData();
+              getInboxData(userId);
               navigation.navigate('Trade')
             },
           })}
