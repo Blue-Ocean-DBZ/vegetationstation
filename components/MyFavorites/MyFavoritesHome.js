@@ -75,9 +75,11 @@ const styles = StyleSheet.create({
   },
 
   plantInformationContainer: {
+    display: 'flex',
     flexDirection: 'row',
     marginTop: 10,
-    marginHorizontal: 10
+    marginHorizontal: 10,
+    height: 105,
   },
 
   item: {
@@ -99,7 +101,7 @@ const styles = StyleSheet.create({
   },
 
   plantImage: {
-    width: 80,
+    width: 105,
     height: 105,
     padding: 0,
     borderTopLeftRadius: 20,

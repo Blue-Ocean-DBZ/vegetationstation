@@ -285,6 +285,7 @@ upload: {
     flexDirection: 'row',
     marginBottom: 10,
     marginHorizontal: 10,
+    height: 105,
   },
 
   headerTitle: {
@@ -320,7 +321,7 @@ upload: {
   },
 
   plantImage: {
-    width: 80,
+    width: 105,
     height: 105,
     padding: 0,
     borderTopLeftRadius: 20,
