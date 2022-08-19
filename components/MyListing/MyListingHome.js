@@ -18,7 +18,7 @@ const MyListingHome = () => {
   const [addPlantName, setAddPlantName] = useState('');
   const [plantList, setPlantList] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(true);
-  const {userIdentity, getNewList} = usePlant();
+  const {userIdentity} = usePlant();
   const userID = userIdentity[0];
 
 
@@ -84,7 +84,6 @@ const MyListingHome = () => {
           axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/myPlants?user_id=${userID}`)
           .then((results)=> {
           setPlantList(results.data)
-          getNewList(userID);
           })
         })
       })

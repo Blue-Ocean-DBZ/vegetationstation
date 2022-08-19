@@ -86,7 +86,7 @@ function FavoritesStackScreen() {
 export const PlantContext = React.createContext()
 
 export function usePlant () {
-  const {userIdentity, userZipcode, userProfilePicture, plantList, userMessages , test2, test3, pendingTrades, trades, acceptedTrades, getInbox, getNewList} = useContext(PlantContext);
+  const {userIdentity, userZipcode, userProfilePicture, plantList, userMessages , test2, test3, pendingTrades, trades, acceptedTrades, getInbox} = useContext(PlantContext);
   return {userIdentity, userZipcode, userProfilePicture, plantList, userMessages, test2, test3, pendingTrades, trades, acceptedTrades, getInbox};
 }
 
@@ -156,11 +156,6 @@ export default function TabNavigator() {
       }
       fetchData()
   }, [userZip])
-
-  async function getNewListings (id) {
-    const resp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/all?user_id=${id}`)
-    setPlantArray(resp.data)
-  }
 
   function getInboxData (id) {
     axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${id}`)//change to current user id

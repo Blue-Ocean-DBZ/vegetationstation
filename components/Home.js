@@ -17,7 +17,7 @@ const Home = (props) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredList, setFilteredList] = useState([]);
   const [dummyData, setDummyData] = useState([]);
-  const {userIdentity, userZipcode, userProfilePicture, plantList, getNewList} = usePlant();
+  const {userIdentity, userZipcode, userProfilePicture, plantList} = usePlant();
   const [id, setId] = userIdentity;
   const [zip, setZip] = userZipcode;
   const [profilePic, setProfilePic] = userProfilePicture;
