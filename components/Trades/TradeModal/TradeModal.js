@@ -48,11 +48,11 @@ const TradeModal = (props) => {
           { text: 'OK', onPress: () => console.log('Post sent') },
         ]);
         props.closeModal(false)
-        console.log(postData, 'DDATTTTTTTAAAAA')
+
       })
       .then((response) => {
         setPostData({...postData, plant_offer_id: null});
-        console.log(postData, 'DDATTTTTTTAAAAA')
+
       })
       .catch((error) => {
         props.closeModal(false)
