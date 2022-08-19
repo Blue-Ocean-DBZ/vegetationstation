@@ -6,7 +6,6 @@ import { useNavigation } from '@react-navigation/core';
 import axios from 'axios';
 import { auth } from '../firebase.js';
 
-
 export default function ChatMessages ({ route}) {
   const [message, setMessage] = useState('');
   const [actualMessages, setActualMessages] = useState([]);
