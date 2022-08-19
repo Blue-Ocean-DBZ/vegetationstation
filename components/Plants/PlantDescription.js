@@ -11,7 +11,7 @@ import TradeModal from '../Trades/TradeModal/TradeModal.js'
 const PlantDescription = ({ route }) => {
   const plant = route.params;
   // fix this bc its always white
-  const [fillHeart, setFillHeart] = useState('white');
+  const [fillHeart, setFillHeart] = useState('black');
   const [modalVisible, setModalVisible] = useState(false);
   const [favoriteID, setFavoriteID] = useState([]);
   const {userIdentity} = usePlant();
