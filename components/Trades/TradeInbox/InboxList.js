@@ -73,7 +73,7 @@ const InboxList = (props) => {
     })
     let tradeID = props.entry.trade_id
     console.log(tradeID)
-    navigation.navigate('ChatMessages', {
+    navigation.navigate('Message', {
       user_id: props.userID,
       trade_id: tradeID,
     });
