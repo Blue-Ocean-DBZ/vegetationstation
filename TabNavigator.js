@@ -15,6 +15,7 @@ import EditProfile from './components/Auth/EditProfile.js';
 import PlantDescription from './components/Plants/PlantDescription.js';
 import TradeInbox from './components/Trades/TradeInbox/TradeInbox.js';
 import InboxList from './components/Trades/TradeInbox/InboxList.js';
+import ChatMessages from './components/ChatMessages.js';
 import { auth } from './firebase.js';
 const axios = require('axios');
 
@@ -47,7 +48,6 @@ function HomeStackScreen(props) {
           //   />
           // ),
           }}/>
-      <HomeStack.Screen name="Trade Modal" component={TradeInbox} />
     </HomeStack.Navigator>
   );
 }
@@ -65,6 +65,7 @@ function TradeStackScreen() {
     <TradeStack.Navigator>
       <TradeStack.Screen name="Trades" component={TradeInbox} />
       <TradeStack.Screen name="Inbox" component={InboxList} />
+      <TradeStack.Screen name="Message" component={ChatMessages} />
     </TradeStack.Navigator>
   );
 }
@@ -229,7 +230,7 @@ export default function TabNavigator() {
               // Prevent default action
               e.preventDefault();
               getInboxData(userId);
-              navigation.navigate('Trade')
+              navigation.navigate("Trade")
             },
           })}
           options={{
