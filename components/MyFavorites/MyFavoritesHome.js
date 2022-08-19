@@ -17,6 +17,7 @@ const MyFavoritesHome = () => {
       .then((results) => {
         setFavoritesList(results.data)
       })
+      console.log(userID)
   }, []);
 
   const renderPlants = ({ item }) => (
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
 
   item: {
     flex: 1,
-    backgroundColor: '#CED89E',
+    backgroundColor: '#D2E5D7',
     paddingHorizontal: 15,
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
