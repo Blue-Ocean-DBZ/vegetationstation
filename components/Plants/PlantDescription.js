@@ -18,51 +18,53 @@ const PlantDescription = ({ route }) => {
   const userID = userIdentity[0];
 
   useEffect(() => {
+    getAll();
+  }, []);
+
+  const getAll = () => {
+    console.log('inside get all')
     // get favorites
-    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?user_id=${userID}`)
+    return axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?user_id=${userID}`)
 
     // iterate over data
     .then((results) => {
-      console.log('in line 26 results >>>>>', results.data)
+      console.log('in line 30 results >>>>>', results.data)
       if (results.data.length !== 0) {
         results.data.forEach((favorite) => {
           // if exists
-          console.log('line 30', favorite)
+          console.log('line 34', favorite)
           if ( favorite.plant_id === plant.plant_id ) {
             // save favorite_id
             setFavoriteID(favorite.favorites_id);
             setFillHeart('red');
-            console.log('line 35')
-            return;
+            console.log('line 39')
           }
         });
       }
     })
-    // .then(() => {
-    //   // set the heart to red
-    //   setFillHeart('red');
-    //   console.log('line 42')
-    // })
     .catch((err) => {
       console.log('error getting all fav');
     });
-  }, []);
-
+  }
 
   const toggleFavorite = () => {
     // if it is a favoriteID exists
     if (fillHeart === 'red') {
-      // call axios delete
-      console.log(favoriteID)
-      axios.delete(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?favorites_id=${favoriteID}`)
-        //then set to white
-        .then((results) => {
-          console.log('success removing from favorites')
-          setFillHeart('white');
-        })
-        .catch((err) => {
-          console.log('error deleting from favorites')
-        })
+      // get all
+      getAll()
+        .then(() => {
+          // call axios delete
+          console.log(favoriteID)
+          axios.delete(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?favorites_id=${favoriteID}`)
+            //then set to white
+            .then((results) => {
+              console.log('success removing from favorites')
+              setFillHeart('white');
+            })
+            .catch((err) => {
+              console.log('error deleting from favorites')
+            })
+        });
 
     // otherwise,
     } else {
