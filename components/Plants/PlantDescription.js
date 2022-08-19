@@ -12,7 +12,6 @@ const PlantDescription = ({ route }) => {
   const [fillHeart, setFillHeart] = useState('red');
   const [modalVisible, setModalVisible] = useState(false);
   const [favorites, setFavorites] = useState(null);
-
   // useEffect()
 
   const toggleFavorite = () => {
