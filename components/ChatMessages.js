@@ -12,8 +12,9 @@ export default function ChatMessages ({ route}) {
   const [actualMessages, setActualMessages] = useState([]);
   const [submitClick, setSubmitClick] = useState(0)
 
+  let interval = null
+
   useEffect(() => {
-    let interval = null
     clearInterval(interval)
     interval = setInterval(async () => {
       try {
@@ -62,6 +63,7 @@ export default function ChatMessages ({ route}) {
 
   const goBack = (e) => {
     e.preventDefault();
+    clearInterval(interval)
     navigation.goBack();
   }
   return (
