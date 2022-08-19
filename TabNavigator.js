@@ -36,7 +36,7 @@ const FavoritesStack = createNativeStackNavigator();
 function HomeStackScreen(props) {
   return (
     <HomeStack.Navigator>
-      <HomeStack.Screen name="Home" component={Home} />
+      <HomeStack.Screen name="Home" component={Home} options={{title: ' ', headerStyle: {backgroundColor: 'transparent'}}}/>
       <HomeStack.Screen name="Profile" component={Profile} />
       <HomeStack.Screen name="EditProfile" component={EditProfile} />
       {/* <HomeStack.Screen name="Plant Card" component={PlantPage} /> */}
@@ -77,7 +77,7 @@ function TradeStackScreen() {
 function FavoritesStackScreen() {
   return (
     <FavoritesStack.Navigator>
-      <FavoritesStack.Screen name="Favorite" component={MyFavoritesHome} />
+      <FavoritesStack.Screen name="Favorites" component={MyFavoritesHome} />
     </FavoritesStack.Navigator>
   );
 }
@@ -86,7 +86,7 @@ function FavoritesStackScreen() {
 export const PlantContext = React.createContext()
 
 export function usePlant () {
-  const {userIdentity, userZipcode, userProfilePicture, plantList, userMessages , test2, test3, pendingTrades, trades, acceptedTrades, getInbox} = useContext(PlantContext);
+  const {userIdentity, userZipcode, userProfilePicture, plantList, userMessages , test2, test3, pendingTrades, trades, acceptedTrades, getInbox, getNewList} = useContext(PlantContext);
   return {userIdentity, userZipcode, userProfilePicture, plantList, userMessages, test2, test3, pendingTrades, trades, acceptedTrades, getInbox};
 }
 
@@ -133,14 +133,12 @@ export default function TabNavigator() {
   useEffect( () => {
       async function fetchData() {
       try {
-
         const response = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${firebaseID}`)
         setUserId(response.data.id);
         setUserZip(response.data.zip);
         setUserProfilePic(response.data.profile_pic);
         const resp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/all?user_id=${userId}`)
         setPlantArray(resp.data);
-        console.log('PLANT ARRAY DATAAAA', resp.data);
         const tradeResp = await getInboxData(userId);
         const notifResp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
         let count = notifResp.data[0].notifications
@@ -156,6 +154,11 @@ export default function TabNavigator() {
       }
       fetchData();
   }, [userZip])
+
+  async function getNewListings (id) {
+    const resp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/all?user_id=${id}`)
+    setPlantArray(resp.data)
+  }
 
   function getInboxData (id) {
     axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${id}`)//change to current user id
@@ -192,6 +195,7 @@ export default function TabNavigator() {
     <PlantContext.Provider
       value ={{
         getInbox: getInboxData,
+        getNewList: getNewListings,
         userIdentity: [userId, setUserId],
         userZipcode: [userZip, setUserZip],
         userProfilePicture: [userProfilePic, setUserProfilePic],
@@ -243,7 +247,7 @@ export default function TabNavigator() {
             ),
           }}/>
         <Tab.Screen
-          name="Favorites" component={FavoritesStackScreen}
+          name="MyFavorites" component={FavoritesStackScreen}
           options={{
             tabBarIcon: ({color, size}) => (
               <Ionicons name="heart-outline" color={color} size={size}/>
