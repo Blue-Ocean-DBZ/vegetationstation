@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Modal, Pressable, Image, FlatList, SafeAreaView, TouchableWithoutFeedback} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Modal, Pressable, Image, FlatList, SafeAreaView, TouchableWithoutFeedback, RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/core'
 import { Button, Card, Title, Paragraph } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
