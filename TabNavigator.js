@@ -133,6 +133,7 @@ export default function TabNavigator() {
   useEffect( () => {
       async function fetchData() {
       try {
+
         const response = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${firebaseID}`)
         setUserId(response.data.id);
         setUserZip(response.data.zip);
