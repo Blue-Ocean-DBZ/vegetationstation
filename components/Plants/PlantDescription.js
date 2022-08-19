@@ -2,25 +2,91 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Modal, StyleSheet, FlatList, Text, View, TouchableOpacity, TouchableWithoutFeedback, Image } from 'react-native';
-import {FontAwesome, Ionicons} from 'react-native-vector-icons'
-import PlantCard from './PlantCard.js';
+import { FontAwesome, Ionicons } from 'react-native-vector-icons'
 import { auth } from '../../firebase.js';
+import { usePlant } from '../../TabNavigator.js';
+import PlantCard from './PlantCard.js';
 import TradeModal from '../Trades/TradeModal/TradeModal.js'
 
 const PlantDescription = ({ route }) => {
   const plant = route.params;
-  const [fillHeart, setFillHeart] = useState('red');
+  // fix this bc its always white
+  const [fillHeart, setFillHeart] = useState('white');
   const [modalVisible, setModalVisible] = useState(false);
-  const [favorites, setFavorites] = useState(null);
-  // useEffect()
+  const [favoriteID, setFavoriteID] = useState([]);
+  const {userIdentity} = usePlant();
+  const userID = userIdentity[0];
+
+  useEffect(() => {
+    getAll();
+  }, []);
+
+  const getAll = () => {
+    console.log('inside get all')
+    // get favorites
+    return axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?user_id=${userID}`)
+
+    // iterate over data
+    .then((results) => {
+      console.log('in line 30 results >>>>>', results.data)
+      if (results.data.length !== 0) {
+        results.data.forEach((favorite) => {
+          // if exists
+          console.log('line 34', favorite)
+          if ( favorite.plant_id === plant.plant_id ) {
+            // save favorite_id
+            setFavoriteID(favorite.favorites_id);
+            setFillHeart('red');
+            console.log('line 39')
+          }
+        });
+      }
+
+      return;
+    })
+    .catch((err) => {
+      console.log('error getting all fav');
+    });
+  }
 
   const toggleFavorite = () => {
-
+    // if it is a favoriteID exists
     if (fillHeart === 'red') {
-      setFillHeart('white');
+      // get all
+      getAll()
+        .then(() => {
+          // call axios delete
+          console.log(favoriteID)
+          axios.delete(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?favorites_id=${favoriteID}`)
+            //then set to white
+            .then((results) => {
+              console.log('success removing from favorites')
+              setFillHeart('white');
+            })
+            .catch((err) => {
+              console.log('error deleting from favorites')
+            })
+        })
+        .catch((err) => {
+          console.log('error retrieving data', err)
+        });
+
+    // otherwise,
     } else {
-      setFillHeart('red');
-    }
+      // make an axios post call with user_id and plant_id
+      axios.post(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites`, {
+        user_id: userID,
+        plant_id: plant.plant_id
+      })
+        // then set heart to red
+        .then((results) => {
+          console.log('success adding to favorites')
+          setFillHeart('red');
+        })
+        .catch((err) => {
+          console.log('error adding to favorites')
+        });
+    };
   };
 
   const closeModal = () => {
@@ -40,14 +106,14 @@ const PlantDescription = ({ route }) => {
               <Text style={styles.title}>{plant.plant_name}</Text>
               <TouchableWithoutFeedback onPress={() => {toggleFavorite()}}>
                 <Ionicons
-                name="heart"
-                style= {styles.heart}
+                name="heart-outline"
+                style={styles.heart}
                 color={fillHeart}
-                size= {30}
+                size={25}
                 />
               </TouchableWithoutFeedback>
             </View>
-            <Text style={styles.detail}>{`${plant.city}, ${plant.state} (${Math.round((plant.distance / 1609) * 10)/10} miles away)`}</Text>
+            <Text style={styles.detail}>{`${plant.city || 'United States'}, ${plant.state || 'Earth'} (${Math.round((plant.distance / 1609) * 10)/10} miles away)`}</Text>
             <Text style={styles.detail}>{`Owner: ${plant.username}`}</Text>
           </View>
           <View>
@@ -115,8 +181,8 @@ const styles = StyleSheet.create({
   },
 
   plantImage: {
-    width: 430,
-    height: 430,
+    width: 390,
+    height: 390,
   },
 
   // justify contents not working
@@ -137,17 +203,16 @@ const styles = StyleSheet.create({
   heart: {
     marginTop: 7,
     marginRight: 7,
-    borderColor: 'black'
   },
 
   title: {
-    marginTop: 10,
-    fontSize: 25,
+    marginTop: 7,
+    fontSize: 22,
     fontWeight: 'bold',
   },
 
   detail: {
-    marginTop: 8,
+    marginTop: 5,
     fontSize: 18,
   },
 
