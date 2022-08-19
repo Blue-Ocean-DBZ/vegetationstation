@@ -6,13 +6,13 @@ import TradeListEntry from './TradeListEntry.js'
 import plantData from '../exampleData/Dummy.js'
 import { storage, auth, signOutUser } from '../../../firebase.js'
 const axios = require('axios')
-//need plant target id
 
 const TradeModal = (props) => {
 
   const navigation = useNavigation()
   const [postData, setPostData] = useState({plant_offer_id: null, plant_target_id: props.selectedPlant})//change to props.selectedPlant
-  console.log(props.selectedPlant)
+  const [userPlantInfo, setUserPlantInfo] = useState([])
+
   let goBack = () => {
     props.closeModal(false)
   }
@@ -20,11 +20,18 @@ const TradeModal = (props) => {
   //set users plant id to trade
   let setImage =  async (plantID) => {
     setPostData({...postData, plant_offer_id: plantID});
-    console.log(postData)
+
   }
 
   useEffect(() => {
-
+    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/myplants?user_id=3099`)
+    .then((response) => {
+    console.log(response.data, 'resssspopnnnsee')
+     setUserPlantInfo(response.data)
+    })
+    .catch((err) => {
+      console.log(err, 'error in modal')
+    })
   },[])
 
   let submitTrade = (obj) => {
@@ -41,11 +48,11 @@ const TradeModal = (props) => {
           { text: 'OK', onPress: () => console.log('Post sent') },
         ]);
         props.closeModal(false)
-        console.log(postData, 'DDATTTTTTTAAAAA')
+
       })
       .then((response) => {
         setPostData({...postData, plant_offer_id: null});
-        console.log(postData, 'DDATTTTTTTAAAAA')
+
       })
       .catch((error) => {
         props.closeModal(false)
@@ -79,7 +86,7 @@ const TradeModal = (props) => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.TradeContainer}>
             <View style={styles.TradeEntryContainer}>
-              {plantData.map((plant, index) =>
+              {userPlantInfo.map((plant, index) =>
                 <TradeListEntry
                 plant={plant}
                 key={index}
