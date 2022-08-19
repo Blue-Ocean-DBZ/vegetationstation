@@ -36,7 +36,7 @@ const FavoritesStack = createNativeStackNavigator();
 function HomeStackScreen(props) {
   return (
     <HomeStack.Navigator>
-      <HomeStack.Screen name="Home" component={Home} />
+      <HomeStack.Screen name="Home" component={Home} options={{title: ' ', headerStyle: {backgroundColor: 'transparent'}}}/>
       <HomeStack.Screen name="Profile" component={Profile} />
       <HomeStack.Screen name="EditProfile" component={EditProfile} />
       {/* <HomeStack.Screen name="Plant Card" component={PlantPage} /> */}
@@ -77,7 +77,7 @@ function TradeStackScreen() {
 function FavoritesStackScreen() {
   return (
     <FavoritesStack.Navigator>
-      <FavoritesStack.Screen name="Favorite" component={MyFavoritesHome} />
+      <FavoritesStack.Screen name="Favorites" component={MyFavoritesHome} />
     </FavoritesStack.Navigator>
   );
 }
@@ -135,7 +135,6 @@ export default function TabNavigator() {
   useEffect( () => {
       async function fetchData() {
       try {
-
         const response = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${firebaseID}`)
         setUserId(response.data.id);
         setUserZip(response.data.zip);
@@ -193,6 +192,7 @@ export default function TabNavigator() {
     <PlantContext.Provider
       value ={{
         getInbox: getInboxData,
+        getNewList: getNewListings,
         userIdentity: [userId, setUserId],
         userZipcode: [userZip, setUserZip],
         userProfilePicture: [userProfilePic, setUserProfilePic],
@@ -244,7 +244,7 @@ export default function TabNavigator() {
             ),
           }}/>
         <Tab.Screen
-          name="Favorites" component={FavoritesStackScreen}
+          name="MyFavorites" component={FavoritesStackScreen}
           options={{
             tabBarIcon: ({color, size}) => (
               <Ionicons name="heart-outline" color={color} size={size}/>
