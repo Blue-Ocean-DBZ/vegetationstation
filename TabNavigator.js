@@ -140,6 +140,7 @@ export default function TabNavigator() {
         setUserProfilePic(response.data.profile_pic);
         const resp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/all?user_id=${userId}`)
         setPlantArray(resp.data);
+        console.log('PLANT ARRAY DATAAAA', resp.data);
         const tradeResp = await getInboxData(userId);
         const notifResp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
         let count = notifResp.data[0].notifications
