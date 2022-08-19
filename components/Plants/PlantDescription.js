@@ -41,6 +41,8 @@ const PlantDescription = ({ route }) => {
           }
         });
       }
+
+      return;
     })
     .catch((err) => {
       console.log('error getting all fav');
@@ -64,6 +66,9 @@ const PlantDescription = ({ route }) => {
             .catch((err) => {
               console.log('error deleting from favorites')
             })
+        })
+        .catch((err) => {
+          console.log('error retrieving data', err)
         });
 
     // otherwise,

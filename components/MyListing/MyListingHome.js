@@ -300,7 +300,7 @@ upload: {
   },
 
   item: {
-    backgroundColor: '#CED89E',
+    backgroundColor: '#E3EEE6',
     paddingHorizontal: 15,
     paddingVertical: 15,
     borderTopRightRadius: 20,
