@@ -101,7 +101,7 @@ const PlantDescription = ({ route }) => {
             visible={modalVisible}>
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <TradeModal selectedPlant={plant.plant_id} closeModal={closeModal}/>
+                <TradeModal selectedPlant={plant.plant_id} selectedPlantName={plant.plant_name} closeModal={closeModal}/>
             </View>
           </View>
         </Modal>
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   },
 
   plantImage: {
-    width: 390,
+    width: '100%',
     height: 390,
   },
 
