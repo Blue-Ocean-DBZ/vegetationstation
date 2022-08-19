@@ -29,6 +29,7 @@ useEffect(() => {
   interval = setInterval(async () => {
     try {
       num++
+      console.log(num);
       const notifResp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
       let count = notifResp.data[0]?.notifications
       getInbox(userId)
@@ -60,26 +61,61 @@ useEffect(() => {
   return (
     <View >
       <View >
+        <View>
         <View style={styles.InboxHeader}>
           {/* <AntDesign name="arrowleft" size={24} color="black" onPress={goBack}/> */}
         </View>
         <View style={styles.statusContainer}>
-          <Button
-            onPress={() => switchTab('Pending')}
-            title="Pending"
-            color="#606C38"
-          />
+          <View>
+            <Button
+              onPress={() => switchTab('Pending')}
+              title="Pending"
+              color="#606C38"
+            />
+          {currInbox === 'Pending' && <View>
+          <View
+              style={{
+              borderBottomColor: 'grey',
+              borderBottomWidth: 1,
+              marginLeft: 5,
+              marginRight: 5
+            }}/>
+          </View>}
+        </View>
+        <View>
           <Button
             onPress={() => switchTab('Accepted')}
             title="Accepted"
             color="#606C38"
           />
+        {currInbox === 'Accepted' && <View>
+          <View
+              style={{
+              borderBottomColor: 'grey',
+              borderBottomWidth: 1,
+              marginLeft: 5,
+              marginRight: 5
+            }}/>
+          </View>}
+          </View>
+          <View>
           <Button
             onPress={() => switchTab('History')}
             title="History"
             color="#606C38"
             accessibilityLabel="Learn more about this purple button"
           />
+          {currInbox === 'History' && <View>
+          <View
+              style={{
+              borderBottomColor: 'grey',
+              borderBottomWidth: 1,
+              marginLeft: 5,
+              marginRight: 5
+            }}/>
+          </View>}
+          </View>
+        </View>
         </View>
         <View
           style={{
@@ -192,5 +228,9 @@ const styles = StyleSheet.create({
 
     },
 });
+
+
+//TradeInbox
+
 
 export default TradeInbox;

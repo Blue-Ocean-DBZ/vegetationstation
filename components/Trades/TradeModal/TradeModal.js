@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity,Alert, Modal, StyleSheet, Text, Pressable, View, Image, useWindowDimensions, ScrollView } from 'react-native';
+import { TouchableOpacity,Alert, Modal, StyleSheet, Text, Pressable, View, Image, TouchableWithoutFeedback,useWindowDimensions, ScrollView } from 'react-native';
 import { Fontisto, Ionicons, AntDesign,Entypo } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native';
 import TradeListEntry from './TradeListEntry.js'
@@ -11,10 +11,12 @@ const axios = require('axios')
 const TradeModal = (props) => {
 
   const navigation = useNavigation()
-  const [postData, setPostData] = useState({plant_offer_id: null, plant_target_id: props.selectedPlant})//change to props.selectedPlant
+  // const [postData, setPostData] = useState({plant_offer_id: null, plant_target_id: props.selectedPlant, user_id: userId})//change to props.selectedPlant
   const [userPlantInfo, setUserPlantInfo] = useState([])
   const { getInbox, userIdentity } = usePlant();
   const [userId, setUserId] = userIdentity;
+
+  const [postData, setPostData] = useState({plant_offer_id: null, plant_target_id: props.selectedPlant, user_id: userId})//change to props.selectedPlant
   let goBack = () => {
     props.closeModal(false)
   }
@@ -53,10 +55,12 @@ const TradeModal = (props) => {
 
       })
       .then((response) => {
+        console.log(postData)
         setPostData({...postData, plant_offer_id: null});
 
       })
       .catch((error) => {
+        console.log(postData)
         props.closeModal(false)
         console.log(`Error in Posting trade`, error.AxiosError);
       });
