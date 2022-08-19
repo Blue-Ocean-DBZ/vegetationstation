@@ -66,6 +66,9 @@ export default function ChatMessages ({ route}) {
     e.preventDefault();
     navigation.goBack();
   }
+
+  const scrollViewRef = useRef();
+
   return (
 
       <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -74,7 +77,10 @@ export default function ChatMessages ({ route}) {
           resizeMode="cover"
           style={styles.backgroundImg}
         >
-        <ScrollView>
+        <ScrollView
+        ref={scrollViewRef}
+        onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
+        >
           <View style={styles.msgContainer}>
         {actualMessages?.map((msg, i) => {
           if (msg.user_id === user_id) {
@@ -202,13 +208,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   msgContainer: {
-    top: '5%',
     width: '100%',
     padding: 5,
     height: '100%',
-    overflow: 'auto',
     borderColor: 'black',
-    overflow: 'scroll',
   },
   backgroundImg: {
     flex: 1,
