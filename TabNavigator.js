@@ -143,6 +143,7 @@ export default function TabNavigator() {
         const resp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/all?user_id=${userId}`)
         setPlantArray(resp.data);
         const tradeResp = await getInboxData(userId);
+        console.log('id', response.data.id)
         const notifResp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
         let count = notifResp.data[0].notifications
         if (count > 0) {

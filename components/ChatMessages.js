@@ -12,22 +12,26 @@ export default function ChatMessages ({ route}) {
   const [actualMessages, setActualMessages] = useState([]);
   const [submitClick, setSubmitClick] = useState(0)
 
-  let interval = null
 
   useEffect(() => {
-    clearInterval(interval)
+    let int = 0;
+    let interval = null;
+    clearInterval(interval);
     interval = setInterval(async () => {
       try {
         const response = await axios.get('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/messages', {params: {
           trade_id: trade_id,
         }})
-        console.log('msg', response.data)
+        int++
+        console.log('int',int)
         setActualMessages(response.data)
       }
       catch { err =>
         console.log(err);
       }
     }, 5000)
+
+    return function cleanup() {clearInterval(interval)}
   }, []);
 
   useEffect(() => {
@@ -63,7 +67,6 @@ export default function ChatMessages ({ route}) {
 
   const goBack = (e) => {
     e.preventDefault();
-    clearInterval(interval)
     navigation.goBack();
   }
   return (
@@ -204,6 +207,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   msgContainer: {
+    top: '5%',
     width: '100%',
     padding: 5,
     height: '100%',
