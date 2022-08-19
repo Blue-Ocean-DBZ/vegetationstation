@@ -11,9 +11,11 @@ const TradeListEntry = (props) => {
 
   return (
      <View >
+
         <TouchableOpacity activeOpacity={0.6} onPress={Select}>
+
           <Image
-            style={{borderColor:'#283618', borderWidth: props.plant.id === props.selectedImage ?  3: 0,
+            style={{borderColor:'#283618', borderWidth: props.plant.id === props.selectedImage ?  3: 0,//change id to trade id plant. plant id
             width: 160,
             height:160,
             margin: 5,
@@ -24,7 +26,9 @@ const TradeListEntry = (props) => {
             source={{uri:props.plant.photo}}
 
           />
+
       </TouchableOpacity>
+
     </View>
   );
 };

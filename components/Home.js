@@ -32,6 +32,7 @@ const Home = (props) => {
     let filteredListing = [];
     if (query) {
       const regex = new RegExp(`^/${query}/`, 'i');
+
       filteredListing = plantArray.filter(v =>
         v.plant_name.toLowerCase().includes(query.toLowerCase())
       )
