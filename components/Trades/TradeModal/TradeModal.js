@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity,Alert, Modal, StyleSheet, Text, Pressable, View, Image, useWindowDimensions, ScrollView } from 'react-native';
+import { TouchableOpacity,Alert, Modal, StyleSheet, Text, Pressable, View, Image, TouchableWithoutFeedback,useWindowDimensions, ScrollView } from 'react-native';
 import { Fontisto, Ionicons, AntDesign,Entypo } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native';
 import TradeListEntry from './TradeListEntry.js'
