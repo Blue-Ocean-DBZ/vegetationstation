@@ -11,13 +11,21 @@ import { PlantContext } from '../../TabNavigator.js'
 
 const EditProfile = () => {
   const data = useContext(PlantContext)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [id, setId] = useState('')
   const [username, setUsername] = useState(auth.currentUser?.displayName)
   const [zipcode, setZipcode] = useState('')
   const [status, setStatus] = useState('')
   const [image, setImage] = useState(auth.currentUser?.photoURL || 'https://th-thumbnailer.cdn-si-edu.com/bZAar59Bdm95b057iESytYmmAjI=/1400x1050/filters:focal(594x274:595x275)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/95/db/95db799b-fddf-4fde-91f3-77024442b92d/egypt_kitty_social.jpg')
   const navigation = useNavigation()
+
+  useEffect(()=> {
+    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${auth.currentUser.uid}`)
+    .then(({data})=> {
+          setStatus(data.user_status || '');
+      })
+  }, []);
+
 
   useEffect(() => {
     setZipcode(data?.userZipcode[0])
@@ -36,20 +44,21 @@ const EditProfile = () => {
         username,
         firebase_id: auth.currentUser.uid,
         profile_pic: auth.currentUser?.photoURL || image,
-        zip: zipcode
+        zip: zipcode,
       })
-        .then(() => {
-          navigation.reset({
-            index: 0,
-            routes: [{ name: 'TabNavigator' }],
-          });
-        })
-        .catch(err => alert('Please enter a valid zipcode'))
+      .then(() => {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'TabNavigator' }],
+        });
+      })
+      .catch(err => alert('Please enter a valid zipcode'))
     } else {
       axios.put('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/user', {
         user_id: id,
         profile_pic: auth.currentUser?.photoURL || image,
-        zip: zipcode
+        zip: zipcode,
+        user_status: status
       })
         .then(() => {
           const set = data?.userZipcode[1]
@@ -128,7 +137,7 @@ const EditProfile = () => {
         <View style={styles.inputContainer}>
           <TextInput placeholder='Zip Code' placeholderTextColor='#D3D3D3'  autoCapitalize='none' value={zipcode} style={styles.input} onChangeText={text => setZipcode(text)} maxLength={5} minLength={5} keyboardType="number-pad"/>
           <Text style={styles.notice}>We use your zip code to locate plant swappers near the area.</Text>
-          <TextInput placeholder='Status' placeholderTextColor='#D3D3D3'  autoCapitalize='none' value={status} style={styles.input} onChangeText={text => setStatus(text)}/>
+          <TextInput placeholder='Status' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={status} style={styles.input} onChangeText={text => setStatus(text)}/>
         </View>
         <View style={styles.buttonWrapper}>
           <TouchableOpacity style={styles.buttonGrp} onPress={saveHandler} disabled={loading ? true:false}>

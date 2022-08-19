@@ -8,20 +8,16 @@ import { usePlant } from '../../TabNavigator.js';
 const MyFavoritesHome = () => {
 
   const [favoritesList, setFavoritesList] = useState([]);
-  const {userIdentity} = usePlant();
+  const {userIdentity, plantList, fetchData} = usePlant();
+  const [plantArray, setPlantArray] = plantList;
   const userID = userIdentity[0];
   const meterToMiles = 1609;
 
-  useEffect(() => {
-    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?user_id=${userID}`)
-      .then((results) => {
-        setFavoritesList(results.data)
-      })
-      console.log(userID)
-  }, []);
 
-  const renderPlants = ({ item }) => (
-    <View style={styles.plantInformationContainer}>
+  const renderPlants = ({ item }) => {
+    if(item.favorite) {
+      return (
+        <View style={styles.plantInformationContainer}>
       <View style={styles.leftPart}>
         <Image source={{ url: item.photo }} style={styles.plantImage} />
       </View>
@@ -37,30 +33,28 @@ const MyFavoritesHome = () => {
               <Text style={styles.otherPlantInfo}>{item.username}</Text>
             </View>
           </View>
-          <TouchableWithoutFeedback onPress={() => { deleteFavorite(item.plant_id) }}>
+          <TouchableWithoutFeedback onPress={() => { deleteFavorite(item.favorite) }}>
             <Ionicons name="heart" style={styles.heart} size={25} />
           </TouchableWithoutFeedback>
         </View>
       </View>
     </View>
-  );
+      )
+    }
+
+  };
 
   const deleteFavorite = (id) => { //delete favorites functionality here
-    let tempArray = favoritesList.slice();
-    for (let i = 0; i < tempArray.length; i++) {
-      if (tempArray[i].plant_id === id) {
-        let favoriteId = tempArray[i].favorites_id;
-        tempArray.splice(i, 1);
-        setFavoritesList(tempArray)
-        axios.delete(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?favorites_id=${favoriteId}`)
-      }
-    }
-  };
+    axios.delete(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?favorites_id=${id}`)
+      .then((res) => fetchData())
+      .catch((err) => console.log(err))
+  }
+;
 
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={favoritesList}
+        data={plantArray}
         renderItem={renderPlants}
         contentContainerStyle={{ paddingBottom: 10 }}
       />
