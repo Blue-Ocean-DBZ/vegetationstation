@@ -4,9 +4,9 @@ import plantData from '../exampleData/Dummy.js'
 
 const TradeListEntry = (props) => {
 
-
+  console.log(props.plant.plant_id, 'PLLLLANNNTTT')
   var Select = async () => {
-    await props.setImage(props.plant.id)
+    await props.setImage(props.plant.plant_id)
   }
 
   return (
@@ -15,7 +15,7 @@ const TradeListEntry = (props) => {
         <TouchableOpacity activeOpacity={0.6} onPress={Select}>
 
           <Image
-            style={{borderColor:'#283618', borderWidth: props.plant.id === props.selectedImage ?  3: 0,//change id to trade id plant. plant id
+            style={{borderColor:'#283618', borderWidth: props.plant.plant_id === props.selectedImage ?  3: 0,//change id to trade id plant. plant id
             width: 160,
             height:160,
             margin: 5,

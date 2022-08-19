@@ -133,10 +133,12 @@ export default function TabNavigator() {
   useEffect( () => {
       async function fetchData() {
       try {
+
         const response = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${firebaseID}`)
         setUserId(response.data.id);
         setUserZip(response.data.zip);
         setUserProfilePic(response.data.profile_pic);
+        console.log(response.data.id)
         const resp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/all?user_id=${userId}`)
         setPlantArray(resp.data);
         const tradeResp = await getInboxData(userId);
