@@ -14,6 +14,7 @@ import Profile from './components/Profile.js';
 import EditProfile from './components/Auth/EditProfile.js';
 import PlantDescription from './components/Plants/PlantDescription.js';
 import TradeInbox from './components/Trades/TradeInbox/TradeInbox.js';
+import InboxList from './components/Trades/TradeInbox/InboxList.js';
 import { auth } from './firebase.js';
 const axios = require('axios');
 
@@ -63,6 +64,7 @@ function TradeStackScreen() {
   return (
     <TradeStack.Navigator>
       <TradeStack.Screen name="Trades" component={TradeInbox} />
+      <TradeStack.Screen name="Inbox" component={InboxList} />
     </TradeStack.Navigator>
   );
 }
@@ -79,8 +81,8 @@ function FavoritesStackScreen() {
 export const PlantContext = React.createContext()
 
 export function usePlant () {
-  const {userIdentity, userZipcode, userProfilePicture, plantList, userMessages , test2} = useContext(PlantContext);
-  return {userIdentity, userZipcode, userProfilePicture, plantList, userMessages, test2};
+  const {userIdentity, userZipcode, userProfilePicture, plantList, userMessages , test2, test3, pendingTrades, trades, acceptedTrades, getInbox} = useContext(PlantContext);
+  return {userIdentity, userZipcode, userProfilePicture, plantList, userMessages, test2, test3, pendingTrades, trades, acceptedTrades, getInbox};
 }
 
 // Tab Navigator, individual stack navigators are nested inside
@@ -94,33 +96,101 @@ export default function TabNavigator() {
   const [messages, setMessages] = useState(null);
   const [string, setString] = useState('This is working');
   const [plantArray, setPlantArray] = useState([]);
+  const [pendingData, setPendingData] = useState([])
+  const [tradesData, setTradesData] = useState([])
+  const [acceptedData, setAcceptedData] = useState([])
+
+
+  useEffect(() => {
+    let interval = null
+    clearInterval(interval)
+    interval = setInterval(async () => {
+      try {
+        const notifResp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
+        let count = notifResp.data[0].notifications
+        if (count > 0) {
+          setMessages(count);
+        } else {
+          setMessages(null);
+        }
+      }
+      catch { err =>
+        console.log(err);
+      }
+    }, 5000)
+  }, [])
+
+
 
   useEffect( () => {
       async function fetchData() {
       try {
         const response = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${firebaseID}`)
-        setUserId(response.data.id);
+        // setUserId(response.data.id);
         setUserZip(response.data.zip);
         setUserProfilePic(response.data.profile_pic);
         const resp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/all?user_id=${userId}`)
         setPlantArray(resp.data);
+        const tradeResp = await getInboxData(userId);
+        const notifResp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
+        let count = notifResp.data[0].notifications
+        if (count > 0) {
+          setMessages(count);
+        } else {
+          setMessages(null);
+        }
       }
       catch { err =>
-        console.log('final error', err);
+        console.log(err);
        }
       }
       fetchData();
   }, [userZip])
 
+  function getInboxData (id) {
+    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${id}`)//change to current user id
+    .then((response) => {
+      let data = response.data.filter((item, i) => {
+        return item.pending === false
+      })
+        setTradesData([...data])
+        return response.data
+
+    })
+    .then((response) => {
+      // console.log(tradesData)
+      // console.log(response.data)
+      let pending = response.filter((item, i) => {
+        return item.pending === true
+      })
+      setPendingData([...pending]);
+      return response
+  })
+  .then((response) => {
+    let accepted = response.filter((item, i) => {
+      return item.accepted === true
+    })
+    setAcceptedData([...accepted]);
+    return response
+  })
+    .catch((err) => {
+      console.log(err, 'this is your error')
+    })
+  }
+
   return (
     <PlantContext.Provider
       value ={{
+        getInbox: getInboxData,
         userIdentity: [userId, setUserId],
         userZipcode: [userZip, setUserZip],
         userProfilePicture: [userProfilePic, setUserProfilePic],
         userMessages: [messages, setMessages],
         test2: [string, setString],
-        plantList: [plantArray, setPlantArray]}}>
+        plantList: [plantArray, setPlantArray],
+        pendingTrades: [pendingData, setPendingData],
+        trades: [tradesData, setTradesData],
+        acceptedTrades: [acceptedData, setAcceptedData]}}>
       <Tab.Navigator screenOptions={{
         tabBarStyle: {backgroundColor: "#8eb69b"},
         tabBarActiveTintColor: "#fefae0",
@@ -147,7 +217,15 @@ export default function TabNavigator() {
             )
           }}/>
         <Tab.Screen
-          name="Trades" component={TradeStackScreen}
+          name="Trade" component={TradeStackScreen}
+          listeners={({ navigation, route }) => ({
+            tabPress: e => {
+              // Prevent default action
+              e.preventDefault();
+              // getInboxData();
+              navigation.navigate('Trade')
+            },
+          })}
           options={{
             tabBarBadge: messages,
             tabBarIcon: ({color, size}) => (
