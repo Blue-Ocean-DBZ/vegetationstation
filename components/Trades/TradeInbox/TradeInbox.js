@@ -74,6 +74,29 @@ const TradeInbox = (props) => {
 //   console.log('rerendered')
 //   }, [tradesData, acceptedData, pendingData])
 
+useEffect(() => {
+  let num = 1;
+  let interval = null
+  clearInterval(interval)
+  interval = setInterval(async () => {
+    try {
+      num++
+      console.log(num);
+      const notifResp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
+      let count = notifResp.data[0]?.notifications
+      getInboxData(userId)
+      if (count > 0) {
+        setMessages(count);
+      } else {
+        setMessages(null);
+      }
+    }
+    catch { err =>
+      console.log(err);
+    }
+  }, 5000)
+}, [])
+
   let goBack = () => {
     navigation.goBack();
   }
