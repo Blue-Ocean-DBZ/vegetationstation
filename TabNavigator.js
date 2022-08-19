@@ -113,7 +113,9 @@ export default function TabNavigator() {
     interval = setInterval(async () => {
       try {
         const notifResp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
-        let count = notifResp.data[0].notifications
+        let count = notifResp.data[0]?.notifications
+        // setTradesData(notifResp.data)
+        getInboxData(userId)
         if (count > 0) {
           setMessages(count);
         } else {

@@ -7,7 +7,7 @@ import plantData from '../exampleData/Dummy.js'
 import { storage, auth, signOutUser } from '../../../firebase.js'
 const axios = require('axios')
 //need plant target id
-
+console.log(auth)
 const TradeModal = (props) => {
 
   const navigation = useNavigation()
