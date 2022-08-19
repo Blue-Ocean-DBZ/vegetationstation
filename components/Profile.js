@@ -3,8 +3,21 @@ import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, TouchableWithoutFeedback } from 'react-native';
 import { signOutUser, auth } from '../firebase.js';
 import { useNavigation } from '@react-navigation/core';
-
+import { usePlant } from '../TabNavigator.js';
+import axios from 'axios';
 export default function Profile () {
+  const {userZipcode, userIdentity} = usePlant();
+  const [zip, setZip] = userZipcode;
+  const [id, setId] = userIdentity;
+  const [user, setUser] = useState('Earth');
+
+  useEffect(()=> {
+    // check to see if zip code changes
+    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${auth.currentUser.uid}`)
+      .then(({data})=>{
+        setUser(data);
+      })
+  }, [zip])
 
   const navigation = useNavigation();
 
@@ -29,7 +42,7 @@ export default function Profile () {
         <Image style={styles.profilePhoto} source={{uri: auth.currentUser?.photoURL}}/>
         <View style={styles.userInfoContainer}>
           <Text style={styles.name}>{auth.currentUser?.displayName}</Text>
-          <Text style={styles.city}>From Myspace</Text>
+          <Text style={styles.city}>{user.city || 'United States'}, {user.state || 'Earth'}</Text>
         </View>
       </View>
       <View style={styles.buttonWrapper}>

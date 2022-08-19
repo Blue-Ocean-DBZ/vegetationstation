@@ -71,7 +71,7 @@ const MyListingHome = () => {
     const imageRef = ref(storage, filename)
     uploadBytes(imageRef, blob)
       .then(snapshot => {
-          uri = `https://firebasestorage.googleapis.com/v0/b/vegiestation1.appspot.com/o/${filename}?alt=media`;
+          uri = `https://firebasestorage.googleapis.com/v0/b/vegiestation2.appspot.com/o/${filename}?alt=media`;
           // return uri;
       })
       .then(() => {
@@ -301,7 +301,7 @@ upload: {
   },
 
   item: {
-    backgroundColor: '#CED89E',
+    backgroundColor: '#D2E5D7',
     paddingHorizontal: 15,
     paddingVertical: 15,
     borderTopRightRadius: 20,
