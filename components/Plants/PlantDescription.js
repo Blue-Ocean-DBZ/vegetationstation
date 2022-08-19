@@ -9,7 +9,8 @@ import TradeModal from '../Trades/TradeModal/TradeModal.js'
 
 const PlantDescription = ({ route }) => {
   const plant = route.params;
-  const [fillHeart, setFillHeart] = useState('red');
+  console.log(plant);
+  const [fillHeart, setFillHeart] = useState('white');
   const [modalVisible, setModalVisible] = useState(false);
   const [favorites, setFavorites] = useState(null);
   // useEffect()
@@ -18,9 +19,31 @@ const PlantDescription = ({ route }) => {
 
     if (fillHeart === 'red') {
       setFillHeart('white');
+
+      axios.delete(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?favorites_id=${favoriteId}`)
+        .then((results) => {
+          console.log('success removing from favorites')
+        })
+        .catch((err) => {
+          console.log('error deleting from favorites')
+        })
+
     } else {
       setFillHeart('red');
+
+      axios.post(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites`, {
+        "user_id": plant.user_id,
+        "plant_id": plant.plant_id
+      })
+        .then((results) => {
+          console.log('success adding to favorites')
+        })
+        .catch((err) => {
+          console.log('error adding to favorites')
+        })
+
     }
+
   };
 
   const closeModal = () => {
@@ -47,7 +70,7 @@ const PlantDescription = ({ route }) => {
                 />
               </TouchableWithoutFeedback>
             </View>
-            <Text style={styles.detail}>{`${plant.location} (${Math.floor(plant.distance / 1609)} miles away)`}</Text>
+            <Text style={styles.detail}>{`${plant.city} (${Math.floor(plant.distance / 1609)} miles away)`}</Text>
             <Text style={styles.detail}>{`Owner: ${plant.username}`}</Text>
           </View>
           <View>
@@ -137,7 +160,6 @@ const styles = StyleSheet.create({
   heart: {
     marginTop: 7,
     marginRight: 7,
-    color: 'black',
   },
 
   title: {
