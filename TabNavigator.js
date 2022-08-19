@@ -6,21 +6,17 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Home from './components/Home.js';
-
 import MyPlants from './zdc/MyPlants.js';
 import Trades from './zdc/Trades.js';
 import MyFavoritesHome from './components/MyFavorites/MyFavoritesHome.js';
 import MyListingHome from './components/MyListing/MyListingHome.js';
 import Profile from './components/Profile.js';
 import EditProfile from './components/Auth/EditProfile.js';
-// import PlantPage from './zdc/PlantPage.js';
 import PlantDescription from './components/Plants/PlantDescription.js';
 import TradeInbox from './components/Trades/TradeInbox/TradeInbox.js';
 import InboxList from './components/Trades/TradeInbox/InboxList.js';
-
-
+import ChatMessages from './components/ChatMessages.js';
 import { auth } from './firebase.js';
-
 const axios = require('axios');
 
 //Navigators
@@ -52,7 +48,6 @@ function HomeStackScreen(props) {
           //   />
           // ),
           }}/>
-      <HomeStack.Screen name="Trade Modal" component={TradeInbox} />
     </HomeStack.Navigator>
   );
 }
@@ -70,6 +65,7 @@ function TradeStackScreen() {
     <TradeStack.Navigator>
       <TradeStack.Screen name="Trades" component={TradeInbox} />
       <TradeStack.Screen name="Inbox" component={InboxList} />
+      <TradeStack.Screen name="Message" component={ChatMessages} />
     </TradeStack.Navigator>
   );
 }
@@ -95,7 +91,6 @@ export function usePlant () {
 export default function TabNavigator() {
 
   const firebaseID = auth.currentUser.uid;
-
   const [userId, setUserId] = useState(null);
   const [userZip, setUserZip] = useState(null);
   const [userProfilePic, setUserProfilePic] = useState('');
@@ -235,7 +230,7 @@ export default function TabNavigator() {
               // Prevent default action
               e.preventDefault();
               getInboxData(userId);
-              navigation.navigate('Trade')
+              navigation.navigate("Trade")
             },
           })}
           options={{

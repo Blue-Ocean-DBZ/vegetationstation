@@ -74,11 +74,6 @@ export default function ChatMessages ({ route}) {
           resizeMode="cover"
           style={styles.backgroundImg}
         >
-        <TouchableOpacity style={styles.backContainer} onPress={goBack}>
-          <Text
-          styles={styles.textButton}
-          >⬅</Text>
-        </TouchableOpacity>
         <ScrollView>
           <View style={styles.msgContainer}>
         {actualMessages?.map((msg, i) => {
@@ -152,19 +147,18 @@ const styles = StyleSheet.create({
   },
 
   chatBoxLeft: {
-    borderWidth: 3,
     borderColor: 'black',
     width: '70%',
     padding: 10,
     borderBottomRightRadius: 15,
     borderTopRightRadius: 15,
     borderTopLeftRadius: 15,
-    backgroundColor: '#ADD8E6',
-    marginTop: 1,
-    marginBottom: 1,
+    backgroundColor: '#f5f5f5',
+    marginTop: 3,
+    marginBottom: 3,
+    marginLeft: 4
   },
   chatBoxRight: {
-    borderWidth: 3,
     borderColor: 'black',
     width: '70%',
     alignSelf: 'flex-end',
@@ -173,8 +167,9 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 15,
     borderTopLeftRadius: 15,
     backgroundColor: '#90EE90',
-    marginTop: 1,
-    marginBottom: 1,
+    marginTop: 3,
+    marginBottom: 3,
+    marginRight: 4
   },
   input: {
     width: '95%',
@@ -182,14 +177,18 @@ const styles = StyleSheet.create({
     padding: 10,
     alignSelf: 'center',
     backgroundColor: 'white',
+    borderRadius: 5
 
   },
   submitButton: {
-    backgroundColor: '#7a42f4',
+    borderWidth: 1,
+    marginTop: 1,
+    backgroundColor: "#2c3d36",
     padding: 10,
     height: 40,
     width: '95%',
     alignSelf: 'center',
+    borderRadius: 5
   },
   submitButtonText:{
       color: 'white'
@@ -210,19 +209,6 @@ const styles = StyleSheet.create({
     overflow: 'auto',
     borderColor: 'black',
     overflow: 'scroll',
-  },
-  backContainer: {
-    position: 'absolute',
-    height: 50,
-    width: 50,
-    zIndex: 3,
-    justifyContent: 'center',
-    top: 30,
-    left: 10,
-
-  },
-  textButton: {
-      fontSize: 100,
   },
   backgroundImg: {
     flex: 1,
