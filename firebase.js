@@ -8,12 +8,12 @@ import { LogBox } from 'react-native';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCR1KVRyNtRurqBzpaV9SXDFeXLwUBcLzw",
-  authDomain: "vegiestation1.firebaseapp.com",
-  projectId: "vegiestation1",
-  storageBucket: "vegiestation1.appspot.com",
-  messagingSenderId: "757730281561",
-  appId: "1:757730281561:web:99ebecfda2e6898929c948"
+  apiKey: "AIzaSyATphNiO4ba11dK-5CamPPiRKO3JVJZpLM",
+  authDomain: "vegiestation2.firebaseapp.com",
+  projectId: "vegiestation2",
+  storageBucket: "vegiestation2.appspot.com",
+  messagingSenderId: "644937906217",
+  appId: "1:644937906217:web:3a265169ce2ac487b7c438"
 };
 
 // Initialize Firebase
