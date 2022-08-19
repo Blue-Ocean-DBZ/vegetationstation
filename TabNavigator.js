@@ -6,21 +6,16 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Home from './components/Home.js';
-
 import MyPlants from './zdc/MyPlants.js';
 import Trades from './zdc/Trades.js';
 import MyFavoritesHome from './components/MyFavorites/MyFavoritesHome.js';
 import MyListingHome from './components/MyListing/MyListingHome.js';
 import Profile from './components/Profile.js';
 import EditProfile from './components/Auth/EditProfile.js';
-// import PlantPage from './zdc/PlantPage.js';
 import PlantDescription from './components/Plants/PlantDescription.js';
 import TradeInbox from './components/Trades/TradeInbox/TradeInbox.js';
 import InboxList from './components/Trades/TradeInbox/InboxList.js';
-
-
 import { auth } from './firebase.js';
-
 const axios = require('axios');
 
 //Navigators
@@ -95,7 +90,6 @@ export function usePlant () {
 export default function TabNavigator() {
 
   const firebaseID = auth.currentUser.uid;
-
   const [userId, setUserId] = useState(null);
   const [userZip, setUserZip] = useState(null);
   const [userProfilePic, setUserProfilePic] = useState('');

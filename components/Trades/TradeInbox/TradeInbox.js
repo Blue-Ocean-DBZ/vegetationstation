@@ -9,12 +9,10 @@ import axios from 'axios'
 import {  auth } from '../../../firebase.js'
 import { usePlant } from '../../../TabNavigator.js';
 
-
 const TradeInbox = (props) => {
 
   const [currInbox, setCurrInbox] = useState('Pending')
   const [refreshing, setRefreshing] = useState(false);
-  // const [userID, setUserID] = useState(212)//212 //317
   const navigation = useNavigation()
   const {pendingTrades, trades, acceptedTrades, userIdentity, userZipcode, getInbox, userMessages } = usePlant();
   const [userZip, setUserZip] = userZipcode;
@@ -22,58 +20,7 @@ const TradeInbox = (props) => {
   const [pendingData, setPendingData] = pendingTrades;
   const [tradesData, setTradesData] = trades;
   const [acceptedData, setAcceptedData] = acceptedTrades;
-  const [messages, setMessages] = userMessages
-  // console.log(auth.currentUser.uid, 'lashfkljshfkljsahdlkfjhasklfhkasjlh')
-
-  // const onRefresh = React.useCallback(() => {
-  //   setRefreshing(true);
-  //   getInboxData(userId);
-  //   wait(2000).then(() => setRefreshing(false));
-  // }, []);
-
-  // getInbox(userId)
-//   let getInboxData = () => {
-//     console.log('refreshed')
-//     axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)//change to current user id
-//     .then((response) => {
-//       let data = response.data.filter((item, i) => {
-//         return item.pending === false
-//       })
-//         setTradesData([...data])
-//         return response.data
-
-//     })
-//     .then((response) => {
-//       console.log(tradesData)
-//       // console.log(response.data)
-//       let pending = response.filter((item, i) => {
-//         return item.pending === true
-//       })
-//       setPendingData([...pending]);
-//       return response
-//   })
-//   .then((response) => {
-//     let accepted = response.filter((item, i) => {
-//       return item.accepted === true
-//     })
-//     setAcceptedData([...accepted]);
-//     return response
-// })
-//     .catch((err) => {
-//       console.log(err, 'this is your error')
-//     })
-//   }
-
-  // useEffect (() => {
-  //   // console.log(userId, 'uuuuseeerrrr userid')
-  //   // console.log('trades', tradesData)
-  //   //   getInboxData()
-  // }, [])
-
-//  useEffect (() => {
-
-//   console.log('rerendered')
-//   }, [tradesData, acceptedData, pendingData])
+  const [messages, setMessages] = userMessages;
 
 useEffect(() => {
   let num = 1;
