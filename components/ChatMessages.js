@@ -12,15 +12,33 @@ export default function ChatMessages ({ route}) {
   const [actualMessages, setActualMessages] = useState([]);
   const [submitClick, setSubmitClick] = useState(0)
 
+  let interval = null
+
+  useEffect(() => {
+    clearInterval(interval)
+    interval = setInterval(async () => {
+      try {
+        const response = await axios.get('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/messages', {params: {
+          trade_id: trade_id,
+        }})
+        console.log('msg', response.data)
+        setActualMessages(response.data)
+      }
+      catch { err =>
+        console.log(err);
+      }
+    }, 5000)
+  }, []);
+
   useEffect(() => {
     axios.get('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/messages', {params: {
-      trade_id: 12,
+      trade_id: trade_id,
     }})
     .then((res) => {
       setActualMessages(res.data)
     })
     .catch((err) => console.log(err))
-  },[submitClick])
+  }, [submitClick]);
 
   const navigation = useNavigation();
 
@@ -29,8 +47,8 @@ export default function ChatMessages ({ route}) {
   const addMessage = (e) => {
     e.preventDefault();
     axios.post('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/messages', {
-      user_id: 212,
-      trade_id: 12,
+      user_id: user_id,
+      trade_id: trade_id,
       content: message,
     })
     .then(() => {
@@ -45,39 +63,37 @@ export default function ChatMessages ({ route}) {
 
   const goBack = (e) => {
     e.preventDefault();
+    clearInterval(interval)
     navigation.goBack();
   }
   return (
 
       <KeyboardAvoidingView style={styles.container} behavior="padding">
-              {console.log(user_id, trade_id)}
-
+        {console.log(user_id, trade_id)}
         <ImageBackground
-        source={{uri:'https://pbs.twimg.com/media/Erp2ZjwXEAQbA4R.jpg'}}
-        resizeMode="cover"
-        style={styles.backgroundImg}
+          source={{uri:'https://pbs.twimg.com/media/Erp2ZjwXEAQbA4R.jpg'}}
+          resizeMode="cover"
+          style={styles.backgroundImg}
         >
         <TouchableOpacity style={styles.backContainer} onPress={goBack}>
-          <Image
-          source={{uri: 'https://cdn-icons-png.flaticon.com/512/60/60577.png'}}
-          styles={styles.backgroundImg}
-          resizeMode="cover"
-          ></Image>
+          <Text
+          styles={styles.textButton}
+          >⬅</Text>
         </TouchableOpacity>
         <ScrollView>
           <View style={styles.msgContainer}>
         {actualMessages?.map((msg, i) => {
-          if (msg.username === 'Jamie') {
+          if (msg.user_id === user_id) {
             return (
             <View key={'messageid' + i} style={styles.chatBoxRight}>
-              <Text style={styles.textRight}>{msg.username}</Text>
+              <Text style={styles.userRight}>{msg.username}</Text>
               <Text style={styles.textRight}>{msg.content}</Text>
             </View>
             )
           } else {
             return (
             <View key={'messageid' + i} style={styles.chatBoxLeft}>
-              <Text style={styles.textLeft}>{msg.username}</Text>
+              <Text style={styles.userLeft}>{msg.username}</Text>
               <Text style={styles.textLeft}>{msg.content}</Text>
             </View>
             )
@@ -123,26 +139,43 @@ const styles = StyleSheet.create({
     height: 'auto',
     widthMax: '45%',
   },
+  userRight: {
+    height: 'auto',
+    width: '100%',
+    widthMin: '45%',
+    textAlign: 'right',
+    fontWeight: 'bold',
+  },
+  userLeft: {
+    height: 'auto',
+    widthMax: '45%',
+    fontWeight: 'bold',
+  },
+
   chatBoxLeft: {
     borderWidth: 3,
     borderColor: 'black',
-    width: '45%',
+    width: '70%',
     padding: 10,
     borderBottomRightRadius: 15,
     borderTopRightRadius: 15,
     borderTopLeftRadius: 15,
     backgroundColor: '#ADD8E6',
+    marginTop: 1,
+    marginBottom: 1,
   },
   chatBoxRight: {
     borderWidth: 3,
     borderColor: 'black',
-    width: '45%',
+    width: '70%',
     alignSelf: 'flex-end',
     padding: 10,
     borderBottomLeftRadius: 15,
     borderTopRightRadius: 15,
     borderTopLeftRadius: 15,
     backgroundColor: '#90EE90',
+    marginTop: 1,
+    marginBottom: 1,
   },
   input: {
     width: '95%',
@@ -186,10 +219,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     top: 30,
     left: 10,
-    backgroundColor: 'white',
+
   },
   textButton: {
-    flex: 1,
+      fontSize: 100,
   },
   backgroundImg: {
     flex: 1,

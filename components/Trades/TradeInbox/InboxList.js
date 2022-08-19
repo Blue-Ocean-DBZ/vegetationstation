@@ -15,7 +15,6 @@ const InboxList = (props) => {
   let acceptTrade = () => {
     let tradeId = props.entry.trade_id
     let userID = props.userID
-    console.log(userID)
     return axios.put(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades`,
     {trade_id: tradeId, user_id: userID, accepted: true})
   .then((response) => {

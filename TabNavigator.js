@@ -102,12 +102,17 @@ export default function TabNavigator() {
 
 
   useEffect(() => {
+    let num = 1;
     let interval = null
     clearInterval(interval)
     interval = setInterval(async () => {
       try {
+        num++
+        console.log(num);
         const notifResp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
-        let count = notifResp.data[0].notifications
+        let count = notifResp.data[0]?.notifications
+        console.log('count', count)
+        getInboxData(userId)
         if (count > 0) {
           setMessages(count);
         } else {
@@ -125,6 +130,7 @@ export default function TabNavigator() {
   useEffect( () => {
       async function fetchData() {
       try {
+
         const response = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${firebaseID}`)
         setUserId(response.data.id);
         setUserZip(response.data.zip);
@@ -222,7 +228,7 @@ export default function TabNavigator() {
             tabPress: e => {
               // Prevent default action
               e.preventDefault();
-              // getInboxData();
+              getInboxData(userId);
               navigation.navigate('Trade')
             },
           })}
