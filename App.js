@@ -9,7 +9,6 @@ import TabNavigator from './TabNavigator.js'
 import EditProfile from './components/Auth/EditProfile.js'
 import Home from './components/Home.js'
 import Profile from './components/Profile.js';
-import ChatMessages from './components/ChatMessages.js'
 
 
 export default function App() {
@@ -22,7 +21,6 @@ export default function App() {
         <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
         <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
-        <Stack.Screen name="ChatMessages" component={ChatMessages} options={{ title: 'Chat Messages' }}/>
         <Stack.Screen name="EditProfile"
           component={EditProfile}
           options={{
