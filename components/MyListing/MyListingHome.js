@@ -21,7 +21,6 @@ const MyListingHome = () => {
   const {userIdentity} = usePlant();
   const userID = userIdentity[0];
 
-
   useEffect(() => {
     axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/myPlants?user_id=${userID}`)
       .then((results)=> {
@@ -71,7 +70,7 @@ const MyListingHome = () => {
     const imageRef = ref(storage, filename)
     uploadBytes(imageRef, blob)
       .then(snapshot => {
-          uri = `https://firebasestorage.googleapis.com/v0/b/vegie3-32b58.appspot.com/o/${filename}?alt=media`;
+          uri = `https://firebasestorage.googleapis.com/v0/b/vegeta1-be9a3.appspot.com/o/${filename}?alt=media`;
           // return uri;
       })
       .then(() => {

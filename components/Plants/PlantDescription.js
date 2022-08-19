@@ -3,47 +3,80 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Modal, StyleSheet, FlatList, Text, View, TouchableOpacity, TouchableWithoutFeedback, Image } from 'react-native';
 import { FontAwesome, Ionicons } from 'react-native-vector-icons'
-import PlantCard from './PlantCard.js';
 import { auth } from '../../firebase.js';
+import { usePlant } from '../../TabNavigator.js';
+import PlantCard from './PlantCard.js';
 import TradeModal from '../Trades/TradeModal/TradeModal.js'
 
 const PlantDescription = ({ route }) => {
   const plant = route.params;
-  console.log(plant);
+  // fix this bc its always white
   const [fillHeart, setFillHeart] = useState('white');
   const [modalVisible, setModalVisible] = useState(false);
   const [favorites, setFavorites] = useState(null);
+  const {userIdentity} = usePlant();
+  const userID = userIdentity[0];
   // useEffect()
+  let isFavorite = plant.favorite;
+
+  if (isFavorite) {
+    
+  }
+
+  useEffect(() => {
+    // get favorites
+    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?user_id=${userID}`)
+    .then((results) => {
+      setFavorites(results.data);
+      return;
+    })
+    // does current plant exist in favorite list
+    .then(() => {
+      favorites.forEach((favorite) => {
+        if (favorite.plant_id === plant.plant_id && fillHeart === 'white') {
+          isFavorite === true;
+        }
+      });
+      return;
+    })
+    .catch((err) => {
+      console.log('error getting all fav')
+    });
+  }, [fillHeart]);
+
+
 
   const toggleFavorite = () => {
-
     if (fillHeart === 'red') {
-      setFillHeart('white');
 
-      axios.delete(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?favorites_id=${favoriteId}`)
-        .then((results) => {
-          console.log('success removing from favorites')
-        })
-        .catch((err) => {
-          console.log('error deleting from favorites')
-        })
+      //input is and array of objects
+      favorites.forEach((favorite) => {
+        if (favorite.plant_id === plant.plant_id) {
+
+          axios.delete(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?favorites_id=${favorite.favorite_id}`)
+            .then((results) => {
+              console.log('success removing from favorites')
+              setFillHeart('white');
+            })
+            .catch((err) => {
+              console.log('error deleting from favorites')
+            })
+        }
+      })
+
 
     } else {
-      setFillHeart('red');
-
       axios.post(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites`, {
-        "user_id": plant.user_id,
+        "user_id": userID,
         "plant_id": plant.plant_id
       })
         .then((results) => {
-          console.log('success adding to favorites')
+          setFillHeart('red');
         })
         .catch((err) => {
           console.log('error adding to favorites')
-        })
-
-    }
-
+        });
+    };
   };
 
   const closeModal = () => {
