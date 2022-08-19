@@ -11,66 +11,26 @@ import TradeModal from '../Trades/TradeModal/TradeModal.js'
 const PlantDescription = ({ route }) => {
   const plant = route.params;
   // fix this bc its always white
-  const [fillHeart, setFillHeart] = useState('black');
+  const [isFav, setIsFav] = useState(plant.favorite ? true : false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [favoriteID, setFavoriteID] = useState([]);
-  const {userIdentity} = usePlant();
+  const {userIdentity, fetchData} = usePlant();
   const userID = userIdentity[0];
 
   useEffect(() => {
-    getAll();
-  }, []);
-
-  const getAll = () => {
-    console.log('inside get all')
-    // get favorites
-    return axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?user_id=${userID}`)
-
-    // iterate over data
-    .then((results) => {
-      console.log('in line 30 results >>>>>', results.data)
-      if (results.data.length !== 0) {
-        results.data.forEach((favorite) => {
-          // if exists
-          console.log('line 34', favorite)
-          if ( favorite.plant_id === plant.plant_id ) {
-            // save favorite_id
-            setFavoriteID(favorite.favorites_id);
-            setFillHeart('red');
-            console.log('line 39')
-          }
-        });
-      }
-
-      return;
-    })
-    .catch((err) => {
-      console.log('error getting all fav');
-    });
-  }
+    fetchData()
+  }, [isFav])
 
   const toggleFavorite = () => {
     // if it is a favoriteID exists
-    if (fillHeart === 'red') {
-      // get all
-      getAll()
-        .then(() => {
-          // call axios delete
-          console.log(favoriteID)
-          axios.delete(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?favorites_id=${favoriteID}`)
-            //then set to white
-            .then((results) => {
-              console.log('success removing from favorites')
-              setFillHeart('white');
-            })
-            .catch((err) => {
-              console.log('error deleting from favorites')
-            })
+    if (plant.favorite !== null) {
+      axios.delete(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?favorites_id=${plant.favorite}`)
+        //then set to white
+        .then((results) => {
+          setIsFav(false)
         })
         .catch((err) => {
-          console.log('error retrieving data', err)
-        });
-
+          console.log('error deleting from favorites')
+        })
     // otherwise,
     } else {
       // make an axios post call with user_id and plant_id
@@ -80,8 +40,8 @@ const PlantDescription = ({ route }) => {
       })
         // then set heart to red
         .then((results) => {
-          console.log('success adding to favorites')
-          setFillHeart('red');
+          // console.log('success adding to favorites')
+          setIsFav(true);
         })
         .catch((err) => {
           console.log('error adding to favorites')
@@ -105,12 +65,13 @@ const PlantDescription = ({ route }) => {
             <View style={styles.plantNameWithHeart}>
               <Text style={styles.title}>{plant.plant_name}</Text>
               <TouchableWithoutFeedback onPress={() => {toggleFavorite()}}>
-                <Ionicons
+                {!isFav ? <Ionicons
                 name="heart-outline"
                 style={styles.heart}
-                color={fillHeart}
                 size={25}
-                />
+                /> :
+                  <Ionicons name="heart" style={styles.heart2} size={25} />
+                }
               </TouchableWithoutFeedback>
             </View>
             <Text style={styles.detail}>{`${plant.city || 'United States'}, ${plant.state || 'Earth'} (${Math.round((plant.distance / 1609) * 10)/10} miles away)`}</Text>
@@ -203,6 +164,13 @@ const styles = StyleSheet.create({
   heart: {
     marginTop: 7,
     marginRight: 7,
+    color: 'black',
+  },
+
+  heart2: {
+    marginTop: 7,
+    marginRight: 7,
+    color: 'red',
   },
 
   title: {
