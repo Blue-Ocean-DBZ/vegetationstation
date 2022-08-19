@@ -4,33 +4,38 @@ import { Fontisto, Ionicons, AntDesign,Entypo } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native';
 import TradeListEntry from './TradeListEntry.js'
 import plantData from '../exampleData/Dummy.js'
+import { auth } from '../../../firebase.js'
+import { usePlant } from '../../../TabNavigator.js';
 const axios = require('axios')
 
-//props needed
-  //username
-  //user plants info
-    //user plant photos
-    //user_plant_id
-    //target_user_id
-    //target_plant_id
-  //
 const TradeModal = (props) => {
 
   const navigation = useNavigation()
-  const [postData, setPostData] = useState({plant_offer_id: null, plant_target_id: 15})
-
+  const [postData, setPostData] = useState({plant_offer_id: null, plant_target_id: props.selectedPlant})//change to props.selectedPlant
+  const [userPlantInfo, setUserPlantInfo] = useState([])
+  const { getInbox, userIdentity } = usePlant();
+  const [userId, setUserId] = userIdentity;
   let goBack = () => {
     props.closeModal(false)
   }
 
   //set users plant id to trade
-  let setImage =  async (plantID) => {
+  let setImage = (plantID) => {
     setPostData({...postData, plant_offer_id: plantID});
-    console.log(postData)
+
   }
 
   useEffect(() => {
+    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/myplants?user_id=${userId}`)
+    .then((response) => {
+    console.log(response.data, 'resssspopnnnsee')
+     setUserPlantInfo(response.data)
+    })
+    .catch((err) => {
+      console.log(err, 'error in modal')
+    })
   },[])
+
   let submitTrade = (obj) => {
     //if plant not chosen
     if(postData.plant_offer_id === null) {
@@ -38,15 +43,18 @@ const TradeModal = (props) => {
         { text: 'OK', onPress: () => console.log('OK Pressed') },
       ]);
     } else {
-      //if plant chosen post trade
+      //if plant chosen then  post trade
       return axios.post('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades', postData)
       .then((response) => {
-        setPostData({...postData, plant_offer_id: null});
         Alert.alert('Sent', 'Trade proposal sent.', [
           { text: 'OK', onPress: () => console.log('Post sent') },
         ]);
         props.closeModal(false)
-        console.log(postData, 'DDATTTTTTTAAAAA')
+
+      })
+      .then((response) => {
+        setPostData({...postData, plant_offer_id: null});
+
       })
       .catch((error) => {
         props.closeModal(false)
@@ -73,14 +81,14 @@ const TradeModal = (props) => {
         </TouchableOpacity>
       </View>
         <View style={styles.UserContainer}>
-          <Text style={styles.UserText}>Goku's plants</Text>{/* Replace with curr username */}
+          <Text style={styles.UserText}>{auth.currentUser.displayName}'s plants</Text>{/* Replace with curr username */}
     </View>
     <View>
       </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.TradeContainer}>
             <View style={styles.TradeEntryContainer}>
-              {plantData.map((plant, index) =>
+              {userPlantInfo.map((plant, index) =>
                 <TradeListEntry
                 plant={plant}
                 key={index}
@@ -120,7 +128,7 @@ const styles = StyleSheet.create({
   TradeContainer: {
     display: 'flex',
     flexDirection: 'column',
-    marginTop:40,
+    paddingTop:5,
 
   },
   TradeEntryContainer: {
@@ -129,10 +137,9 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 0 -35,
+    // margin: 0 -35,
     minWidth: '100%',
     maxHeight:'100%',
-
   },
   centeredView: {
 
@@ -196,11 +203,13 @@ const styles = StyleSheet.create({
   alignItems: 'flex-start',
   alignSelf: 'flex-start',
   paddingBottom: 4,
+
   },
   UserText: {
     fontSize: 20,
     paddingLeft:20,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+
     },
 });
 
