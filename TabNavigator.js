@@ -230,7 +230,7 @@ export default function TabNavigator() {
               // Prevent default action
               e.preventDefault();
               getInboxData(userId);
-              navigation.navigate('Trade')
+              navigation.navigate("Trade")
             },
           })}
           options={{
