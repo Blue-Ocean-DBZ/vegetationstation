@@ -51,20 +51,6 @@ const InboxList = (props) => {
     .then((response) => {
       props.getInbox(userID)
       return axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userID}`)
-      .then((res) => {
-        let data = res.data.filter((item, i) => {
-          return (item.plant_offer.owner_id === userID) && (item.shown_to_user_offer === false)
-        })
-        let dataCount = data.length
-        console.log('first array', data)
-        let data2 = res.data.filter((item, i) => {
-          return (item.plant_offer.owner_id !== userID) && ((item.shown_to_user_target === false) || (item.shown_to_user_target === null))
-        })
-        console.log('second array', data2)
-        if (data.length.concat(data2.length) > 0) {
-          setMessages(data.length.concat(data2.length));
-        }
-      })
       console.log('shown to user succesful', response)
     })
     .catch((err) => {
@@ -74,6 +60,15 @@ const InboxList = (props) => {
 
   let openMessage = () => {
     shownToUser()
+    .then((res) => {
+      let count = res.data[0]?.notifications
+      getInbox(userId)
+      if (count > 0) {
+        setMessages(count);
+      } else {
+        setMessages(null);
+      }
+    })
     let tradeID = props.entry.trade_id
     console.log(tradeID)
     navigation.navigate('ChatMessages', {

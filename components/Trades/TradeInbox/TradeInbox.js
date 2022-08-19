@@ -9,8 +9,6 @@ import axios from 'axios'
 import {  auth } from '../../../firebase.js'
 import { usePlant } from '../../../TabNavigator.js';
 
-
-
 const TradeInbox = (props) => {
 
   const [currInbox, setCurrInbox] = useState('Pending')
