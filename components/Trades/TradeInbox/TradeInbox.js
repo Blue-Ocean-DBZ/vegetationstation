@@ -16,12 +16,13 @@ const TradeInbox = (props) => {
   const [refreshing, setRefreshing] = useState(false);
   // const [userID, setUserID] = useState(212)//212 //317
   const navigation = useNavigation()
-  const {pendingTrades, trades, acceptedTrades, userIdentity, userZipcode, getInbox} = usePlant();
+  const {pendingTrades, trades, acceptedTrades, userIdentity, userZipcode, getInbox, userMessages } = usePlant();
   const [userZip, setUserZip] = userZipcode;
   const [userId, setUserId] = userIdentity; //212 //317
   const [pendingData, setPendingData] = pendingTrades;
   const [tradesData, setTradesData] = trades;
   const [acceptedData, setAcceptedData] = acceptedTrades;
+  const [messages, setMessages] = userMessages
   // console.log(auth.currentUser.uid, 'lashfkljshfkljsahdlkfjhasklfhkasjlh')
 
   // const onRefresh = React.useCallback(() => {
@@ -73,6 +74,29 @@ const TradeInbox = (props) => {
 
 //   console.log('rerendered')
 //   }, [tradesData, acceptedData, pendingData])
+
+useEffect(() => {
+  let num = 1;
+  let interval = null
+  clearInterval(interval)
+  interval = setInterval(async () => {
+    try {
+      num++
+      console.log(num);
+      const notifResp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
+      let count = notifResp.data[0]?.notifications
+      getInbox(userId)
+      if (count > 0) {
+        setMessages(count);
+      } else {
+        setMessages(null);
+      }
+    }
+    catch { err =>
+      console.log(err);
+    }
+  }, 5000)
+}, [])
 
   let goBack = () => {
     navigation.goBack();
