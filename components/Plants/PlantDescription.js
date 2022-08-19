@@ -16,7 +16,6 @@ const PlantDescription = ({ route }) => {
   const [favoriteID, setFavoriteID] = useState([]);
   const {userIdentity} = usePlant();
   const userID = userIdentity[0];
-  console.log(userID)
 
   useEffect(() => {
     // get favorites
@@ -24,21 +23,23 @@ const PlantDescription = ({ route }) => {
 
     // iterate over data
     .then((results) => {
-      console.log('in line 27 results >>>>>', results.data)
+      console.log('in line 26 results >>>>>', results.data)
       if (results.data.length !== 0) {
         results.data.forEach((favorite) => {
           // if exists
+          console.log('line 30', favorite)
           if ( favorite.plant_id === plant.plant_id ) {
-            // set the heart to red
-            setFillHeart('red');
             // save favorite_id
-            return favorite.favorite_id;
+            setFavoriteID(favorite.favorites_id);
+            return;
           }
         });
       }
     })
-    .then((id) => {
-      setFavoriteID(id);
+    .then(() => {
+      // set the heart to red
+      setFillHeart('red');
+      console.log('line 42')
     })
     .catch((err) => {
       console.log('error getting all fav');
