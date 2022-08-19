@@ -3,7 +3,6 @@ import React, {useEffect, useState, useRef } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, TouchableWithoutFeedback, TextInput, Keyboard, ScrollView, KeyboardAvoidingView, Button, ImageBackground } from 'react-native';
 import { signOutUser } from '../firebase.js';
 import { useNavigation } from '@react-navigation/core';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import { auth } from '../firebase.js';
 
