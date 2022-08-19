@@ -29,15 +29,6 @@ const Home = (props) => {
 
   const navigate = useNavigation()
 
-  useEffect( () => {
-    let updateHome = async () => {
-      console.log('USE EFFECT HOME')
-      await setPlantArray[plantList]
-    }
-    updateHome();
-    console.log('NEW PLANTS ARRAY', plantArray)
-  }, [plantList])
-
   const onChangeSearch = query => {
     setSearchTerm(query);
     let filteredListing = [];
