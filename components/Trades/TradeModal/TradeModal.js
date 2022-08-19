@@ -4,7 +4,8 @@ import { Fontisto, Ionicons, AntDesign,Entypo } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native';
 import TradeListEntry from './TradeListEntry.js'
 import plantData from '../exampleData/Dummy.js'
-import { storage, auth, signOutUser } from '../../../firebase.js'
+import { auth } from '../../../firebase.js'
+import { usePlant } from '../../../TabNavigator.js';
 const axios = require('axios')
 
 const TradeModal = (props) => {
@@ -12,19 +13,20 @@ const TradeModal = (props) => {
   const navigation = useNavigation()
   const [postData, setPostData] = useState({plant_offer_id: null, plant_target_id: props.selectedPlant})//change to props.selectedPlant
   const [userPlantInfo, setUserPlantInfo] = useState([])
-
+  const { getInbox, userIdentity } = usePlant();
+  const [userId, setUserId] = userIdentity;
   let goBack = () => {
     props.closeModal(false)
   }
 
   //set users plant id to trade
-  let setImage =  async (plantID) => {
+  let setImage = (plantID) => {
     setPostData({...postData, plant_offer_id: plantID});
 
   }
 
   useEffect(() => {
-    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/myplants?user_id=3099`)
+    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/myplants?user_id=${userId}`)
     .then((response) => {
     console.log(response.data, 'resssspopnnnsee')
      setUserPlantInfo(response.data)
