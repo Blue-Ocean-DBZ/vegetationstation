@@ -106,7 +106,7 @@ const PlantDescription = ({ route }) => {
               <Text style={styles.title}>{plant.plant_name}</Text>
               <TouchableWithoutFeedback onPress={() => {toggleFavorite()}}>
                 <Ionicons
-                name="heart"
+                name="heart-outline"
                 style={styles.heart}
                 color={fillHeart}
                 size={25}
