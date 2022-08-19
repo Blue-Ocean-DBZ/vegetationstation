@@ -18,7 +18,7 @@ const PlantCard = ({ item, navigate }) => {
               source={item.profile_pic !== "fake.com" ? { uri: item.profile_pic } : Logo}
               style={styles.userImage}
             />
-            <Text style={styles.otherPlantInfo}>{Math.floor(item.distance / 1609)} miles away</Text>
+            <Text style={styles.otherPlantInfo}>{Math.round((item.distance / 1609) * 10)/10} miles away</Text>
           </View>
       </View>
     </TouchableWithoutFeedback>

@@ -47,7 +47,7 @@ const PlantDescription = ({ route }) => {
                 />
               </TouchableWithoutFeedback>
             </View>
-            <Text style={styles.detail}>{`${plant.location} (${Math.floor(plant.distance / 1609)} miles away)`}</Text>
+            <Text style={styles.detail}>{`${plant.city}, ${plant.state} (${Math.round((plant.distance / 1609) * 10)/10} miles away)`}</Text>
             <Text style={styles.detail}>{`Owner: ${plant.username}`}</Text>
           </View>
           <View>
