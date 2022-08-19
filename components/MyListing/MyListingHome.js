@@ -287,6 +287,7 @@ upload: {
     flexDirection: 'row',
     marginBottom: 10,
     marginHorizontal: 10,
+    height: 105,
   },
 
   headerTitle: {
@@ -302,7 +303,7 @@ upload: {
   },
 
   item: {
-    backgroundColor: '#D2E5D7',
+    backgroundColor: '#E3EEE6',
     paddingHorizontal: 15,
     paddingVertical: 15,
     borderTopRightRadius: 20,
@@ -322,7 +323,7 @@ upload: {
   },
 
   plantImage: {
-    width: 80,
+    width: 105,
     height: 105,
     padding: 0,
     borderTopLeftRadius: 20,

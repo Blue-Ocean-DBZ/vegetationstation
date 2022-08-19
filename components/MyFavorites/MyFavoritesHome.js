@@ -76,14 +76,16 @@ const styles = StyleSheet.create({
   },
 
   plantInformationContainer: {
+    display: 'flex',
     flexDirection: 'row',
     marginTop: 10,
-    marginHorizontal: 10
+    marginHorizontal: 10,
+    height: 105,
   },
 
   item: {
     flex: 1,
-    backgroundColor: '#D2E5D7',
+    backgroundColor: '#E3EEE6',
     paddingHorizontal: 15,
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
@@ -100,7 +102,7 @@ const styles = StyleSheet.create({
   },
 
   plantImage: {
-    width: 80,
+    width: 105,
     height: 105,
     padding: 0,
     borderTopLeftRadius: 20,
