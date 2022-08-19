@@ -14,7 +14,7 @@ export default function ChatMessages ({ route}) {
 
   useEffect(() => {
     axios.get('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/messages', {params: {
-      trade_id: 12,
+      trade_id: trade_id,
     }})
     .then((res) => {
       setActualMessages(res.data)
@@ -29,8 +29,8 @@ export default function ChatMessages ({ route}) {
   const addMessage = (e) => {
     e.preventDefault();
     axios.post('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/messages', {
-      user_id: 212,
-      trade_id: 12,
+      user_id: user_id,
+      trade_id: trade_id,
       content: message,
     })
     .then(() => {
@@ -53,16 +53,14 @@ export default function ChatMessages ({ route}) {
               {console.log(user_id, trade_id)}
 
         <ImageBackground
-        source={{uri:'https://pbs.twimg.com/media/Erp2ZjwXEAQbA4R.jpg'}}
-        resizeMode="cover"
-        style={styles.backgroundImg}
+          source={{uri:'https://pbs.twimg.com/media/Erp2ZjwXEAQbA4R.jpg'}}
+          resizeMode="cover"
+          style={styles.backgroundImg}
         >
         <TouchableOpacity style={styles.backContainer} onPress={goBack}>
-          <Image
-          source={{uri: 'https://cdn-icons-png.flaticon.com/512/60/60577.png'}}
-          styles={styles.backgroundImg}
-          resizeMode="cover"
-          ></Image>
+          <Text
+          styles={styles.textButton}
+          >⬅</Text>
         </TouchableOpacity>
         <ScrollView>
           <View style={styles.msgContainer}>
@@ -126,23 +124,27 @@ const styles = StyleSheet.create({
   chatBoxLeft: {
     borderWidth: 3,
     borderColor: 'black',
-    width: '45%',
+    width: '70%',
     padding: 10,
     borderBottomRightRadius: 15,
     borderTopRightRadius: 15,
     borderTopLeftRadius: 15,
     backgroundColor: '#ADD8E6',
+    marginTop: 1,
+    marginBottom: 1,
   },
   chatBoxRight: {
     borderWidth: 3,
     borderColor: 'black',
-    width: '45%',
+    width: '70%',
     alignSelf: 'flex-end',
     padding: 10,
     borderBottomLeftRadius: 15,
     borderTopRightRadius: 15,
     borderTopLeftRadius: 15,
     backgroundColor: '#90EE90',
+    marginTop: 1,
+    marginBottom: 1,
   },
   input: {
     width: '95%',
@@ -186,10 +188,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     top: 30,
     left: 10,
-    backgroundColor: 'white',
+
   },
   textButton: {
-    flex: 1,
+      fontSize: 100,
   },
   backgroundImg: {
     flex: 1,
