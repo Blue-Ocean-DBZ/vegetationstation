@@ -31,7 +31,7 @@ const MyFavoritesHome = () => {
               <Text style={styles.title}>{item.plant_name}</Text>
             </View>
             <View>
-              <Text style={styles.otherPlantInfo}>{item.zip} ({Math.floor(item.distance / meterToMiles)} miles)</Text>
+              <Text style={styles.otherPlantInfo}>{item.zip} ({Math.round((item.distance / 1609) * 10)/10} miles)</Text>
               {/*<Text style={styles.otherPlantInfo}>{Math.floor(item.distance / meterToMiles)} miles</Text>*/ }
               <Text style={styles.otherPlantInfo}>{item.username}</Text>
             </View>

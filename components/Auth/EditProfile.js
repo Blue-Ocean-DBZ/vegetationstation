@@ -101,7 +101,7 @@ const EditProfile = () => {
     const imageRef = ref(storage, filename)
     uploadBytes(imageRef, blob)
       .then(snapshot => {
-        const uri = `https://firebasestorage.googleapis.com/v0/b/vegie3-32b58.appspot.com/o/${filename}?alt=media`
+        const uri = `https://firebasestorage.googleapis.com/v0/b/vegiestation1.appspot.com/o/${filename}?alt=media`
         setImage(pickerResult.uri);
         updateProfile(auth.currentUser, {
           photoURL: uri
