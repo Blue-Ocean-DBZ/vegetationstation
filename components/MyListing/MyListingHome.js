@@ -21,7 +21,6 @@ const MyListingHome = () => {
   const {userIdentity} = usePlant();
   const userID = userIdentity[0];
 
-
   useEffect(() => {
     axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/myPlants?user_id=${userID}`)
       .then((results)=> {
@@ -286,6 +285,7 @@ upload: {
     flexDirection: 'row',
     marginBottom: 10,
     marginHorizontal: 10,
+    height: 105,
   },
 
   headerTitle: {
@@ -301,7 +301,7 @@ upload: {
   },
 
   item: {
-    backgroundColor: '#CED89E',
+    backgroundColor: '#E3EEE6',
     paddingHorizontal: 15,
     paddingVertical: 15,
     borderTopRightRadius: 20,
@@ -321,7 +321,7 @@ upload: {
   },
 
   plantImage: {
-    width: 80,
+    width: 105,
     height: 105,
     padding: 0,
     borderTopLeftRadius: 20,
