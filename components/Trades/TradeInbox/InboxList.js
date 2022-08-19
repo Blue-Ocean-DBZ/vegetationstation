@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Alert, Modal, StyleSheet, Text, Pressable, View, Image, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { Fontisto, Ionicons, AntDesign,Entypo } from '@expo/vector-icons'
@@ -86,8 +87,8 @@ const InboxList = (props) => {
     console.log('--------------------')
     console.log('plant_offer', props.entry.plant_offer)
   }
-
-  return (
+//TouchableWithoutFeedback
+   return (
 
     <TouchableOpacity activeOpacity={0.6} onPress={openMessage}>
      <View style={styles.CardContainer}>
@@ -126,32 +127,39 @@ const InboxList = (props) => {
                           }}
                               adjustsFontSizeToFit={true}
               >{props.entry.plant_offer.plant_name}</Text>
-              {props.entry.pending  && <Text style={{fontWeight: props.entry.shown_to_user_target === false  ?  'bold': 'normal'}}>Pending</Text>}
+              {/* {props.entry.pending  && <Text style={{fontWeight: props.entry.shown_to_user_target === false  ?  'bold': 'normal'}}>Pending</Text>}
               {props.entry.accepted && <Text style={{fontWeight: props.entry.shown_to_user_target === false ?  'bold': 'normal'}}>Accepted</Text>}
-              {props.entry.accepted  === false && <Text style={{fontWeight: props.entry.shown_to_user_target === false ?  'bold': 'normal'}}>Declined</Text>}
-            </View> :
+              {props.entry.accepted  === false && <Text style={{fontWeight: props.entry.shown_to_user_target === false ?  'bold': 'normal'}}>Declined</Text>} */}
+            </View>
+            :
+            //if you are the owner
             <View  >
-            <Text style={{fontWeight: props.entry.shown_to_user_offer === false  ?  'bold': 'normal'}}>{props.entry.plant_target.username}</Text>
-            <Text style={{  width:110,
+              <Text style={{fontWeight: props.entry.shown_to_user_offer === false  ?  'bold': 'normal'}}>{props.entry.plant_target.username}</Text>
+                <Text style={{  width:110,
                             whiteSpace: 'nowrap',
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
                             fontWeight: props.entry.shown_to_user_offer  === false ?  'bold': 'normal'
                         }}
                             adjustsFontSizeToFit={true}
-            >{props.entry.plant_target.plant_name}</Text>
-            {props.entry.pending  && <Text style={{fontWeight: props.entry.shown_to_user_offer === false ?  'bold': 'normal'}}>Pending</Text>}
+                >{props.entry.plant_target.plant_name}</Text>
+            {/* {props.entry.pending  && <Text style={{fontWeight: props.entry.shown_to_user_offer === false ?  'bold': 'normal'}}>Pending</Text>}
             {props.entry.accepted && <Text style={{fontWeight: props.entry.shown_to_user_offer === false ?  'bold': 'normal'}}>Accepted</Text>}
-            {props.entry.accepted  === false && <Text style={{fontWeight: props.entry.shown_to_user_offer === false ?  'bold': 'normal'}}>Declined</Text>}
-          </View>}
+            {props.entry.accepted  === false && <Text style={{fontWeight: props.entry.shown_to_user_offer === false ?  'bold': 'normal'}}>Declined</Text>} */}
+            </View>}
           </View>
-            {/* if user id === curr props.userID */}
+
             {props.entry.plant_target.owner_id === props.userID &&  props.currInbox === 'Pending' && <View style={styles.TradeIconsContainer}>
               <Ionicons name="md-checkbox-sharp" size={35} color="green" style={styles.TradeIcons} onPress={acceptTrade}/>
               <AntDesign name="closesquare" size={35} color="red" style={styles.TradeIcons} onPress={declineTrade}/>
         </View>}
-        { props.currInbox !== 'Pending' && <View style={styles.Spacer}></View>}
-        {props.entry.plant_target.owner_id !== props.userID && props.entry.pending && <View style={styles.WaitingSpacer}><Text>Waiting</Text></View>}
+        {/* { props.currInbox !== 'Pending' && <View style={styles.Spacer}></View>} */}
+        {/* {props.entry.plant_target.owner_id !== props.userID && props.entry.pending && <View style={styles.WaitingSpacer}><Text>Waiting</Text></View>} */}
+        {props.entry.plant_target.owner_id !== props.userID && props.entry.pending && <View style={styles.WaitingSpacer}><Text style={{fontWeight: props.entry.shown_to_user_offer  === false ?  'bold': 'normal'}}>Pending</Text></View>}
+        {props.entry.plant_target.owner_id === props.userID && props.entry.accepted && props.currInbox !== 'Pending'  &&<View style={styles.WaitingSpacer}><Text style={{fontWeight: props.entry.shown_to_user_target  === false ?  'bold': 'normal'}}>Accepted</Text></View>}
+        {props.entry.plant_target.owner_id !== props.userID && props.entry.accepted && props.currInbox !== 'Pending'  &&<View style={styles.WaitingSpacer}><Text style={{fontWeight: props.entry.shown_to_user_offer  === false ?  'bold': 'normal'}}>Accepted</Text></View>}
+        {props.entry.plant_target.owner_id === props.userID && props.entry.accepted === false && props.currInbox !== 'Pending'  && <View style={styles.WaitingSpacer}><Text style={{fontWeight: props.entry.shown_to_user_target  === false ?  'bold': 'normal'}}>Declined</Text></View>}
+        {props.entry.plant_target.owner_id !== props.userID &&  props.entry.accepted === false && props.currInbox !== 'Pending'  && <View style={styles.WaitingSpacer}><Text style={{fontWeight: props.entry.shown_to_user_offer  === false ?  'bold': 'normal'}}>Declined</Text></View>}
 
     </View>
     </TouchableOpacity>
@@ -159,7 +167,7 @@ const InboxList = (props) => {
 
   );
 };
-
+//InboxList
 
 export default InboxList;
 const styles = StyleSheet.create({
@@ -169,7 +177,8 @@ const styles = StyleSheet.create({
   },
   WaitingSpacer: {
     paddingLeft: 21,
-    paddingRight:20
+    paddingRight:21,
+
     },
 CardContainer: {
   display: 'flex',
@@ -234,3 +243,5 @@ plantName: {
   // overflowY:'auto'
 },
 })
+
+
