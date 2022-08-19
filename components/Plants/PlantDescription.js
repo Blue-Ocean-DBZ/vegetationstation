@@ -10,7 +10,7 @@ import TradeModal from '../Trades/TradeModal/TradeModal.js'
 const PlantDescription = ({ route }) => {
   const plant = route.params;
   console.log('line 11 this is plant', plant)
-  const [fillHeart, setFillHeart] = useState('red');
+  const [fillHeart, setFillHeart] = useState('white');
   const [modalVisible, setModalVisible] = useState(false);
   const [favorites, setFavorites] = useState(null);
 
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
   heart: {
     marginTop: 7,
     marginRight: 7,
-    borderColor: 'black'
+    color: 'black',
   },
 
   title: {
