@@ -13,63 +13,61 @@ const PlantDescription = ({ route }) => {
   // fix this bc its always white
   const [fillHeart, setFillHeart] = useState('white');
   const [modalVisible, setModalVisible] = useState(false);
-  const [favorites, setFavorites] = useState(null);
+  const [favoriteID, setFavoriteID] = useState([]);
   const {userIdentity} = usePlant();
   const userID = userIdentity[0];
-  // useEffect()
-  let isFavorite = plant.favorite;
-
-  if (isFavorite) {
-    
-  }
+  console.log(userID)
 
   useEffect(() => {
     // get favorites
     axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?user_id=${userID}`)
+
+    // iterate over data
     .then((results) => {
-      setFavorites(results.data);
-      return;
+      console.log('in line 27 results >>>>>', results.data)
+      if (results.data.length !== 0) {
+        results.data.forEach((favorite) => {
+          // if exists
+          if ( favorite.plant_id === plant.plant_id ) {
+            // set the heart to red
+            setFillHeart('red');
+            // save favorite_id
+            return favorite.favorite_id;
+          }
+        });
+      }
     })
-    // does current plant exist in favorite list
-    .then(() => {
-      favorites.forEach((favorite) => {
-        if (favorite.plant_id === plant.plant_id && fillHeart === 'white') {
-          isFavorite === true;
-        }
-      });
-      return;
+    .then((id) => {
+      setFavoriteID(id);
     })
     .catch((err) => {
-      console.log('error getting all fav')
+      console.log('error getting all fav');
     });
-  }, [fillHeart]);
-
+  }, []);
 
 
   const toggleFavorite = () => {
+    // if it is a favoriteID exists
     if (fillHeart === 'red') {
+      // call axios delete
+      axios.delete(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?favorites_id=${favoriteID}`)
+        //then set to white
+        .then((results) => {
+          console.log('success removing from favorites')
+          setFillHeart('white');
+        })
+        .catch((err) => {
+          console.log('error deleting from favorites')
+        })
 
-      //input is and array of objects
-      favorites.forEach((favorite) => {
-        if (favorite.plant_id === plant.plant_id) {
-
-          axios.delete(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?favorites_id=${favorite.favorite_id}`)
-            .then((results) => {
-              console.log('success removing from favorites')
-              setFillHeart('white');
-            })
-            .catch((err) => {
-              console.log('error deleting from favorites')
-            })
-        }
-      })
-
-
+    // otherwise,
     } else {
+      // make an axios post call with user_id and plant_id
       axios.post(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites`, {
-        "user_id": userID,
-        "plant_id": plant.plant_id
+        user_id: userID,
+        plant_id: plant.plant_id
       })
+        // then set heart to red
         .then((results) => {
           setFillHeart('red');
         })
