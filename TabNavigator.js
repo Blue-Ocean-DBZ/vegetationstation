@@ -193,7 +193,6 @@ export default function TabNavigator() {
       value ={{
         fetchData,
         getInbox: getInboxData,
-        getNewList: getNewListings,
         userIdentity: [userId, setUserId],
         userZipcode: [userZip, setUserZip],
         userProfilePicture: [userProfilePic, setUserProfilePic],
