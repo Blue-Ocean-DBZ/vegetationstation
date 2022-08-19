@@ -107,9 +107,9 @@ const PlantDescription = ({ route }) => {
               <TouchableWithoutFeedback onPress={() => {toggleFavorite()}}>
                 <Ionicons
                 name="heart"
-                style= {styles.heart}
+                style={styles.heart}
                 color={fillHeart}
-                size= {30}
+                size={25}
                 />
               </TouchableWithoutFeedback>
             </View>
@@ -181,8 +181,8 @@ const styles = StyleSheet.create({
   },
 
   plantImage: {
-    width: 430,
-    height: 430,
+    width: 390,
+    height: 390,
   },
 
   // justify contents not working
@@ -206,13 +206,13 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    marginTop: 10,
-    fontSize: 25,
+    marginTop: 7,
+    fontSize: 22,
     fontWeight: 'bold',
   },
 
   detail: {
-    marginTop: 8,
+    marginTop: 5,
     fontSize: 18,
   },
 
