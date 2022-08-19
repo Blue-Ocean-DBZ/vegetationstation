@@ -43,6 +43,14 @@ export default function Profile () {
         <View style={styles.userInfoContainer}>
           <Text style={styles.name}>{auth.currentUser?.displayName}</Text>
           <Text style={styles.city}>{user.city || 'United States'}, {user.state || 'Earth'}</Text>
+          {user.user_status ?
+          <View style={styles.statusWrapper}>
+            <Text style={styles.city}>Status:</Text>
+            <Text style={styles.status}>{user.user_status?.trim()}</Text>
+          </View>
+        :
+''
+        }
         </View>
       </View>
       <View style={styles.buttonWrapper}>
@@ -118,5 +126,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 40,
   },
+statusWrapper: {
+  height: 50,
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginTop: 7,
+},
+status: {
+    borderRadius: 14,
+    overflow: 'hidden',
+    backgroundColor: "#8eb69b",
+    fontWeight: "700",
+    textTransform: "uppercase",
+    paddingHorizontal: 14,
+    paddingVertical: 7,
+    marginLeft: 3
+  }
 });
 
