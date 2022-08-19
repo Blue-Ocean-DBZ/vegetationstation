@@ -37,7 +37,7 @@ export default function ChatMessages ({ route}) {
       setActualMessages(res.data)
     })
     .catch((err) => console.log(err))
-  },[submitClick])
+  }, [submitClick]);
 
   const navigation = useNavigation();
 
@@ -81,17 +81,17 @@ export default function ChatMessages ({ route}) {
         <ScrollView>
           <View style={styles.msgContainer}>
         {actualMessages?.map((msg, i) => {
-          if (msg.username === 'Jamie') {
+          if (msg.user_id === user_id) {
             return (
             <View key={'messageid' + i} style={styles.chatBoxRight}>
-              <Text style={styles.textRight}>{msg.username}</Text>
+              <Text style={styles.userRight}>{msg.username}</Text>
               <Text style={styles.textRight}>{msg.content}</Text>
             </View>
             )
           } else {
             return (
             <View key={'messageid' + i} style={styles.chatBoxLeft}>
-              <Text style={styles.textLeft}>{msg.username}</Text>
+              <Text style={styles.userLeft}>{msg.username}</Text>
               <Text style={styles.textLeft}>{msg.content}</Text>
             </View>
             )
@@ -137,6 +137,19 @@ const styles = StyleSheet.create({
     height: 'auto',
     widthMax: '45%',
   },
+  userRight: {
+    height: 'auto',
+    width: '100%',
+    widthMin: '45%',
+    textAlign: 'right',
+    fontWeight: 'bold',
+  },
+  userLeft: {
+    height: 'auto',
+    widthMax: '45%',
+    fontWeight: 'bold',
+  },
+
   chatBoxLeft: {
     borderWidth: 3,
     borderColor: 'black',
