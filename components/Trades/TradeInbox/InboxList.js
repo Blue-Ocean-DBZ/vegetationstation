@@ -1,68 +1,91 @@
 import React, { useState } from 'react';
 import { Alert, Modal, StyleSheet, Text, Pressable, View, Image, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { Fontisto, Ionicons, AntDesign,Entypo } from '@expo/vector-icons'
-// import * as MailComposer from 'expo-mail-composer';
 const axios = require('axios')
 import ImageModal from 'react-native-image-modal';
 import { useNavigation } from '@react-navigation/core'
+import { usePlant } from '../../../TabNavigator.js';
 
 const InboxList = (props) => {
-  console.log('shown to usdsfsfsfsfdsdfsder', props.userID)
+  // console.log('props.USER ID', props.userID)
   const navigation = useNavigation();
 
+  const {userMessages} = usePlant();
+  const [messages, setMessages] = userMessages;
+
   let acceptTrade = () => {
-      console.log('Accepted')
-      let tradeId = props.entry.trade_id
-      let userID = props.userID
-      console.log(userID)
-      return axios.put(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades`,
-      {trade_id: tradeId, user_id: userID, accepted: true})
-    // return axios.put(`http://localhost:3000/trades?trade_id=${tradeId}&accepted=true`)
-    .then((response) => {
-      props.getInboxData()
-      console.log('Put succesful', response)
-    })
-    .catch((err) => {
-      console.log('Accept trade did not work', err)
-    })
+    let tradeId = props.entry.trade_id
+    let userID = props.userID
+    console.log(userID)
+    return axios.put(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades`,
+    {trade_id: tradeId, user_id: userID, accepted: true})
+  .then((response) => {
+    props.getInbox(userID)
+    console.log('Accepted succesful', response)
+  })
+  .catch((err) => {
+    console.log('Accept trade did not work', err)
+  })
 
   }
 
   let declineTrade = () => {
-    console.log('Declined')
-    let tradeId = props.entry.trade_id
-    let userID = props.userID
-    return axios.put(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades`,
-    {trade_id: tradeId, user_id: userID, accepted: false})
-    // return axios.put(`http://localhost:3000/trades?trade_id=${tradeId}&accepted=false`)
+      console.log('Declined')
+      let tradeId = props.entry.trade_id
+      let userID = props.userID
+      return axios.put(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades`,
+      {trade_id: tradeId, user_id: userID, accepted: false})
     .then((response) => {
-      props.getInboxData()
-      console.log('trade declined Accepted switched to false', response)
+      props.getInbox(userID)
+      console.log('Declined succesful', response)
     })
     .catch((err) => {
       console.log('Error in decline trade', err)
     })
   }
 
+  let shownToUser = () => {
+    console.log('shown')
+    let tradeId = props.entry.trade_id
+    let userID = props.userID
+    return axios.put(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades/shown`,
+    {trade_id: tradeId, user_id: userID})
+    .then((response) => {
+      props.getInbox(userID)
+      return axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userID}`)
+      .then((res) => {
+        let data = res.data.filter((item, i) => {
+          return (item.plant_offer.owner_id === userID) && (item.shown_to_user_offer === false)
+        })
+        let dataCount = data.length
+        console.log('first array', data)
+        let data2 = res.data.filter((item, i) => {
+          return (item.plant_offer.owner_id !== userID) && ((item.shown_to_user_target === false) || (item.shown_to_user_target === null))
+        })
+        console.log('second array', data2)
+        if (data.length.concat(data2.length) > 0) {
+          setMessages(data.length.concat(data2.length));
+        }
+      })
+      console.log('shown to user succesful', response)
+    })
+    .catch((err) => {
+      console.log('Error in shown to user trade', err)
+    })
+  }
+
   let openMessage = () => {
+    shownToUser()
+    let tradeID = props.entry.trade_id
+    console.log(tradeID)
+    navigation.navigate('ChatMessages', {
+      user_id: props.userID,
+      trade_id: tradeID,
+    });
     console.log('tradeId', props.entry.trade_id)
     console.log('plant_target', props.entry.plant_target)
     console.log('--------------------')
     console.log('plant_offer', props.entry.plant_offer)
-    let tradeID = props.entry.trade_id
-    // navigation.push('ChatMessages')
-    navigation.navigate('ChatMessages', {
-      user_id: 212,
-      trade_id: tradeID,
-    });
-    // let tradeId = props.entry.trade_id
-  //   return axios.put(`http://localhost:3000/trades?trade_id=${tradeId}&shown_to_user=true`)
-  //   .then((response) => {
-  //     props.getInboxData()
-  //   })
-  //   .catch((err) => {
-  //     console.log('Error in decline trade', err)
-  //   })
   }
 
   return (
@@ -73,7 +96,7 @@ const InboxList = (props) => {
           <>
             <Image
               style={styles.Image}
-              source={{uri:props.entry.plant_offer.photo}}//is curr user === ffer user render offer photo
+              source={{uri:props.entry.plant_offer.photo}}
             />
             <Entypo name="swap" size={24} color="black" style={{paddingLeft:6, paddingRight: 6}}/>
             <Image
@@ -95,12 +118,12 @@ const InboxList = (props) => {
          }
           <View style={styles.TradeInfoContainer}>
           {Boolean(props.entry.plant_offer.owner_id !== props.userID) ? <View  >
-              <Text style={{fontWeight: props.entry.shown_to_user_target   ?  'bold': 'normal'}}>{props.entry.plant_offer.username}</Text>
+              <Text style={{fontWeight: props.entry.shown_to_user_target === false  ?  'bold': 'normal'}}>{props.entry.plant_offer.username}</Text>
               <Text style={{  width:110,
                               whiteSpace: 'nowrap',
                               overflow: 'hidden',
                               textOverflow: 'ellipsis',
-                              fontWeight: props.entry.shown_to_user_target   ?  'bold': 'normal'
+                              fontWeight: props.entry.shown_to_user_target === false  ?  'bold': 'normal'
                           }}
                               adjustsFontSizeToFit={true}
               >{props.entry.plant_offer.plant_name}</Text>
@@ -109,12 +132,12 @@ const InboxList = (props) => {
               {props.entry.accepted  === false && <Text style={{fontWeight: props.entry.shown_to_user_target === false ?  'bold': 'normal'}}>Declined</Text>}
             </View> :
             <View  >
-            <Text style={{fontWeight: props.entry.shown_to_user_offer   ?  'bold': 'normal'}}>{props.entry.plant_target.username}</Text>
+            <Text style={{fontWeight: props.entry.shown_to_user_offer === false  ?  'bold': 'normal'}}>{props.entry.plant_target.username}</Text>
             <Text style={{  width:110,
                             whiteSpace: 'nowrap',
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
-                            fontWeight: props.entry.shown_to_user_offer   ?  'bold': 'normal'
+                            fontWeight: props.entry.shown_to_user_offer  === false ?  'bold': 'normal'
                         }}
                             adjustsFontSizeToFit={true}
             >{props.entry.plant_target.plant_name}</Text>
@@ -173,8 +196,8 @@ TradeInfo: {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
-    flexFlow: 'row nowrap', /*change this*/
-    alignItems: 'flex-start', /*change this*/
+    flexFlow: 'row nowrap',
+    alignItems: 'flex-start',
 
 },
 TradeInfoContainer: {

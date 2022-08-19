@@ -32,6 +32,7 @@ const Home = (props) => {
     let filteredListing = [];
     if (query) {
       const regex = new RegExp(`^/${query}/`, 'i');
+
       filteredListing = plantArray.filter(v =>
         v.plant_name.toLowerCase().includes(query.toLowerCase())
       )
@@ -195,19 +196,19 @@ const styles= StyleSheet.create({
     paddingLeft: 10,
     height: 500,
     width: 'auto',
-    backgroundColor: 'white'
+    backgroundColor: '#F2F2F2'
   },
 
   searchBar: {
-    backgroundColor: 'white',
+    backgroundColor: '#F2F2F2',
   },
 
   searchBarContainer: {
-    backgroundColor: 'white',
+    backgroundColor: '#F2F2F2',
    },
 
   searchInputContainer: {
-    backgroundColor: 'white',
+    backgroundColor: '#F2F2F2',
     borderWidth: 1,
     borderRadius: 5,
     marginVertical: 15,
@@ -237,12 +238,19 @@ const styles= StyleSheet.create({
   homeHeader: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingBottom: 20
+    justifyContent: 'space-between'
+  },
+
+  headerTitle: {
+    paddingTop: '6%',
+    paddingLeft: 20,
+    paddingBottom: 7
   },
 
   plantsWrapper: {
     marginTop: 20,
     height: '100%',
+    paddingLeft: 5,
+    paddingRight: 5,
   }
 });

@@ -1,91 +1,111 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/core'
-import { Alert, Modal, StyleSheet, Text, Pressable, View, Image, useWindowDimensions, ScrollView, Button } from 'react-native';
+import { RefreshControl, Alert, Modal, StyleSheet, Text, Pressable, View, Image, useWindowDimensions, ScrollView, Button } from 'react-native';
 import InboxList from './InboxList.js'
 import { AntDesign } from '@expo/vector-icons';
 import TradesData from '../exampleData/InboxDummy.js';
 import DummyAccepted from '../exampleData/InboxDummyAccpted.js'
 import axios from 'axios'
-import { storage, auth, signOutUser } from '../../../firebase.js'
+import {  auth } from '../../../firebase.js'
+import { usePlant } from '../../../TabNavigator.js';
 
 
 const TradeInbox = (props) => {
+
   const [currInbox, setCurrInbox] = useState('Pending')
-  const [pendingData, setPendingData] = useState([])
-  const [tradesData, setTradesData] = useState([])
-  const [acceptedData, setAcceptedData] = useState([])
-  const [userID, setUserID] = useState(212)
+  const [refreshing, setRefreshing] = useState(false);
+  // const [userID, setUserID] = useState(212)//212 //317
   const navigation = useNavigation()
-  console.log(auth.currentUser.uid, 'lashfkljshfkljsahdlkfjhasklfhkasjlh')
+  const {pendingTrades, trades, acceptedTrades, userIdentity, userZipcode, getInbox} = usePlant();
+  const [userZip, setUserZip] = userZipcode;
+  const [userId, setUserId] = userIdentity; //212 //317
+  const [pendingData, setPendingData] = pendingTrades;
+  const [tradesData, setTradesData] = trades;
+  const [acceptedData, setAcceptedData] = acceptedTrades;
+  // console.log(auth.currentUser.uid, 'lashfkljshfkljsahdlkfjhasklfhkasjlh')
 
+  // const onRefresh = React.useCallback(() => {
+  //   setRefreshing(true);
+  //   getInboxData(userId);
+  //   wait(2000).then(() => setRefreshing(false));
+  // }, []);
 
-  let getInboxData = () => {
-    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userID}`)//change to current user id
-    // axios.get('http:/localhost:3000/trades?user_id=1')//change to current user id
-    .then((response) => {
-      let data = response.data.filter((item, i) => {
-        return item.pending === false
-      })
-        setTradesData(data)
-        return response.data
-    })
-    .then((response) => {
-      // console.log(response.data)
-      let pending = response.filter((item, i) => {
-        return item.pending === true
-      })
-      setPendingData(pending);
-      return response
+  // getInbox(userId)
+//   let getInboxData = () => {
+//     console.log('refreshed')
+//     axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)//change to current user id
+//     .then((response) => {
+//       let data = response.data.filter((item, i) => {
+//         return item.pending === false
+//       })
+//         setTradesData([...data])
+//         return response.data
 
-  })
-  .then((response) => {
-    let accepted = response.filter((item, i) => {
-      return item.accepted === true
-    })
-    setAcceptedData(accepted);
-    return response
-})
-    .catch((err) => {
-      console.log(err, 'this is your error')
-    })
-  }
+//     })
+//     .then((response) => {
+//       console.log(tradesData)
+//       // console.log(response.data)
+//       let pending = response.filter((item, i) => {
+//         return item.pending === true
+//       })
+//       setPendingData([...pending]);
+//       return response
+//   })
+//   .then((response) => {
+//     let accepted = response.filter((item, i) => {
+//       return item.accepted === true
+//     })
+//     setAcceptedData([...accepted]);
+//     return response
+// })
+//     .catch((err) => {
+//       console.log(err, 'this is your error')
+//     })
+//   }
 
+  // useEffect (() => {
+  //   // console.log(userId, 'uuuuseeerrrr userid')
+  //   // console.log('trades', tradesData)
+  //   //   getInboxData()
+  // }, [])
 
+//  useEffect (() => {
 
-  useEffect (() => {
-
-  getInboxData()
-  }, [])
-
+//   console.log('rerendered')
+//   }, [tradesData, acceptedData, pendingData])
 
   let goBack = () => {
-    console.log("back")
-    // navigation.reset({
-    //   index: 0,
-    //   routes: [{ name: 'TabNavigator' }],
-    // });
     navigation.goBack();
   }
 
+  let switchTab = (tabName) => {
+    setCurrInbox(tabName)
+  }
+
+  useEffect(() => {
+    getInbox(userId)
+  }, [currInbox])
+
+
   return (
-    <View style={styles.container}>
-      <View style={styles.container}>
+    <View >
+      <View >
         <View style={styles.InboxHeader}>
           {/* <AntDesign name="arrowleft" size={24} color="black" onPress={goBack}/> */}
         </View>
         <View style={styles.statusContainer}>
           <Button
-            onPress={() => setCurrInbox('Pending')}
+            onPress={() => switchTab('Pending')}
             title="Pending"
             color="#606C38"
           />
           <Button
-            onPress={() => setCurrInbox('Accepted')}
+            onPress={() => switchTab('Accepted')}
             title="Accepted"
             color="#606C38"
           />
           <Button
-            onPress={() => setCurrInbox('History')}
+            onPress={() => switchTab('History')}
             title="History"
             color="#606C38"
             accessibilityLabel="Learn more about this purple button"
@@ -93,15 +113,14 @@ const TradeInbox = (props) => {
         </View>
         <View
           style={{
-          borderBottomColor: 'black',
+          borderBottomColor: 'grey',
           borderBottomWidth: 1,
           marginLeft: 5,
           marginRight: 5
           }}
         />
       </View>
-    {/* pending  */}
-     <ScrollView showsVerticalScrollIndicator={false}>
+     <ScrollView  showsVerticalScrollIndicator={false} style ={styles.scroll} >
         <View style={styles.TradeContainer}>
         {currInbox === 'Pending' && <View style={styles.InboxEntryContainer}>
             {pendingData.map((entry, index = 0) =>
@@ -110,8 +129,8 @@ const TradeInbox = (props) => {
               entry={entry}
               index={index}
               currInbox={currInbox}
-              getInboxData={getInboxData}
-              userID ={userID}
+              getInbox={getInbox}
+              userID ={userId}
               />
             )}
           </View>
@@ -123,8 +142,8 @@ const TradeInbox = (props) => {
               entry={entry}
               index={index}
               currInbox={currInbox}
-              getInboxData={getInboxData}
-              userID ={userID}
+              getInbox={getInbox}
+              userID ={userId}
               />
             )}
           </View>
@@ -136,15 +155,14 @@ const TradeInbox = (props) => {
               entry={entry}
               index={index}
               currInbox={currInbox}
-              getInboxData={getInboxData}
-              userID ={userID}
+              getInbox={getInbox}
+              userID ={userId}
               />
             )}
             </View>
           }
         </View>
       </ScrollView>
-
     </View>
   );
 }
@@ -154,21 +172,24 @@ const TradeInbox = (props) => {
 const styles = StyleSheet.create({
 
   InboxHeader: {
-    paddingTop:25  ,//60
+    paddingTop:15  ,//60
     paddingLeft: 20,
     justifyContent: 'flex-start',
+    // backgroundColor: '#CED89E',
   },
 
   header: {
     justifyContent: 'center',
     paddingBottom: 5,
     alignItems: 'center',
+
   },
   statusContainer: {
     justifyContent: 'space-evenly',
     display: 'flex',
     flexDirection: 'row',
-    paddingBottom: 10
+    paddingBottom: 10,
+
   },
   InboxEntryContainer: {
     display: 'flex',
@@ -190,6 +211,15 @@ const styles = StyleSheet.create({
   UserText: {
     fontSize: 12,
     paddingLeft:6
+    },
+    TradeContainer: {
+      display: 'flex',
+      flexDirection: 'column',
+
+    },
+    scroll: {
+      height: '94%'
+
     },
 });
 
