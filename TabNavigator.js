@@ -101,6 +101,7 @@ export default function TabNavigator() {
   const [acceptedData, setAcceptedData] = useState([])
 
 
+
   useEffect(() => {
     let num = 1;
     let interval = null
@@ -108,7 +109,6 @@ export default function TabNavigator() {
     interval = setInterval(async () => {
       try {
         num++
-        console.log(num);
         const notifResp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
         let count = notifResp.data[0]?.notifications
         console.log('count', count)
@@ -122,9 +122,8 @@ export default function TabNavigator() {
       catch { err =>
         console.log(err);
       }
-    }, 5000)
+    }, 10000)
   }, [])
-
 
 
   useEffect( () => {
@@ -150,7 +149,7 @@ export default function TabNavigator() {
         console.log(err);
        }
       }
-      fetchData();
+      fetchData()
   }, [userZip])
 
   function getInboxData (id) {

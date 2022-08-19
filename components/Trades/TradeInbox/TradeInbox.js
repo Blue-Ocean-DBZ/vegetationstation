@@ -16,12 +16,13 @@ const TradeInbox = (props) => {
   const [currInbox, setCurrInbox] = useState('Pending')
   const [refreshing, setRefreshing] = useState(false);
   const navigation = useNavigation()
-  const {pendingTrades, trades, acceptedTrades, userIdentity, userZipcode, getInbox} = usePlant();
+  const {pendingTrades, trades, acceptedTrades, userIdentity, userZipcode, getInbox, userMessages } = usePlant();
   const [userZip, setUserZip] = userZipcode;
   const [userId, setUserId] = userIdentity; //212 //317
   const [pendingData, setPendingData] = pendingTrades;
   const [tradesData, setTradesData] = trades;
   const [acceptedData, setAcceptedData] = acceptedTrades;
+  const [messages, setMessages] = userMessages;
 
 useEffect(() => {
   let num = 1;
@@ -33,7 +34,7 @@ useEffect(() => {
       console.log(num);
       const notifResp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
       let count = notifResp.data[0]?.notifications
-      getInboxData(userId)
+      getInbox(userId)
       if (count > 0) {
         setMessages(count);
       } else {
