@@ -90,7 +90,7 @@ export function usePlant () {
 export default function TabNavigator() {
 
   const firebaseID = auth.currentUser.uid;
-  const [userId, setUserId] = useState(212);
+  const [userId, setUserId] = useState(null);
   const [userZip, setUserZip] = useState(null);
   const [userProfilePic, setUserProfilePic] = useState('');
   const [messages, setMessages] = useState(null);
@@ -126,7 +126,7 @@ export default function TabNavigator() {
       async function fetchData() {
       try {
         const response = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${firebaseID}`)
-        // setUserId(response.data.id);
+        setUserId(response.data.id);
         setUserZip(response.data.zip);
         setUserProfilePic(response.data.profile_pic);
         const resp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/all?user_id=${userId}`)
