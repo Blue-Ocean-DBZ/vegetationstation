@@ -13,6 +13,23 @@ export default function ChatMessages ({ route}) {
   const [submitClick, setSubmitClick] = useState(0)
 
   useEffect(() => {
+    let interval = null
+    clearInterval(interval)
+    interval = setInterval(async () => {
+      try {
+        const response = await axios.get('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/messages', {params: {
+          trade_id: trade_id,
+        }})
+        console.log('msg', response.data)
+        setActualMessages(response.data)
+      }
+      catch { err =>
+        console.log(err);
+      }
+    }, 5000)
+  }, []);
+
+  useEffect(() => {
     axios.get('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/messages', {params: {
       trade_id: trade_id,
     }})
@@ -50,8 +67,7 @@ export default function ChatMessages ({ route}) {
   return (
 
       <KeyboardAvoidingView style={styles.container} behavior="padding">
-              {console.log(user_id, trade_id)}
-
+        {console.log(user_id, trade_id)}
         <ImageBackground
           source={{uri:'https://pbs.twimg.com/media/Erp2ZjwXEAQbA4R.jpg'}}
           resizeMode="cover"
