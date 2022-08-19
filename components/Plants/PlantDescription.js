@@ -31,16 +31,18 @@ const PlantDescription = ({ route }) => {
           if ( favorite.plant_id === plant.plant_id ) {
             // save favorite_id
             setFavoriteID(favorite.favorites_id);
+            setFillHeart('red');
+            console.log('line 35')
             return;
           }
         });
       }
     })
-    .then(() => {
-      // set the heart to red
-      setFillHeart('red');
-      console.log('line 42')
-    })
+    // .then(() => {
+    //   // set the heart to red
+    //   setFillHeart('red');
+    //   console.log('line 42')
+    // })
     .catch((err) => {
       console.log('error getting all fav');
     });
@@ -51,6 +53,7 @@ const PlantDescription = ({ route }) => {
     // if it is a favoriteID exists
     if (fillHeart === 'red') {
       // call axios delete
+      console.log(favoriteID)
       axios.delete(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?favorites_id=${favoriteID}`)
         //then set to white
         .then((results) => {
@@ -70,6 +73,7 @@ const PlantDescription = ({ route }) => {
       })
         // then set heart to red
         .then((results) => {
+          console.log('success adding to favorites')
           setFillHeart('red');
         })
         .catch((err) => {
