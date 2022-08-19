@@ -72,7 +72,7 @@ function TradeStackScreen() {
 function FavoritesStackScreen() {
   return (
     <FavoritesStack.Navigator>
-      <FavoritesStack.Screen name="Favorite" component={MyFavoritesHome} />
+      <FavoritesStack.Screen name="Favorites" component={MyFavoritesHome} />
     </FavoritesStack.Navigator>
   );
 }
