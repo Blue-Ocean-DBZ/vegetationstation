@@ -81,8 +81,8 @@ function FavoritesStackScreen() {
 export const PlantContext = React.createContext()
 
 export function usePlant () {
-  const {userIdentity, userZipcode, userProfilePicture, plantList, userMessages , test2, test3, pendingTrades, trades, acceptedTrades, getInbox} = useContext(PlantContext);
-  return {userIdentity, userZipcode, userProfilePicture, plantList, userMessages, test2, test3, pendingTrades, trades, acceptedTrades, getInbox};
+  const {userIdentity, userZipcode, userProfilePicture, plantList, userMessages , test2, test3, pendingTrades, trades, acceptedTrades, getInbox, fetchData } = useContext(PlantContext);
+  return {userIdentity, userZipcode, userProfilePicture, plantList, userMessages, test2, test3, pendingTrades, trades, acceptedTrades, getInbox, fetchData};
 }
 
 // Tab Navigator, individual stack navigators are nested inside
@@ -111,7 +111,6 @@ export default function TabNavigator() {
         num++
         const notifResp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
         let count = notifResp.data[0]?.notifications
-        console.log('count', count)
         getInboxData(userId)
         if (count > 0) {
           setMessages(count);
@@ -125,29 +124,30 @@ export default function TabNavigator() {
     }, 10000)
   }, [])
 
+  async function fetchData() {
+    try {
 
-  useEffect( () => {
-      async function fetchData() {
-      try {
-        const response = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${firebaseID}`)
-        setUserId(response.data.id);
-        setUserZip(response.data.zip);
-        setUserProfilePic(response.data.profile_pic);
-        const resp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/all?user_id=${userId}`)
-        setPlantArray(resp.data);
-        const tradeResp = await getInboxData(userId);
-        const notifResp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
-        let count = notifResp.data[0].notifications
-        if (count > 0) {
-          setMessages(count);
-        } else {
-          setMessages(null);
-        }
+      const response = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${firebaseID}`)
+      setUserId(response.data.id);
+      setUserZip(response.data.zip);
+      setUserProfilePic(response.data.profile_pic);
+      const resp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/all?user_id=${userId}`)
+      setPlantArray(resp.data);
+      const tradeResp = await getInboxData(userId);
+      const notifResp = await axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userId}`)
+      let count = notifResp.data[0].notifications
+      if (count > 0) {
+        setMessages(count);
+      } else {
+        setMessages(null);
       }
-      catch { err =>
-        console.log(err);
-       }
-      }
+    }
+    catch { err =>
+      console.log(err);
+     }
+    }
+
+  useEffect(() => {
       fetchData()
   }, [userZip])
 
@@ -185,8 +185,8 @@ export default function TabNavigator() {
   return (
     <PlantContext.Provider
       value ={{
+        fetchData,
         getInbox: getInboxData,
-        getNewList: getNewListings,
         userIdentity: [userId, setUserId],
         userZipcode: [userZip, setUserZip],
         userProfilePicture: [userProfilePic, setUserProfilePic],

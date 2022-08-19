@@ -21,7 +21,7 @@ export default function ChatMessages ({ route}) {
         const response = await axios.get('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/messages', {params: {
           trade_id: trade_id,
         }})
-        console.log('msg', response.data)
+        // console.log('msg', response.data)
         setActualMessages(response.data)
       }
       catch { err =>

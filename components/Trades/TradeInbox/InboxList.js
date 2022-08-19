@@ -62,12 +62,14 @@ const InboxList = (props) => {
     shownToUser()
     .then((res) => {
       let count = res.data[0]?.notifications
-      getInbox(userId)
       if (count > 0) {
         setMessages(count);
       } else {
         setMessages(null);
       }
+    })
+    .catch((err) => {
+      console.log(err)
     })
     let tradeID = props.entry.trade_id
     console.log(tradeID)
