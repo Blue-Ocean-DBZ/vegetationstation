@@ -8,6 +8,9 @@
   <img src="https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white" />
 </div>
 
+
+<a href="https://github.com/Blue-Ocean-DBZ/VS_Server">Server</a>
+
 <h4 align="center">A plant trading app for plant enthusiats!</h4>
 
 ## Motivation and Story
