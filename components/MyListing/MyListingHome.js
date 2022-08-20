@@ -9,7 +9,7 @@ import axios from 'axios';
 import { usePlant } from '../../TabNavigator.js';
 
 const MyListingHome = () => {
-  //be able to get access to user ID
+
   const addPicImage = 'https://cdn.pixabay.com/photo/2018/11/13/21/44/instagram-3814061_1280.png';
   const addPlantImage = 'https://i.imgur.com/2ytxNFo.png';
 
@@ -71,7 +71,6 @@ const MyListingHome = () => {
     uploadBytes(imageRef, blob)
       .then(snapshot => {
           uri = `https://firebasestorage.googleapis.com/v0/b/vegiestation2.appspot.com/o/${filename}?alt=media`;
-          // return uri;
       })
       .then(() => {
         axios.post ('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/plant', {
@@ -115,7 +114,7 @@ const MyListingHome = () => {
     </View>
   );
 
-  const deleteFavorite = (id) => {//delete plant functionality here
+  const deleteFavorite = (id) => {
     let tempArray = plantList.slice();
     let plantName;
     for (let i = 0; i < tempArray.length; i++){
@@ -188,7 +187,6 @@ const MyListingHome = () => {
       </View>
 
       <View style= {styles.header}>
-        {/* <Title style= {styles.headerTitle}>My Listings</Title> */}
         <TouchableOpacity
           onPress= {handleAddPlant} style={styles.headerWrapper}>
           <Image style= {styles.headerAddPlant} source= {{url: addPlantImage}}/>
