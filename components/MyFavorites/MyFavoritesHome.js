@@ -13,43 +13,39 @@ const MyFavoritesHome = () => {
   const userID = userIdentity[0];
   const meterToMiles = 1609;
 
-
   const renderPlants = ({ item }) => {
     if(item.favorite) {
       return (
         <View style={styles.plantInformationContainer}>
-      <View style={styles.leftPart}>
-        <Image source={{ url: item.photo }} style={styles.plantImage} />
-      </View>
-      <View style={styles.item}>
-        <View style={styles.plantInfoWithHeartButton}>
-          <View>
-            <View style={styles.plantName}>
-              <Text style={styles.title}>{item.plant_name}</Text>
-            </View>
-            <View>
-              <Text style={styles.otherPlantInfo}>{item.city}, {item.state} ({Math.round((item.distance / 1609) * 10)/10} miles)</Text>
-              {/*<Text style={styles.otherPlantInfo}>{Math.floor(item.distance / meterToMiles)} miles</Text>*/ }
-              <Text style={styles.otherPlantInfo}>{item.username}</Text>
+          <View style={styles.leftPart}>
+            <Image source={{ url: item.photo }} style={styles.plantImage} />
+          </View>
+          <View style={styles.item}>
+            <View style={styles.plantInfoWithHeartButton}>
+              <View>
+                <View style={styles.plantName}>
+                  <Text style={styles.title}>{item.plant_name}</Text>
+                </View>
+                <View>
+                  <Text style={styles.otherPlantInfo}>{item.city}, {item.state} ({Math.round((item.distance / 1609) * 10)/10} miles)</Text>
+                  <Text style={styles.otherPlantInfo}>{item.username}</Text>
+                </View>
+              </View>
+              <TouchableWithoutFeedback onPress={() => { deleteFavorite(item.favorite) }}>
+                <Ionicons name="heart" style={styles.heart} size={25} />
+              </TouchableWithoutFeedback>
             </View>
           </View>
-          <TouchableWithoutFeedback onPress={() => { deleteFavorite(item.favorite) }}>
-            <Ionicons name="heart" style={styles.heart} size={25} />
-          </TouchableWithoutFeedback>
         </View>
-      </View>
-    </View>
       )
     }
-
   };
 
   const deleteFavorite = (id) => { //delete favorites functionality here
     axios.delete(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?favorites_id=${id}`)
       .then((res) => fetchData())
       .catch((err) => console.log(err))
-  }
-;
+  };
 
   return (
     <SafeAreaView style={styles.container}>
