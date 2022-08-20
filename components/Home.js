@@ -4,13 +4,12 @@ import { useNavigation } from '@react-navigation/core'
 import { Button, Card, Title, Paragraph } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {FontAwesome, Ionicons} from 'react-native-vector-icons'
+import { FontAwesome, Ionicons } from 'react-native-vector-icons'
 import { SearchBar } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 import { auth } from '../firebase.js'
 import { usePlant } from '../TabNavigator.js';
 import PlantCard from './Plants/PlantCard.js';
-import ProfilePic from './Auth/placeholder/gui.png'
 
 const Home = (props) => {
 
