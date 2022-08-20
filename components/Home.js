@@ -25,7 +25,6 @@ const Home = (props) => {
   const [plantArray, setPlantArray] = plantList;
   const [image, setImage] = useState(auth.currentUser?.photoURL || 'https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg')
 
-
   const navigate = useNavigation()
 
   const onChangeSearch = query => {

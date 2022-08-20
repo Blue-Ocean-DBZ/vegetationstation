@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios'
 import { useNavigation } from '@react-navigation/core'
 import { ActivityIndicator } from 'react-native-paper';
-import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView,TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image } from 'react-native';
+import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
@@ -10,55 +10,52 @@ import { storage, auth, signOutUser } from '../../firebase.js'
 import { PlantContext } from '../../TabNavigator.js'
 
 const EditProfile = () => {
-  const data = useContext(PlantContext)
+  const data = useContext(PlantContext);
   const [loading, setLoading] = useState(false);
-  const [id, setId] = useState('')
-  const [username, setUsername] = useState(auth.currentUser?.displayName)
-  const [zipcode, setZipcode] = useState('')
-  const [status, setStatus] = useState('')
-  const [image, setImage] = useState(auth.currentUser?.photoURL || 'https://th-thumbnailer.cdn-si-edu.com/bZAar59Bdm95b057iESytYmmAjI=/1400x1050/filters:focal(594x274:595x275)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/95/db/95db799b-fddf-4fde-91f3-77024442b92d/egypt_kitty_social.jpg')
-  const navigation = useNavigation()
-
-  useEffect(()=> {
-    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${auth.currentUser.uid}`)
-    .then(({data})=> {
-          setStatus(data.user_status || '');
-      })
-  }, []);
-
+  const [id, setId] = useState('');
+  const [username, setUsername] = useState(auth.currentUser?.displayName);
+  const [zipcode, setZipcode] = useState('');
+  const [status, setStatus] = useState('');
+  const [image, setImage] = useState(auth.currentUser?.photoURL || 'https://th-thumbnailer.cdn-si-edu.com/bZAar59Bdm95b057iESytYmmAjI=/1400x1050/filters:focal(594x274:595x275)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/95/db/95db799b-fddf-4fde-91f3-77024442b92d/egypt_kitty_social.jpg');
+  const navigation = useNavigation();
 
   useEffect(() => {
-    setZipcode(data?.userZipcode[0])
-    setId(data?.userIdentity[0])
+    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/userId?firebase_id=${auth.currentUser.uid}`)
+      .then(({ data }) => {
+        setStatus(data.user_status || '');
+      });
+  }, []);
+
+  useEffect(() => {
+    setZipcode(data?.userZipcode[0]);
+    setId(data?.userIdentity[0]);
   }, [id])
 
-  //from axios
-
   const saveHandler = () => {
-    if(zipcode.length !== 5) {
+    if (zipcode.length !== 5) {
       alert('Please enter a valid zipcode');
       return;
     }
-    if(id === undefined) {
+    if (id === undefined) {
       axios.post('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/user', {
         username,
         firebase_id: auth.currentUser.uid,
         profile_pic: auth.currentUser?.photoURL || image,
         zip: zipcode,
       })
-      .then(() => {
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'TabNavigator' }],
-        });
-      })
-      .catch(err => alert('Please enter a valid zipcode'))
+        .then(() => {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'TabNavigator' }],
+          });
+        })
+        .catch(err => alert('Please enter a valid zipcode'))
     } else {
       axios.put('http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/user', {
         user_id: id,
         profile_pic: auth.currentUser?.photoURL || image,
         zip: zipcode,
-        user_status: status
+        user_status: status,
       })
         .then(() => {
           const set = data?.userZipcode[1]
@@ -71,8 +68,8 @@ const EditProfile = () => {
           });
         })
         .catch((err) => {
-          console.log(err)
-          alert('Please enter a valid zipcode')
+          console.log(err);
+          alert('Please enter a valid zipcode');
         })
     }
   }
@@ -80,7 +77,7 @@ const EditProfile = () => {
   if (auth.currentUser?.photoURL === null) {
     updateProfile(auth.currentUser, {
       photoURL: image
-    })
+    });
   };
 
   const logoutHandler = () => {
@@ -90,57 +87,59 @@ const EditProfile = () => {
           index: 0,
           routes: [{ name: 'Login' }],
         });
-      })
+      });
   }
 
   const openImagePickerAsync = async () => {
-    let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted === false) {
       alert("Permission to access camera roll is required!");
       return;
     }
-    let pickerResult = await ImagePicker.launchImageLibraryAsync();
+    const pickerResult = await ImagePicker.launchImageLibraryAsync();
     if (pickerResult.cancelled === true) {
       return;
     }
-    setLoading(true)
-    const res = await fetch(pickerResult.uri)
-    const blob = await res.blob()
-    const filename =  pickerResult.uri.substring(pickerResult.uri.lastIndexOf('/') + 1)
-    const imageRef = ref(storage, filename)
+    setLoading(true);
+
+    const res = await fetch(pickerResult.uri);
+    const blob = await res.blob();
+    const filename = pickerResult.uri.substring(pickerResult.uri.lastIndexOf('/') + 1);
+    const imageRef = ref(storage, filename);
+
     uploadBytes(imageRef, blob)
       .then(snapshot => {
-        const uri = `https://firebasestorage.googleapis.com/v0/b/vegiestation2.appspot.com/o/${filename}?alt=media`
+        const uri = `https://firebasestorage.googleapis.com/v0/b/vegiestation2.appspot.com/o/${filename}?alt=media`;
         setImage(pickerResult.uri);
         updateProfile(auth.currentUser, {
           photoURL: uri
-        })
-        setLoading(false)
+        });
+        setLoading(false);
       })
       .catch(err => {
-        setLoading(false)
-        console.log(err)
-      })
-  }
+        setLoading(false);
+        console.log(err);
+      });
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <KeyboardAvoidingView style={styles.container}>
         <View style={styles.profileImgContainer}>
-          <Image source={{uri: image}} style={styles.thumbnail}/>
+          <Image source={{ uri: image }} style={styles.thumbnail} />
           <TouchableOpacity style={styles.imageEdit} onPress={openImagePickerAsync}>
             <Text style={styles.imageEditButton}>Change Profile Image</Text>
           </TouchableOpacity>
         </View>
-          <Text style={styles.username}>{username}</Text>
-          {loading ? <ActivityIndicator animating={true} color='#FEFAE0' size={70} style={{position: 'absolute', top: '20%', zIndex: 1000}}/> : null}
+        <Text style={styles.username}>{username}</Text>
+        {loading ? <ActivityIndicator animating={true} color='#FEFAE0' size={70} style={{ position: 'absolute', top: '20%', zIndex: 1000 }} /> : null}
         <View style={styles.inputContainer}>
-          <TextInput placeholder='Zip Code' placeholderTextColor='#D3D3D3'  autoCapitalize='none' value={zipcode} style={styles.input} onChangeText={text => setZipcode(text)} maxLength={5} minLength={5} keyboardType="number-pad"/>
+          <TextInput placeholder='Zip Code' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={zipcode} style={styles.input} onChangeText={text => setZipcode(text)} maxLength={5} minLength={5} keyboardType="number-pad" />
           <Text style={styles.notice}>We use your zip code to locate plant swappers near the area.</Text>
-          <TextInput placeholder='Status' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={status} style={styles.input} onChangeText={text => setStatus(text)}/>
+          <TextInput placeholder='Status' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={status} style={styles.input} onChangeText={text => setStatus(text)} />
         </View>
         <View style={styles.buttonWrapper}>
-          <TouchableOpacity style={styles.buttonGrp} onPress={saveHandler} disabled={loading ? true:false}>
+          <TouchableOpacity style={styles.buttonGrp} onPress={saveHandler} disabled={loading ? true : false}>
             <Text style={styles.button}>Save</Text>
           </TouchableOpacity>
         </View>
@@ -199,7 +198,7 @@ const styles = StyleSheet.create({
   profileImgContainer: {
     height: 200,
     width: '50%',
-    alignItems:'center',
+    alignItems: 'center',
     borderRadius: 100,
     position: 'relative',
     marginBottom: 21
@@ -222,10 +221,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     fontSize: 16,
     textShadowColor: '#2C3D36',
-    textShadowOffset: {width: -1, height: 1},
+    textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 1,
     fontWeight: '700',
-    color:'white'
+    color: 'white'
   },
   username: {
     textAlign: 'center',
@@ -238,7 +237,7 @@ const styles = StyleSheet.create({
     color: '#888',
     marginVertical: 7,
     paddingHorizontal: 7
-  }
+  },
 });
 
-export default EditProfile
+export default EditProfile;
