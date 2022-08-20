@@ -22,6 +22,7 @@ Tasked by a client to create an iOS app that provides a platform for users to po
 - Login page
 - Create Account Flow
 - Home Page: Search, Plant Listings
+- Plant Page: Trade Request, add/remove favorite plants
 - MyPlants -> add/remove plants
 - Trades: Messaging
 - MyFavorites: Add/remove favorite listings/plants

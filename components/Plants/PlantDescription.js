@@ -2,56 +2,41 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Modal, StyleSheet, FlatList, Text, View, TouchableOpacity, TouchableWithoutFeedback, Image } from 'react-native';
-import { FontAwesome, Ionicons } from 'react-native-vector-icons'
+import { FontAwesome, Ionicons } from 'react-native-vector-icons';
 import { auth } from '../../firebase.js';
 import { usePlant } from '../../TabNavigator.js';
-import PlantCard from './PlantCard.js';
-import TradeModal from '../Trades/TradeModal/TradeModal.js'
+import TradeModal from '../Trades/TradeModal/TradeModal.js';
 
 const PlantDescription = ({ route }) => {
   const plant = route.params;
-  // fix this bc its always white
+
   const [isFav, setIsFav] = useState(plant.favorite ? true : false);
   const [modalVisible, setModalVisible] = useState(false);
   const {userIdentity, fetchData} = usePlant();
   const userID = userIdentity[0];
 
   useEffect(() => {
-    fetchData()
-  }, [isFav])
+    fetchData();
+  }, [isFav]);
 
   const toggleFavorite = () => {
-    // if it is a favoriteID exists
-    if (plant.favorite !== null) {
+    if (isFav) {
       axios.delete(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites?favorites_id=${plant.favorite}`)
-        //then set to white
-        .then((results) => {
-          setIsFav(false)
-        })
-        .catch((err) => {
-          console.log('error deleting from favorites')
-        })
-    // otherwise,
+        .then((results) => setIsFav(false))
+        .catch((err) => console.log(err));
     } else {
-      // make an axios post call with user_id and plant_id
       axios.post(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/favorites`, {
         user_id: userID,
         plant_id: plant.plant_id
       })
-        // then set heart to red
-        .then((results) => {
-          // console.log('success adding to favorites')
-          setIsFav(true);
-        })
-        .catch((err) => {
-          console.log('error adding to favorites')
-        });
+      .then((results) => setIsFav(true))
+      .catch((err) => console.log(err));
     };
   };
 
   const closeModal = () => {
     setModalVisible(false);
-  }
+  };
 
   return (
     <View>
@@ -64,17 +49,20 @@ const PlantDescription = ({ route }) => {
           <View>
             <View style={styles.plantNameWithHeart}>
               <Text style={styles.title}>{plant.plant_name}</Text>
+              {/* toggle heart images and add/remove plant from favorites */}
               <TouchableWithoutFeedback onPress={() => {toggleFavorite()}}>
-                {!isFav ? <Ionicons
-                name="heart-outline"
-                style={styles.heart}
-                size={25}
-                /> :
+                {
+                  !isFav ?
+                  <Ionicons name="heart-outline" style={styles.heart} size={25}/> :
                   <Ionicons name="heart" style={styles.heart2} size={25} />
                 }
               </TouchableWithoutFeedback>
             </View>
-            <Text style={styles.detail}>{`${plant.city || 'United States'}, ${plant.state || 'Earth'} (${Math.round((plant.distance / 1609) * 10)/10} miles away)`}</Text>
+            <Text style={styles.detail}>
+              {
+                `${plant.city || 'United States'}, ${plant.state || 'Earth'} (${Math.round((plant.distance / 1609) * 10) / 10} miles away)`
+              }
+            </Text>
             <Text style={styles.detail}>{`Owner: ${plant.username}`}</Text>
           </View>
           <View>
@@ -84,8 +72,7 @@ const PlantDescription = ({ route }) => {
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               disable={plant.pending}
-              onPress={() => setModalVisible(true)}
-            >
+              onPress={() => setModalVisible(true)}>
               <View style={styles.button}>
                 <Text style={styles.buttonText}>{plant.pending ? 'Trade pending' : 'Trade'}</Text>
               </View>
@@ -93,15 +80,15 @@ const PlantDescription = ({ route }) => {
           </View>
         </View>
       </View>
-
-        <View style={styles.centeredView}>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}>
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <TradeModal selectedPlant={plant.plant_id} selectedPlantName={plant.plant_name} closeModal={closeModal}/>
+      {/* render modal */}
+      <View style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <TradeModal selectedPlant={plant.plant_id} selectedPlantName={plant.plant_name} closeModal={closeModal}/>
             </View>
           </View>
         </Modal>
@@ -111,6 +98,7 @@ const PlantDescription = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
+
   container: {
     height: 800,
   },
@@ -146,7 +134,6 @@ const styles = StyleSheet.create({
     height: 390,
   },
 
-  // justify contents not working
   plantInfoContainer: {
     padding: 20,
     display: 'flex',
