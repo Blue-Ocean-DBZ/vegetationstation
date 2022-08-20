@@ -18,26 +18,25 @@ const Login = () => {
           routes: [{ name: 'TabNavigator' }],
         });
         //change this to Homepage when homepage component is made.
-      }
-    })
+      };
+    });
     return unsubscribe;
-  }, [])
+  }, []);
 
   const loginHandler = () => {
     setIsLoading(true);
-    loginUser(email, password)
-    .then(() => {
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'TabNavigator' }],
-        //change this to Homepage when homepage component is made.
+    loginUser(email, password);
+      .then(() => {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'TabNavigator' }],
+        });
+        setIsLoading(false);
+      }).catch(err => {
+        alert('Your login credentials do not match.');
+        setIsLoading(false);
       });
-      setIsLoading(false);
-    }).catch(err => {
-      alert('Your login credentials do not match.');
-      setIsLoading(false);
-    })
-  }
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={styles.mainContainer}>
@@ -48,10 +47,10 @@ const Login = () => {
             <Text style={styles.header}>Vegetation Station</Text>
           </View>
           <View style={styles.inputContainer}>
-            <TextInput placeholder='Email' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={email} style={styles.input} onChangeText={text => setEmail(text)} keyboardType="email-address" enablesReturnKeyAutomatically/>
-            <TextInput placeholder='Password' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={password} style={styles.input} secureTextEntry onChangeText={text => setPassword(text)} onSubmitEditing={loginHandler} enablesReturnKeyAutomatically minLength={6}/>
-            <TouchableOpacity style={isLoading ? styles.disabledWrapper: styles.loginBtnWrapper} onPress={loginHandler} disabled={isLoading ? true : false}>
-              <Text style={isLoading ? styles.disabledBtn: styles.loginBtn}>{isLoading ? 'Logging In..':'Login' }</Text>
+            <TextInput placeholder='Email' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={email} style={styles.input} onChangeText={text => setEmail(text)} keyboardType="email-address" enablesReturnKeyAutomatically />
+            <TextInput placeholder='Password' placeholderTextColor='#D3D3D3' autoCapitalize='none' value={password} style={styles.input} secureTextEntry onChangeText={text => setPassword(text)} onSubmitEditing={loginHandler} enablesReturnKeyAutomatically minLength={6} />
+            <TouchableOpacity style={isLoading ? styles.disabledWrapper : styles.loginBtnWrapper} onPress={loginHandler} disabled={isLoading ? true : false}>
+              <Text style={isLoading ? styles.disabledBtn : styles.loginBtn}>{isLoading ? 'Logging In..' : 'Login'}</Text>
             </TouchableOpacity>
           </View>
           <View styles={styles.noaccount}>
@@ -144,7 +143,7 @@ const styles = StyleSheet.create({
     color: "#333",
     fontSize: 16,
     fontWeight: "700"
-  }
+  },
 });
 
 export default Login
