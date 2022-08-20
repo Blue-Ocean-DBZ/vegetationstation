@@ -20,7 +20,6 @@ const InboxList = (props) => {
     {trade_id: tradeId, user_id: userID, accepted: true})
   .then((response) => {
     props.getInbox(userID)
-    console.log('Accepted succesful', response)
   })
   .catch((err) => {
     console.log('Accept trade did not work', err)
@@ -29,14 +28,12 @@ const InboxList = (props) => {
   }
 
   let declineTrade = () => {
-      console.log('Declined')
       let tradeId = props.entry.trade_id
       let userID = props.userID
       return axios.put(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades`,
       {trade_id: tradeId, user_id: userID, accepted: false})
     .then((response) => {
       props.getInbox(userID)
-      console.log('Declined succesful', response)
     })
     .catch((err) => {
       console.log('Error in decline trade', err)
@@ -44,15 +41,13 @@ const InboxList = (props) => {
   }
 
   let shownToUser = () => {
-    console.log('shown')
     let tradeId = props.entry.trade_id
     let userID = props.userID
     return axios.put(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades/shown`,
-    {trade_id: tradeId, user_id: userID})
+      {trade_id: tradeId, user_id: userID})
     .then((response) => {
       props.getInbox(userID)
       return axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${userID}`)
-      console.log('shown to user succesful', response)
     })
     .catch((err) => {
       console.log('Error in shown to user trade', err)
@@ -72,22 +67,16 @@ const InboxList = (props) => {
     .catch((err) => {
       console.log(err)
     })
-    let tradeID = props.entry.trade_id
-    console.log(tradeID)
-    navigation.navigate('Message', {
+      let tradeID = props.entry.trade_id
+      navigation.navigate('Message', {
       user_id: props.userID,
       trade_id: tradeID,
     });
-    console.log('tradeId', props.entry.trade_id)
-    console.log('plant_target', props.entry.plant_target)
-    console.log('--------------------')
-    console.log('plant_offer', props.entry.plant_offer)
   }
-//TouchableWithoutFeedback
-   return (
 
+   return (
     <TouchableOpacity activeOpacity={0.6} onPress={openMessage}>
-     <View style={styles.CardContainer}>
+      <View style={styles.CardContainer}>
         {Boolean(props.entry.plant_offer.owner_id === props.userID) ?
           <>
             <Image
@@ -108,7 +97,7 @@ const InboxList = (props) => {
               <Entypo name="swap" size={24} color="black" style={{paddingLeft:6, paddingRight: 6}}/>
               <Image
                 style={styles.Image}
-                source={{uri:props.entry.plant_offer.photo}}//is curr user === ffer user render offer photo
+                source={{uri:props.entry.plant_offer.photo}}
               />
             </>
          }
@@ -123,9 +112,6 @@ const InboxList = (props) => {
                           }}
                               adjustsFontSizeToFit={true}
               >{props.entry.plant_offer.plant_name}</Text>
-              {/* {props.entry.pending  && <Text style={{fontWeight: props.entry.shown_to_user_target === false  ?  'bold': 'normal'}}>Pending</Text>}
-              {props.entry.accepted && <Text style={{fontWeight: props.entry.shown_to_user_target === false ?  'bold': 'normal'}}>Accepted</Text>}
-              {props.entry.accepted  === false && <Text style={{fontWeight: props.entry.shown_to_user_target === false ?  'bold': 'normal'}}>Declined</Text>} */}
             </View>
             :
             //if you are the owner
@@ -139,105 +125,105 @@ const InboxList = (props) => {
                         }}
                             adjustsFontSizeToFit={true}
                 >{props.entry.plant_target.plant_name}</Text>
-            {/* {props.entry.pending  && <Text style={{fontWeight: props.entry.shown_to_user_offer === false ?  'bold': 'normal'}}>Pending</Text>}
-            {props.entry.accepted && <Text style={{fontWeight: props.entry.shown_to_user_offer === false ?  'bold': 'normal'}}>Accepted</Text>}
-            {props.entry.accepted  === false && <Text style={{fontWeight: props.entry.shown_to_user_offer === false ?  'bold': 'normal'}}>Declined</Text>} */}
             </View>}
           </View>
-
             {props.entry.plant_target.owner_id === props.userID &&  props.currInbox === 'Pending' && <View style={styles.TradeIconsContainer}>
-              <Ionicons name="md-checkbox-sharp" size={35} color="green" style={styles.TradeIcons} onPress={acceptTrade}/>
-              <AntDesign name="closesquare" size={35} color="red" style={styles.TradeIcons} onPress={declineTrade}/>
+            <Ionicons name="md-checkbox-sharp" size={35} color="green" style={styles.TradeIcons} onPress={acceptTrade}/>
+            <AntDesign name="closesquare" size={35} color="red" style={styles.TradeIcons} onPress={declineTrade}/>
         </View>}
-        {/* { props.currInbox !== 'Pending' && <View style={styles.Spacer}></View>} */}
-        {/* {props.entry.plant_target.owner_id !== props.userID && props.entry.pending && <View style={styles.WaitingSpacer}><Text>Waiting</Text></View>} */}
-        {props.entry.plant_target.owner_id !== props.userID && props.entry.pending && <View style={styles.WaitingSpacer}><Text style={{fontWeight: props.entry.shown_to_user_offer  === false ?  'bold': 'normal'}}>Pending</Text></View>}
-        {props.entry.plant_target.owner_id === props.userID && props.entry.accepted && props.currInbox !== 'Pending'  &&<View style={styles.WaitingSpacer}><Text style={{fontWeight: props.entry.shown_to_user_target  === false ?  'bold': 'normal'}}>Accepted</Text></View>}
-        {props.entry.plant_target.owner_id !== props.userID && props.entry.accepted && props.currInbox !== 'Pending'  &&<View style={styles.WaitingSpacer}><Text style={{fontWeight: props.entry.shown_to_user_offer  === false ?  'bold': 'normal'}}>Accepted</Text></View>}
-        {props.entry.plant_target.owner_id === props.userID && props.entry.accepted === false && props.currInbox !== 'Pending'  && <View style={styles.WaitingSpacer}><Text style={{fontWeight: props.entry.shown_to_user_target  === false ?  'bold': 'normal'}}>Declined</Text></View>}
-        {props.entry.plant_target.owner_id !== props.userID &&  props.entry.accepted === false && props.currInbox !== 'Pending'  && <View style={styles.WaitingSpacer}><Text style={{fontWeight: props.entry.shown_to_user_offer  === false ?  'bold': 'normal'}}>Declined</Text></View>}
-
-    </View>
+          {props.entry.plant_target.owner_id !== props.userID && props.entry.pending &&
+            <View style={styles.WaitingSpacer}>
+              <Text style={{fontWeight: props.entry.shown_to_user_offer  === false ?  'bold': 'normal'}}>Pending</Text>
+            </View>}
+          {props.entry.plant_target.owner_id === props.userID && props.entry.accepted && props.currInbox !== 'Pending'  &&
+            <View style={styles.WaitingSpacer}>
+              <Text style={{fontWeight: props.entry.shown_to_user_target  === false ?  'bold': 'normal'}}>Accepted</Text>
+            </View>}
+          {props.entry.plant_target.owner_id !== props.userID && props.entry.accepted && props.currInbox !== 'Pending'  &&
+            <View style={styles.WaitingSpacer}>
+              <Text style={{fontWeight: props.entry.shown_to_user_offer  === false ?  'bold': 'normal'}}>Accepted</Text>
+            </View>}
+          {props.entry.plant_target.owner_id === props.userID && props.entry.accepted === false && props.currInbox !== 'Pending'  &&
+            <View style={styles.WaitingSpacer}>
+              <Text style={{fontWeight: props.entry.shown_to_user_target  === false ?  'bold': 'normal'}}>Declined</Text>
+            </View>}
+          {props.entry.plant_target.owner_id !== props.userID &&  props.entry.accepted === false && props.currInbox !== 'Pending'  &&
+          <View style={styles.WaitingSpacer}>
+            <Text style={{fontWeight: props.entry.shown_to_user_offer  === false ?  'bold': 'normal'}}>Declined</Text>
+          </View>}
+      </View>
     </TouchableOpacity>
-
-
   );
 };
-//InboxList
 
 export default InboxList;
+
 const styles = StyleSheet.create({
   Spacer: {
-  paddingLeft: 46,
-  paddingRight:46
+    paddingLeft: 46,
+    paddingRight:46
   },
+
   WaitingSpacer: {
     paddingLeft: 21,
     paddingRight:21,
+  },
 
-    },
-CardContainer: {
-  display: 'flex',
-  flexDirection: 'row',
-  paddingTop: 7,
-  paddingBottom:7,
-  alignItems: 'center',
-  borderBottomColor: 'rgba(158, 150, 150, 1)',
-  borderBottomWidth: 0.3,
+  CardContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    paddingTop: 7,
+    paddingBottom:7,
+    alignItems: 'center',
+    borderBottomColor: 'rgba(158, 150, 150, 1)',
+    borderBottomWidth: 0.3,
+  },
 
-},
-Image: {
-  borderColor:'#283618',
-  width: 50,
-  borderRadius: 400/2,
-  height:50,
-  margin: 1,
-  borderWidth: 1
-},
-TradeInfo: {
-  display: 'flex',
-  flexDirection: 'column',
+  Image: {
+    borderColor:'#283618',
+    width: 50,
+    borderRadius: 400/2,
+    height:50,
+    margin: 1,
+    borderWidth: 1
+  },
+
+  TradeInfo: {
+    display: 'flex',
+    flexDirection: 'column',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     flexFlow: 'row nowrap',
     alignItems: 'flex-start',
+  },
 
-},
-TradeInfoContainer: {
-  display: 'flex',
-  flexDirection: 'column',
-  paddingTop: 3,
-  paddingBottom:3,
-  paddingLeft:14,
+  TradeInfoContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    paddingTop: 3,
+    paddingBottom:3,
+    paddingLeft:14,
+  },
 
-  // overflow: 'hidden',
-  // textOverflow: 'ellipsis',
-  // whiteSpace: 'nowrap',
-  // flexFlow: 'row nowrap', /*change this*/
-  // alignItems: 'flex-start', /*change this*/
-  // borderWidth: 2
-},
-TradeIcons: {
+  TradeIcons: {
+    paddingLeft:4,
+    paddingRight:4,
+  },
 
-  paddingLeft:4,
-  paddingRight:4,
-},
-TradeIconsContainer: {
-  display: 'flex',
-  flexDirection: 'row',
-  paddingLeft:4,
-  paddingRight:4,
-},
-plantName: {
-  // overflow: 'hidden',
-  // borderWidth: 2,
-  width:110,
-  whiteSpace: 'nowrap',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  // overflowY:'auto'
-},
+  TradeIconsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    paddingLeft:4,
+    paddingRight:4,
+  },
+
+  plantName: {
+    width:110,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
 })
 
 
