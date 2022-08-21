@@ -17,8 +17,6 @@
 Tasked by a client to create an iOS app that provides a platform for users to post and trade plants with 20 - 30 year old individuals as their primary demographics.
 
 ## Features
-
-<b>Features</b>
 - Login page
 - Create Account Flow
 - Home Page: Search, Plant Listings
