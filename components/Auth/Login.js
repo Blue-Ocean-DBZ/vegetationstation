@@ -25,7 +25,7 @@ const Login = () => {
 
   const loginHandler = () => {
     setIsLoading(true);
-    loginUser(email, password);
+    loginUser(email, password)
       .then(() => {
         navigation.reset({
           index: 0,
