@@ -28,6 +28,7 @@ Tasked by a client to create an iOS app that provides a platform for users to po
 ## Tech Stack
 **Built with**
 - [ReactNative](https://reactnative.dev/) (with hooks)
+- [Firebase] (https://firebase.google.com/)
 - [NodeJS](https://nodejs.org/en/)
 - [ExpressJS](https://expressjs.com/)
 - [Axios](https://axios-http.com/)
