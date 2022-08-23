@@ -30,6 +30,7 @@ Tasked by a client to create an iOS app that provides a platform for users to po
 - [NodeJS](https://nodejs.org/en/)
 - [ExpressJS](https://expressjs.com/)
 - [Axios](https://axios-http.com/)
+- [PostgreSQL](https://www.postgresql.org/)
 
 **Deployment**
 
