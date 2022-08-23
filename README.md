@@ -8,19 +8,20 @@
   <img src="https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white" />
 </div>
 
-<h4 align="center">A plant trading app for plant enthusiats!</h4>
+<h4 align="center">A plant trading app for plant enthusiasts!</h4>
 
 ## Motivation and Story
 Tasked by a client to create an iOS app that provides a platform for users to post and trade plants with 20 - 30 year old individuals as their primary demographics.
 
 ## Features
-- Login Page
-- Create Account Flow
-- Home Page: Search, Plant Listings
-- Plant Page: Trade Request, add/remove favorite plants
-- MyPlants -> Add/remove plants
-- Trades: Messaging
-- MyFavorites: Add/remove favorite listings/plants
+- Login/Register Page
+- Create/Edit Account Flow
+- Home Page: Search/View nearby plant listings
+- Plant Page: View details about a plant listing, add/remove favorite plants, request a trade
+- MyPlants: Add/Remove to user's plant listing
+- Trades: View all pending/accepted trades, accept/decline trade requests, view a history of trade requests
+- Messaging: Correspond with other traders about a trade request
+- MyFavorites: View/remove plants from favorite listing
 
 ## Tech Stack
 **Built with**
