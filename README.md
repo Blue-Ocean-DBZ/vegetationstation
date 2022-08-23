@@ -15,7 +15,7 @@ Tasked by a client to create an iOS app that provides a platform for users to po
 
 ## Features
 - Login/Register Page
-- Create/Edit Account Flow
+- Profile Page: Create/Edit account flow
 - Home Page: Search/View nearby plant listings
 - Plant Page: View details about a plant listing, add/remove favorite plants, request a trade
 - MyPlants: Add/Remove to user's plant listing
