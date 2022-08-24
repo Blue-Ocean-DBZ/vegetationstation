@@ -28,7 +28,12 @@ Tasked by a client to create an iOS app that provides a platform for users to po
   <img width="277" alt="Screen Shot 2022-08-23 at 8 33 34 PM" src="https://user-images.githubusercontent.com/97695090/186322954-cc4f92a7-cf22-46bc-bcaf-bcedbcf0a10c.png">
 </div>
 
+
 - Plant Page: View details about a plant listing, add/remove favorite plants, request a trade
+<div id="header" align="center">
+  <img width="277" alt="Screen Shot 2022-08-23 at 8 45 07 PM" src="https://user-images.githubusercontent.com/97695090/186324230-58b3c79a-e118-4915-af88-236f4ff68210.png">
+  <img width="276" alt="Screen Shot 2022-08-23 at 8 49 05 PM" src="https://user-images.githubusercontent.com/97695090/186324710-5252c831-7357-4fd5-b397-494bf902db3f.png">
+</div>
 - MyPlants: Add/Remove to user's plant listing
 - Trades: View all pending/accepted trades, accept/decline trade requests, view a history of trade requests
 - Messaging: Correspond with other traders about a trade request
