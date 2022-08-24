@@ -17,38 +17,48 @@ Tasked by a client to create an iOS app that provides a platform for users to po
 - Login/Register Page
 - Profile Page: Create/Edit account flow
 
+## App Features
 <div id="header" align="center">
   <img src="https://i.ibb.co/yfvZhy7/optimized-smaller-messaging.gif" width="275"/>
 </div>
 
-## App Features
-- Home Page: Search/View nearby plant listings, dropdown refresh feature
+- Home Page: Search/View nearby plant listings, refresh page with dropdown feature
+  - Contributor: Jonathan Oh / Theresa Tran
 <div id="header" align="center">
   <img width="276" alt="Screen Shot 2022-08-23 at 8 33 10 PM" src="https://user-images.githubusercontent.com/97695090/186322888-1c1aa664-44cf-45ae-a94e-d13bc25a51c2.png">
   <img width="277" alt="Screen Shot 2022-08-23 at 8 33 34 PM" src="https://user-images.githubusercontent.com/97695090/186322954-cc4f92a7-cf22-46bc-bcaf-bcedbcf0a10c.png">
 </div>
 
-- Plant Page: View details about a plant listing, add/remove favorite plants, request a trade
+- Plant Page: View details about a plant listing, add/remove favorite plants, displays trade modal upon request of trade
+  - Contributor: Theresa Tran / David Arredondo
 <div id="header" align="center">
   <img width="276" alt="Screen Shot 2022-08-23 at 8 51 59 PM" src="https://user-images.githubusercontent.com/97695090/186325111-cc8754c5-d9f7-40cf-9143-6765a2cf238e.png">
   <img width="274" alt="Screen Shot 2022-08-23 at 8 52 42 PM" src="https://user-images.githubusercontent.com/97695090/186325119-8be7f3fc-0000-4d66-b75c-0854a9655fb0.png">
 </div>
 
 - MyPlants: Add/Remove to user's plant listing
+  - Contributor: Brandon Hsu
 <div id="header" align="center">
   <img width="277" alt="Screen Shot 2022-08-23 at 8 45 07 PM" src="https://user-images.githubusercontent.com/97695090/186324230-58b3c79a-e118-4915-af88-236f4ff68210.png">
   <img width="276" alt="Screen Shot 2022-08-23 at 8 49 05 PM" src="https://user-images.githubusercontent.com/97695090/186324710-5252c831-7357-4fd5-b397-494bf902db3f.png">
 </div>
 
-- Trades: View all pending/accepted trades, accept/decline trade requests, view a history of trade requests
+- Trades: View all pending/accepted trades, accept/decline trade requests, view a history of trade results
+  - Contributor: David Arredondo / Kevin Ha
 <div id="header" align="center">
   <img width="275" alt="Screen Shot 2022-08-23 at 9 03 35 PM" src="https://user-images.githubusercontent.com/97695090/186326355-22ca3b6e-305d-415b-806f-a8db26dff704.png">
   <img width="274" alt="Screen Shot 2022-08-23 at 8 59 00 PM" src="https://user-images.githubusercontent.com/97695090/186325883-84376526-3144-4309-9b62-08526ad98f06.png">
   <img width="274" alt="Screen Shot 2022-08-23 at 8 58 33 PM" src="https://user-images.githubusercontent.com/97695090/186325868-74644d90-91dc-4beb-b49f-fb9223401de8.png">
 </div>
 
-- Messaging: Correspond with other traders about a trade request
+- Messaging: Pre-trade correspondence with other traders about a trade request 
+  - Contributor: Clayton Chin / Kevin Ha
+<div id="header" align="center">
+  <img width="274" alt="Screen Shot 2022-08-23 at 9 13 26 PM" src="https://user-images.githubusercontent.com/97695090/186327443-205e6dea-26f5-433c-a848-64fb580f327d.png">
+</div>
+
 - MyFavorites: View/remove plants from favorite listing
+  - Contributor: Brandon Hsu
 
 ## Tech Stack
 **Built with**
