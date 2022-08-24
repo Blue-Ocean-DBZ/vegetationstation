@@ -34,6 +34,8 @@ Tasked by a client to create an iOS app that provides a platform for users to po
 <div id="header" align="center">
   <img width="276" alt="Screen Shot 2022-08-23 at 8 51 59 PM" src="https://user-images.githubusercontent.com/97695090/186325111-cc8754c5-d9f7-40cf-9143-6765a2cf238e.png">
   <img width="274" alt="Screen Shot 2022-08-23 at 8 52 42 PM" src="https://user-images.githubusercontent.com/97695090/186325119-8be7f3fc-0000-4d66-b75c-0854a9655fb0.png">
+  <img width="276" alt="Screen Shot 2022-08-23 at 9 53 12 PM" src="https://user-images.githubusercontent.com/97695090/186331960-a778398b-d0f5-40e4-98a5-a10527638ceb.png">
+
 </div>
 
 - MyPlants: Add/Remove to user's plant listing
