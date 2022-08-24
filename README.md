@@ -20,8 +20,14 @@ Tasked by a client to create an iOS app that provides a platform for users to po
 <div id="header" align="center">
   <img src="https://i.ibb.co/yfvZhy7/optimized-smaller-messaging.gif" width="275"/>
 </div>
+
 ## App Features
-- Home Page: Search/View nearby plant listings
+- Home Page: Search/View nearby plant listings, dropdown refresh feature
+<div id="header" align="center">
+  <img width="276" alt="Screen Shot 2022-08-23 at 8 33 10 PM" src="https://user-images.githubusercontent.com/97695090/186322888-1c1aa664-44cf-45ae-a94e-d13bc25a51c2.png">
+  <img width="277" alt="Screen Shot 2022-08-23 at 8 33 34 PM" src="https://user-images.githubusercontent.com/97695090/186322954-cc4f92a7-cf22-46bc-bcaf-bcedbcf0a10c.png">
+</div>
+
 - Plant Page: View details about a plant listing, add/remove favorite plants, request a trade
 - MyPlants: Add/Remove to user's plant listing
 - Trades: View all pending/accepted trades, accept/decline trade requests, view a history of trade requests
