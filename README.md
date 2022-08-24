@@ -29,7 +29,7 @@ Tasked by a client to create an iOS app that provides a platform for users to po
   <img width="277" alt="Screen Shot 2022-08-23 at 8 33 34 PM" src="https://user-images.githubusercontent.com/97695090/186322954-cc4f92a7-cf22-46bc-bcaf-bcedbcf0a10c.png">
 </div>
 
-- Plant Page: View details about a plant listing, add/remove favorite plants, displays trade modal upon request of trade
+- Plant Description Page: View details about a plant, add/remove favorite plants, view trade modal upon request of trade
   - Contributor: Theresa Tran / David Arredondo
 <div id="header" align="center">
   <img width="276" alt="Screen Shot 2022-08-23 at 8 51 59 PM" src="https://user-images.githubusercontent.com/97695090/186325111-cc8754c5-d9f7-40cf-9143-6765a2cf238e.png">
@@ -77,47 +77,47 @@ Tasked by a client to create an iOS app that provides a platform for users to po
 - [AWS](https://aws.amazon.com/) (EC2 instance)
 
 ## Contributors
-**Carson Liu (Auth/Login/Edit Profile)**
+**Carson Liu ( Auth / Login / Edit Profile )**
 
 [![Linkedin: LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/caleb-kim0510/)](https://www.linkedin.com/in/jianquan-carson-liu/)
 [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/cariboukim)](https://github.com/carsonliu1) 
 
-**Gian Lazaro (UI/Login/Edit Profile)**
+**Gian Lazaro ( UI / Login / Edit Profile )**
 
 [![Linkedin: LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/caleb-kim0510/)](https://www.linkedin.com/in/gianlazaro/)
 [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/gianlazaro)](https://github.com/gianlazaro) 
 
-**Kevin Ha (UI/Stack & Tab Navigation/Trade Inbox/Chat)**
+**Kevin Ha ( UI / Stack & Tab Navigation / Trade Inbox / Chat )**
 
 [![Linkedin: LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/caleb-kim0510/)](https://www.linkedin.com/in/kevincwha/)
 [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/cariboukim)](https://github.com/kevhaha)
 
-**Theresa Tran (Project Owner/UI/Plant Card/Plant Description)**
+**Theresa Tran ( Project Owner / UI / Plant Card / Plant Description Page)**
 
 [![Linkedin: LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/caleb-kim0510/)](https://www.linkedin.com/in/theresatee/)
 [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/gianlazaro)](https://github.com/txtrax) 
 
-**Jonathan Oh (Project Owner/Home Page)**
+**Jonathan Oh ( Project Owner / Home Page )**
 
 [![Linkedin: LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/caleb-kim0510/)](https://www.linkedin.com/in/jonathan-oh823/)
 [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/gianlazaro)](https://github.com/ohjonoh-git)
 
-**Brandon Hsu (Curator/My Listings/My Favorites)**
+**Brandon Hsu ( Curator / My Listings / My Favorites )**
 
 [![Linkedin: LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/caleb-kim0510/)](https://www.linkedin.com/in/brandon-j-hsu/)
 [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/cariboukim)](https://github.com/akblal) 
 
-**Clayton Chin (Client Liason/Profile/Chat)**
+**Clayton Chin ( Client Liason / Profile / Chat )**
 
 [![Linkedin: LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/caleb-kim0510/)](https://www.linkedin.com/in/chinclayton/)
 [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/cariboukim)](https://github.com/mrdooby) 
 
-**David Arredondo (Architech/Trade Inbox/Inbox List)**
+**David Arredondo ( Architech / Trade Inbox / Inbox List )**
 
 [![Linkedin: LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/caleb-kim0510/)](https://www.linkedin.com/in/davidcarredondo/)
 [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/gianlazaro)](https://github.com/dondo5252) 
 
-**Shannon Murphy (Architech/Trade Inbox)**
+**Shannon Murphy ( Architech / Trade Inbox )**
 
 [![Linkedin: LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/caleb-kim0510/)](https://www.linkedin.com/in/shannonmurphy93/)
 [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white&link=https://github.com/cariboukim)](https://github.com/Murphy1693) 
