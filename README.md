@@ -11,7 +11,7 @@
 <h4 align="center">A plant trading app for plant enthusiasts!</h4>
 
 ## Motivation and Story
-Tasked by a client to create an iOS app that provides a platform for users to post and trade plants with 20 - 30 year old individuals as their primary demographics.
+Tasked by a client to create an iOS app that provides a platform for users to post and trade plants with 20 - 30 year old individuals as their primary demographics. (Plant photos provided by Pexels).
 
 ## Login Features
 - Login/Register Page
