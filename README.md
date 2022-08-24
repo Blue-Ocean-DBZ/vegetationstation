@@ -42,8 +42,9 @@ Tasked by a client to create an iOS app that provides a platform for users to po
 
 - Trades: View all pending/accepted trades, accept/decline trade requests, view a history of trade requests
 <div id="header" align="center">
-  <img width="274" alt="Screen Shot 2022-08-23 at 8 58 33 PM" src="https://user-images.githubusercontent.com/97695090/186325868-74644d90-91dc-4beb-b49f-fb9223401de8.png">
+  <img width="275" alt="Screen Shot 2022-08-23 at 9 03 35 PM" src="https://user-images.githubusercontent.com/97695090/186326355-22ca3b6e-305d-415b-806f-a8db26dff704.png">
   <img width="274" alt="Screen Shot 2022-08-23 at 8 59 00 PM" src="https://user-images.githubusercontent.com/97695090/186325883-84376526-3144-4309-9b62-08526ad98f06.png">
+  <img width="274" alt="Screen Shot 2022-08-23 at 8 58 33 PM" src="https://user-images.githubusercontent.com/97695090/186325868-74644d90-91dc-4beb-b49f-fb9223401de8.png">
 </div>
 
 - Messaging: Correspond with other traders about a trade request
