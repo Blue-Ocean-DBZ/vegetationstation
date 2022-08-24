@@ -13,9 +13,14 @@
 ## Motivation and Story
 Tasked by a client to create an iOS app that provides a platform for users to post and trade plants with 20 - 30 year old individuals as their primary demographics.
 
-## Features
+## Login Features
 - Login/Register Page
 - Profile Page: Create/Edit account flow
+
+<div id="header" align="center">
+  <img src="https://i.ibb.co/yfvZhy7/optimized-smaller-messaging.gif" width="275"/>
+</div>
+## App Features
 - Home Page: Search/View nearby plant listings
 - Plant Page: View details about a plant listing, add/remove favorite plants, request a trade
 - MyPlants: Add/Remove to user's plant listing
