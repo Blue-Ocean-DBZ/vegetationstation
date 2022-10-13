@@ -154,7 +154,7 @@ export default function TabNavigator() {
   }, [userZip])
 
   function getInboxData (id) {
-    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${id}`)//change to current user id
+    axios.get(`http://ec2-54-173-95-78.compute-1.amazonaws.com:3000/trades?user_id=${id}`)
     .then((response) => {
       let data = response.data.filter((item, i) => {
         return item.pending === false
@@ -164,8 +164,6 @@ export default function TabNavigator() {
 
     })
     .then((response) => {
-      // console.log(tradesData)
-      // console.log(response.data)
       let pending = response.filter((item, i) => {
         return item.pending === true
       })
