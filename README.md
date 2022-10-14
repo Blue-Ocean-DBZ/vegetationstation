@@ -15,14 +15,14 @@ Tasked by a client to create an iOS app that provides a platform for users to po
 
 ## Login Features
 - Login/Register Page
-  - Contributor: Carson Lui/Gian Lazaro
+  - Contributor: Carson Liu/Gian Lazaro
 <div id="header" align="center">
   <img width="276" alt="Login Screen" src="https://i.imgur.com/j0HDLWc.png">
   <img width="277" alt="Registration Screen" src="https://i.imgur.com/vtdYr0v.png">
 </div>
 
 - Profile Page: Create/Edit account flow
-  - Contributor: Carson Lui/Gian Lazaro
+  - Contributor: Carson Liu/Gian Lazaro
 <div id="header" align="center">
   <img width="276" alt="Edit profile Screen" src="https://i.imgur.com/ZdukUG2.png">
 </div>
