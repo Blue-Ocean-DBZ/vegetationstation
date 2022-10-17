@@ -262,22 +262,3 @@ const getTabBarVisibility = (route) => {
   }
   return 'flex';
 }
-
-
-// #b3cb9b
-// #bc6c25
-// #283618
-// #606c38
-// #fefae0
-// #dda15e
-// #b3cb9b
-// #2c3d36
-// #b2b2b2
-
-//8eb69b
-//daf1de
-//606c38
-
-
-//907a48
-//fefae0
