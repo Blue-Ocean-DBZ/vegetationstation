@@ -8,12 +8,12 @@ import { LogBox } from 'react-native';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyATphNiO4ba11dK-5CamPPiRKO3JVJZpLM",
-  authDomain: "vegiestation2.firebaseapp.com",
-  projectId: "vegiestation2",
-  storageBucket: "vegiestation2.appspot.com",
-  messagingSenderId: "644937906217",
-  appId: "1:644937906217:web:3a265169ce2ac487b7c438"
+  apiKey: "xxxxxxxxxxxxxxxxxxx",
+  authDomain: "xxxxxxxxxxxxxx.firebaseapp.com",
+  projectId: "xxxxxxxxxxx",
+  storageBucket: "xxxxxxxxxxxxxx",
+  messagingSenderId: "xxxxxxxxxxxxx",
+  appId: "xxxxxxxxxxxxxxxx"
 };
 
 // Initialize Firebase
